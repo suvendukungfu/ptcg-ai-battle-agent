@@ -1,0 +1,70 @@
+{
+  "matches": [
+    {
+      "episode_id": 93578041,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "LOSS (-1)",
+      "steps": 88,
+      "first_evolution": "Candidate F",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    },
+    {
+      "episode_id": 93579869,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "WIN (+1)",
+      "steps": 149,
+      "first_evolution": "Opponent",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    },
+    {
+      "episode_id": 93580784,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "WIN (+1)",
+      "steps": 57,
+      "first_evolution": "Opponent",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    },
+    {
+      "episode_id": 93583569,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "LOSS (-1)",
+      "steps": 131,
+      "first_evolution": "Opponent",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    },
+    {
+      "episode_id": 93585347,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "WIN (+1)",
+      "steps": 80,
+      "first_evolution": "Candidate F",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    },
+    {
+      "episode_id": 93586267,
+      "our_seat": 1,
+      "went_first": false,
+      "outcome": "WIN (+1)",
+      "steps": 64,
+      "first_evolution": "Opponent",
+      "first_attack": "Opponent",
+      "first_prize": "Candidate F"
+    }
+  ],
+  "overall_mirror_wr": 66.67,
+  "first_seat_wr": 0.0,
+  "second_seat_wr": 66.66666666666666,
+  "first_evo_wr": 50.0,
+  "first_atk_wr": 0.0,
+  "first_prize_wr": 66.66666666666666
+}

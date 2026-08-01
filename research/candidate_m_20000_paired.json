@@ -1,0 +1,48 @@
+{
+  "total_games": 20000,
+  "f_wins": 6825,
+  "m_wins": 6790,
+  "f_wr": 68.25,
+  "m_wr": 67.9,
+  "f_ci_95": [
+    67.33,
+    69.16
+  ],
+  "m_ci_95": [
+    66.98,
+    68.81
+  ],
+  "delta": -0.35,
+  "matchups": {
+    "Crustle_Mirror": {
+      "total": 4000,
+      "f_wr": 51.08,
+      "m_wr": 49.78,
+      "delta": -1.3
+    },
+    "Mega_Lucario_ex": {
+      "total": 2100,
+      "f_wr": 94.14,
+      "m_wr": 93.43,
+      "delta": -0.71
+    },
+    "Duraludon_NonEX": {
+      "total": 1500,
+      "f_wr": 76.2,
+      "m_wr": 78.53,
+      "delta": 2.33
+    },
+    "Alakazam_NonEX": {
+      "total": 1500,
+      "f_wr": 81.53,
+      "m_wr": 81.93,
+      "delta": 0.4
+    },
+    "Cinderace_NonEX": {
+      "total": 900,
+      "f_wr": 48.78,
+      "m_wr": 47.78,
+      "delta": -1.0
+    }
+  }
+}

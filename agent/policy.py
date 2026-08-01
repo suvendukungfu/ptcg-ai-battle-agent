@@ -72,6 +72,11 @@ def rank_energy_attachment_options(state: GameState) -> List[Tuple[int, float]]:
     """Rank available energy attachment options in state.options."""
     ranks: List[Tuple[int, float]] = []
 
+    # Check if our active is Safeguarded and opponent has a non-ex breaker
+    our_active_safeguarded = is_target_immune_to_ex(state.your_active)
+    all_opp = ([state.opp_active] if state.opp_active else []) + [b for b in state.opp_bench if b]
+    has_nonex_threat = any(not is_ex_attacker(o) and len(o.get("energies", [])) >= 2 for o in all_opp if isinstance(o, dict))
+
     for idx, opt in enumerate(state.options):
         if not isinstance(opt, dict) or opt.get("type") != 8:
             continue
@@ -81,28 +86,40 @@ def rank_energy_attachment_options(state: GameState) -> List[Tuple[int, float]]:
         in_play_idx = opt.get("inPlayIndex")
 
         target_pkmn = None
+        is_active_target = False
         if in_play_area in (4, 1):
             target_pkmn = state.your_active
+            is_active_target = True
             score += 40.0
         elif in_play_area == 5 and isinstance(in_play_idx, int) and 0 <= in_play_idx < len(state.your_bench):
             target_pkmn = state.your_bench[in_play_idx]
             score += 25.0
 
         if target_pkmn and isinstance(target_pkmn, dict):
-            cid = target_pkmn.get("id", 0)
             energies = target_pkmn.get("energies", [])
             n_energies = len(energies) if isinstance(energies, list) else 0
 
-            # Power up active/bench attackers
-            if cid in (723, 345):
-                if n_energies < 2:
-                    score += 80.0
-                elif n_energies == 2:
-                    score += 15.0
-            elif cid in (722, 344) and n_energies < 2:
-                score += 50.0
-            elif cid == 721 and n_energies < 1:
-                score += 35.0
+            from agent.damage_model import GeneralizedDamageModel
+            profile = GeneralizedDamageModel.get_pokemon_profile(target_pkmn)
+            nominal_cost = profile["nominal_cost"]
+            is_target_ex = profile["is_ex"]
+            opp_is_immune = is_target_immune_to_ex(state.opp_active)
+
+            # Power up active/bench attackers based on nominal energy requirement
+            if n_energies < nominal_cost:
+                if opp_is_immune and is_target_ex:
+                    score -= 50.0  # Do not attach to EX if opponent active is immune to EX
+                elif opp_is_immune and not is_target_ex:
+                    score += 95.0  # Strongly prioritize charging Non-EX counter against Safeguard
+                else:
+                    score += 80.0  # Standard primary attacker charging
+            elif n_energies >= nominal_cost:
+                if is_active_target and has_nonex_threat and len(state.your_bench) > 0:
+                    score -= 20.0  # Avoid over-attaching to doomed active
+                else:
+                    score += 15.0  # Surplus attachment
+            else:
+                score += 10.0
 
         ranks.append((idx, score))
 
@@ -127,8 +144,11 @@ def rank_card_play_options(state: GameState) -> List[Tuple[int, float]]:
         # Check if opponent active is immune to ex attacks
         opp_is_immune = is_target_immune_to_ex(state.opp_active)
 
+        from agent.damage_model import GeneralizedDamageModel
+        profile = GeneralizedDamageModel.get_pokemon_profile(card) if card else None
+
         # 1. BENCH_FIRST: Playing Basic Pokemon to Bench
-        is_basic_pokemon = (card and card.get("cardType") == 1 and card.get("basic", False)) or (card_id in (344, 721))
+        is_basic_pokemon = (card and card.get("basic", False)) or (profile and profile["is_basic"])
         is_basic_play = is_basic_pokemon and (opt_type in (0, 1, 2) or "bench" in str(opt).lower())
         if is_basic_play:
             if bench_count == 0:
@@ -138,25 +158,22 @@ def rank_card_play_options(state: GameState) -> List[Tuple[int, float]]:
                 score += 95.0
 
         # 2. Evolutions (OptionType 3, 4)
-        elif opt_type in (3, 4) or card_id in (345, 722, 723):
-            if opp_is_immune and card_id in (722, 345):
-                score += 260.0  # Evolve single-prize / Safeguard to penetrate/wall
-            elif card_id == 723:
+        elif opt_type in (3, 4) or (profile and (profile["is_stage1"] or profile["is_stage2"])):
+            if profile and profile["is_ex"]:
                 score += 80.0 if opp_is_immune else 160.0
             else:
-                score += 130.0
+                score += 260.0 if opp_is_immune else 140.0
 
         # 3. Trainers / Items / Supporters
-        elif card_id == 1262:  # Boss's Orders / Gust
+        elif card_id in (1262, 1182):  # Boss's Orders / Gust
             score += 350.0 if (opp_is_immune and len(state.opp_bench) > 0) else 95.0
         elif card_id == 1219:  # Electric Generator / Ramp
             score += 110.0
-        elif card_id in (1145, 1086):  # Nest Ball / Buddy-Buddy Poffin (Searches Basic to Bench)
-            # Higher priority if bench is empty
+        elif card_id in (1145, 1086):  # Basic search items (Nest Ball / Poffin)
             score += 180.0 if bench_count == 0 else 75.0
-        elif card_id in (1121, 1227):  # Ultra Ball / Search
+        elif card_id in (1121, 1227):  # Search items (Ultra Ball / Rare Candy)
             score += 75.0
-        elif card_id == 1092:  # Professor's Research / Draw
+        elif card_id == 1092:  # Draw Supporters
             if state.your_deck_count <= 7:
                 score -= 10000.0  # Anti-deckout rule!
             else:
@@ -220,8 +237,9 @@ def rank_discard_options(options: List[Dict[str, Any]], state: GameState) -> Lis
 
 
 def rank_target_options(options: List[Dict[str, Any]], state: GameState) -> List[Tuple[int, float]]:
-    """Rank generic selection/target options (e.g. search targets from deck)."""
+    """Rank generic selection/target options (e.g. search targets or gust targets)."""
     ranks: List[Tuple[int, float]] = []
+    our_safeguarded = is_target_immune_to_ex(state.your_active)
 
     for idx, opt in enumerate(options):
         if not isinstance(opt, dict):
@@ -229,10 +247,23 @@ def rank_target_options(options: List[Dict[str, Any]], state: GameState) -> List
             continue
 
         cid = opt.get("id", 0)
+        card = get_card(cid) if cid else None
         score = 0.0
 
+        # Gust selection / Opponent Pokémon target
+        if "inPlayArea" in opt or opt.get("type") in (1, 2):
+            # If opponent Pokémon on bench
+            if card:
+                is_ex = card.get("ex", False) or card.get("megaEx", False)
+                if our_safeguarded and not is_ex:
+                    score += 250.0  # Drag out non-ex breaker to eliminate it!
+                elif is_ex:
+                    score += 150.0
+            else:
+                score += 50.0
+
         # When searching deck: prioritize evolution lines and key pieces
-        if cid in (723, 345):  # Crustle / Bellibolt ex
+        elif cid in (723, 345):  # Crustle / Bellibolt ex
             score += 100.0
         elif cid in (722, 344):  # Dwebble / Bellibolt
             # If bench is empty, prioritize basic Pokémon to secure the board

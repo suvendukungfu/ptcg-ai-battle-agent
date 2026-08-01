@@ -1,0 +1,313 @@
+[
+  {
+    "game_number": 1,
+    "episode_id": 93569861,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 75,
+    "archetype": "Duraludon (Metal Non-EX Resist)",
+    "has_ex": false,
+    "opp_names": [
+      "Duraludon"
+    ],
+    "loss_classification": "LOSS_TYPE_RESISTANCE (Metal -30 Deficit)"
+  },
+  {
+    "game_number": 2,
+    "episode_id": 93570797,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 127,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_names": [
+      "Makuhita",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 3,
+    "episode_id": 93571687,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 23,
+    "archetype": "Non-EX Deck (Dwebble)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 4,
+    "episode_id": 93572601,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 112,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_names": [
+      "Makuhita",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 5,
+    "episode_id": 93573491,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 151,
+    "archetype": "Multi-Prize EX Box (Fezandipiti)",
+    "has_ex": false,
+    "opp_names": [
+      "Budew",
+      "Fezandipiti ex",
+      "Meowth ex",
+      "Dreepy",
+      "Latias ex",
+      "Dragapult ex",
+      "Drakloak"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 6,
+    "episode_id": 93574392,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 91,
+    "archetype": "Duraludon (Metal Non-EX Resist)",
+    "has_ex": false,
+    "opp_names": [
+      "Duraludon",
+      "Archaludon ex"
+    ],
+    "loss_classification": "LOSS_TYPE_RESISTANCE (Metal -30 Deficit)"
+  },
+  {
+    "game_number": 7,
+    "episode_id": 93575313,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 167,
+    "archetype": "Marnie's Grimmsnarl ex (Darkness EX)",
+    "has_ex": false,
+    "opp_names": [
+      "Marnie's Impidimp",
+      "Marnie's Morgrem",
+      "Marnie's Grimmsnarl ex",
+      "Froslass",
+      "Munkidori",
+      "Snorunt"
+    ],
+    "loss_classification": "LOSS_NONEX_PRIZE_RACE / SINGLE_PRIZE_DEFICIT"
+  },
+  {
+    "game_number": 8,
+    "episode_id": 93576224,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 139,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_names": [
+      "Makuhita",
+      "Hariyama",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 9,
+    "episode_id": 93577146,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 105,
+    "archetype": "Cynthia's Gible/Gabite (Dragon/Fighting Non-EX)",
+    "has_ex": false,
+    "opp_names": [
+      "Cynthia's Gible",
+      "Cynthia's Gabite",
+      "Cynthia's Roselia",
+      "Cynthia's Roserade"
+    ],
+    "loss_classification": "LOSS_NONEX_PRIZE_RACE / SINGLE_PRIZE_DEFICIT"
+  },
+  {
+    "game_number": 10,
+    "episode_id": 93578041,
+    "sample_group": "Batch 1 (Games 1-10)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 88,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle",
+      "Cornerstone Mask Ogerpon ex"
+    ],
+    "loss_classification": "LOSS_MATCHUP_VARIANCE (Mirror 1st Attacker)"
+  },
+  {
+    "game_number": 11,
+    "episode_id": 93578958,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 23,
+    "archetype": "Non-EX Deck (Dwebble)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 12,
+    "episode_id": 93579869,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 149,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 13,
+    "episode_id": 93580784,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 57,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 14,
+    "episode_id": 93581692,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 29,
+    "archetype": "Non-EX Deck (Dwebble)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 15,
+    "episode_id": 93582613,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 69,
+    "archetype": "Mega Starmie ex (Water EX)",
+    "has_ex": false,
+    "opp_names": [
+      "Snorunt",
+      "Mega Froslass ex",
+      "Staryu",
+      "Mega Starmie ex"
+    ],
+    "loss_classification": "LOSS_NONEX_PRIZE_RACE / SINGLE_PRIZE_DEFICIT"
+  },
+  {
+    "game_number": 16,
+    "episode_id": 93583569,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 131,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle"
+    ],
+    "loss_classification": "LOSS_MATCHUP_VARIANCE (Mirror 1st Attacker)"
+  },
+  {
+    "game_number": 17,
+    "episode_id": 93584447,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 122,
+    "archetype": "Multi-Prize EX Box (Fezandipiti)",
+    "has_ex": false,
+    "opp_names": [
+      "Duskull",
+      "Dusclops",
+      "Dusknoir",
+      "Fezandipiti ex",
+      "Munkidori",
+      "Dreepy",
+      "Drakloak",
+      "Dragapult ex"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 18,
+    "episode_id": 93585347,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 80,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  },
+  {
+    "game_number": 19,
+    "episode_id": 93586267,
+    "sample_group": "Batch 2 (Games 11-19)",
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 64,
+    "archetype": "Crustle Safeguard (Mirror)",
+    "has_ex": false,
+    "opp_names": [
+      "Dwebble",
+      "Crustle"
+    ],
+    "loss_classification": "N/A (VICTORY)"
+  }
+]

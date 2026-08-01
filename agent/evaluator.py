@@ -22,6 +22,7 @@ class EvaluatorWeights:
     w_deck_resource: float = 0.5
     w_immunity_penalty: float = 180.0
     w_zero_bench_penalty: float = 150.0
+    w_nonex_breaker_threat: float = 200.0
 
 
 DEFAULT_WEIGHTS = EvaluatorWeights()
@@ -29,36 +30,14 @@ DEFAULT_WEIGHTS = EvaluatorWeights()
 
 def is_target_immune_to_ex(target: Optional[Dict[str, Any]]) -> bool:
     """Determine if target Pokémon possesses immunity to Pokémon ex attacks (e.g. Crustle Safeguard)."""
-    if not target or not isinstance(target, dict):
-        return False
-    card_id = target.get("id", 0)
-    # Recognized Safeguard IDs: Crustle (345, 533, 542, 558)
-    if card_id in (345, 533, 542, 558):
-        return True
-    pdata = get_pokemon_data(card_id)
-    if pdata:
-        skills = pdata.get("skills", [])
-        if isinstance(skills, list):
-            for sk in skills:
-                if isinstance(sk, dict):
-                    sk_text = (sk.get("text") or "").lower()
-                    sk_name = (sk.get("name") or "").lower()
-                    if "prevent all damage" in sk_text and ("{ex}" in sk_text or "pokemon ex" in sk_text):
-                        return True
-                    if "mysterious rock inn" in sk_name or "safeguard" in sk_name:
-                        return True
-    return False
+    from agent.damage_model import GeneralizedDamageModel
+    return GeneralizedDamageModel.has_safeguard_immunity(target)
 
 
 def is_ex_attacker(attacker: Optional[Dict[str, Any]]) -> bool:
     """Determine if attacker is a Pokémon ex."""
-    if not attacker or not isinstance(attacker, dict):
-        return False
-    card_id = attacker.get("id", 0)
-    if card_id == 723:  # Bellibolt ex
-        return True
-    pdata = get_pokemon_data(card_id)
-    return bool(pdata and pdata.get("ex", False))
+    from agent.damage_model import GeneralizedDamageModel
+    return GeneralizedDamageModel.is_ex_pokemon(attacker)
 
 
 def calculate_immunity_multiplier(attacker: Optional[Dict[str, Any]], target: Optional[Dict[str, Any]]) -> float:
@@ -69,7 +48,7 @@ def calculate_immunity_multiplier(attacker: Optional[Dict[str, Any]], target: Op
 
 
 def estimate_raw_damage(attacker: Optional[Dict[str, Any]]) -> float:
-    """Estimate base damage output based on attacker card ID and attached energy."""
+    """Estimate base damage output based on database metadata and attached energy."""
     if not attacker or not isinstance(attacker, dict):
         return 0.0
 
@@ -77,14 +56,9 @@ def estimate_raw_damage(attacker: Optional[Dict[str, Any]]) -> float:
     energies = attacker.get("energies", [])
     n_energies = len(energies) if isinstance(energies, list) else 0
 
-    if card_id in (723, 345):  # Bellibolt ex / Crustle
-        return 160.0 if n_energies >= 2 else (30.0 if n_energies >= 1 else 0.0)
-    elif card_id == 722:  # Bellibolt
-        return 70.0 if n_energies >= 2 else (20.0 if n_energies >= 1 else 0.0)
-    elif card_id in (721, 344):  # Tadbulb / Dwebble
-        return 30.0 if n_energies >= 1 else 10.0
-
-    return float(max(10, n_energies * 30))
+    from agent.opponent_model import get_pokemon_damage_profile
+    raw_dmg, _ = get_pokemon_damage_profile(card_id, n_energies)
+    return raw_dmg
 
 
 def get_target_hp(target: Optional[Dict[str, Any]]) -> float:
@@ -169,8 +143,17 @@ def evaluate_board_value(state: GameState, weights: EvaluatorWeights = DEFAULT_W
     value += len(state.your_hand) * weights.w_hand_resource
     value += min(30, state.your_deck_count) * weights.w_deck_resource
 
-    # 5. Immunity / Safeguard Counter Matchup
+    # 5. Immunity / Safeguard Matchup
     if is_ex_attacker(state.your_active) and is_target_immune_to_ex(state.opp_active):
         value -= weights.w_immunity_penalty
+
+    # 6. Adaptive Non-EX Threat Evaluation
+    if is_target_immune_to_ex(state.your_active):
+        all_opp = ([state.opp_active] if state.opp_active else []) + [b for b in state.opp_bench if b]
+        for opp in all_opp:
+            if not is_ex_attacker(opp):
+                e_cnt = len(opp.get("energies", [])) if isinstance(opp.get("energies"), list) else 0
+                if e_cnt >= 2:
+                    value -= weights.w_nonex_breaker_threat * 0.5
 
     return value

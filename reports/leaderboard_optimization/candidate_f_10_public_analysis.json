@@ -1,0 +1,202 @@
+[
+  {
+    "episode_id": 93569861,
+    "our_seat": 1,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 75,
+    "archetype": "Duraludon (Metal Non-EX Resist)",
+    "has_ex": false,
+    "opp_cards": [
+      "Duraludon"
+    ],
+    "classification": "MATCHUP_HARD_COUNTER / METAL_RESISTANCE_DEFICIT",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93570797,
+    "our_seat": 1,
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 127,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_cards": [
+      "Makuhita",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "classification": "NON_EX_TACTICAL_VICTORY (Prize Trade Advantage)",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93571687,
+    "our_seat": 0,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 23,
+    "archetype": "Cinderace (Fire Stage 2 Donk)",
+    "has_ex": false,
+    "opp_cards": [
+      "Cinderace"
+    ],
+    "classification": "MATCHUP_HARD_COUNTER / FIRE_WEAKNESS_DONK",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93572601,
+    "our_seat": 1,
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 112,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_cards": [
+      "Makuhita",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "classification": "NON_EX_TACTICAL_VICTORY (Prize Trade Advantage)",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93573491,
+    "our_seat": 1,
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 151,
+    "archetype": "Non-EX Deck (Budew, Fezandipiti ex)",
+    "has_ex": false,
+    "opp_cards": [
+      "Budew",
+      "Fezandipiti ex",
+      "Meowth ex",
+      "Dreepy",
+      "Latias ex",
+      "Dragapult ex",
+      "Drakloak"
+    ],
+    "classification": "NON_EX_TACTICAL_VICTORY (Prize Trade Advantage)",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93574392,
+    "our_seat": 1,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 91,
+    "archetype": "Duraludon (Metal Non-EX Resist)",
+    "has_ex": false,
+    "opp_cards": [
+      "Duraludon",
+      "Archaludon ex"
+    ],
+    "classification": "MATCHUP_HARD_COUNTER / METAL_RESISTANCE_DEFICIT",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93575313,
+    "our_seat": 1,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 167,
+    "archetype": "Marnie's Grimmsnarl ex (Darkness EX)",
+    "has_ex": false,
+    "opp_cards": [
+      "Marnie's Impidimp",
+      "Marnie's Morgrem",
+      "Marnie's Grimmsnarl ex",
+      "Froslass",
+      "Munkidori",
+      "Snorunt"
+    ],
+    "classification": "SINGLE_PRIZE_TRADE_DEFICIT",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93576224,
+    "our_seat": 1,
+    "outcome": "WIN (+1)",
+    "reward": 1,
+    "steps": 139,
+    "archetype": "Mega Lucario ex (Mega EX Aggro)",
+    "has_ex": false,
+    "opp_cards": [
+      "Makuhita",
+      "Hariyama",
+      "Lunatone",
+      "Solrock",
+      "Riolu",
+      "Mega Lucario ex"
+    ],
+    "classification": "NON_EX_TACTICAL_VICTORY (Prize Trade Advantage)",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93577146,
+    "our_seat": 1,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 105,
+    "archetype": "Non-EX Deck (Cynthia's Gible, Cynthia's Gabite)",
+    "has_ex": false,
+    "opp_cards": [
+      "Cynthia's Gible",
+      "Cynthia's Gabite",
+      "Cynthia's Roselia",
+      "Cynthia's Roserade"
+    ],
+    "classification": "SINGLE_PRIZE_TRADE_DEFICIT",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  },
+  {
+    "episode_id": 93578041,
+    "our_seat": 1,
+    "outcome": "LOSS (-1)",
+    "reward": -1,
+    "steps": 88,
+    "archetype": "Non-EX Deck (Dwebble, Crustle)",
+    "has_ex": false,
+    "opp_cards": [
+      "Dwebble",
+      "Crustle",
+      "Cornerstone Mask Ogerpon ex"
+    ],
+    "classification": "SINGLE_PRIZE_TRADE_DEFICIT",
+    "p95_latency_ms": 0.0,
+    "invalids": 0,
+    "fallbacks": 0,
+    "runtime_errors": 0
+  }
+]

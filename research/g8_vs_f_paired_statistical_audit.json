@@ -1,0 +1,72 @@
+{
+  "total_seeds_per_opponent": 250,
+  "total_games_evaluated": 2500,
+  "f_overall_wr": 76.4,
+  "f_ci_95": [
+    73.97,
+    78.67
+  ],
+  "g8_overall_wr": 77.92,
+  "g8_ci_95": [
+    75.54,
+    80.13
+  ],
+  "overall_delta": 1.52,
+  "matchup_breakdown": {
+    "Mega_Lucario_ex": {
+      "total_games": 250,
+      "f_wins": 235,
+      "g8_wins": 228,
+      "f_win_rate": 94.0,
+      "g8_win_rate": 91.2,
+      "delta": -2.8,
+      "paired_f_only_wins": 20,
+      "paired_g8_only_wins": 13,
+      "identical_outcomes": 217
+    },
+    "Duraludon_NonEX": {
+      "total_games": 250,
+      "f_wins": 185,
+      "g8_wins": 209,
+      "f_win_rate": 74.0,
+      "g8_win_rate": 83.6,
+      "delta": 9.6,
+      "paired_f_only_wins": 25,
+      "paired_g8_only_wins": 49,
+      "identical_outcomes": 176
+    },
+    "Alakazam_NonEX": {
+      "total_games": 250,
+      "f_wins": 204,
+      "g8_wins": 188,
+      "f_win_rate": 81.6,
+      "g8_win_rate": 75.2,
+      "delta": -6.4,
+      "paired_f_only_wins": 53,
+      "paired_g8_only_wins": 37,
+      "identical_outcomes": 160
+    },
+    "Hops_Trevenant_NonEX": {
+      "total_games": 250,
+      "f_wins": 203,
+      "g8_wins": 222,
+      "f_win_rate": 81.2,
+      "g8_win_rate": 88.8,
+      "delta": 7.6,
+      "paired_f_only_wins": 24,
+      "paired_g8_only_wins": 43,
+      "identical_outcomes": 183
+    },
+    "Cinderace_NonEX": {
+      "total_games": 250,
+      "f_wins": 128,
+      "g8_wins": 127,
+      "f_win_rate": 51.2,
+      "g8_win_rate": 50.8,
+      "delta": -0.4,
+      "paired_f_only_wins": 57,
+      "paired_g8_only_wins": 56,
+      "identical_outcomes": 137
+    }
+  }
+}

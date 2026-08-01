@@ -8,11 +8,14 @@ from agent.evaluator import (
     get_target_hp,
     get_target_prize_value,
     calculate_immunity_multiplier,
+    is_ex_attacker,
+    is_target_immune_to_ex,
     DEFAULT_WEIGHTS,
 )
 from agent.opponent_model import (
     estimate_next_attack_probability,
     estimate_gust_probability,
+    evaluate_opponent_threats,
 )
 from agent.risk_model import determine_risk_profile
 from agent.fallback import make_distinct_choice
@@ -98,7 +101,7 @@ def project_action(state: GameState, opt_idx: int) -> Tuple[GameState, float]:
         if target_pkmn and isinstance(target_pkmn, dict):
             energies = target_pkmn.get("energies", [])
             if isinstance(energies, list):
-                energies.append(3)
+                energies.append(1)  # Grass energy
                 target_pkmn["energies"] = energies
         bonus += 55.0
 
@@ -122,7 +125,7 @@ def project_action(state: GameState, opt_idx: int) -> Tuple[GameState, float]:
 
     # 5. Key Trainer Items / Supporters
     elif opt_type in (0, 2, 5, 6) or card_id in (1092, 1121, 1145, 1219, 1227, 1262):
-        if card_id == 1262:  # Boss's Orders
+        if card_id in (1262, 1182):  # Boss's Orders
             bonus += 85.0
         elif card_id == 1219:  # Electric Generator
             bonus += 80.0
@@ -146,7 +149,7 @@ def project_action(state: GameState, opt_idx: int) -> Tuple[GameState, float]:
 
 
 def estimate_opponent_counterattack(projected: GameState) -> float:
-    """Estimate expected opponent counter-attack damage against projected board."""
+    """Estimate expected opponent counter-attack damage considering active and benched threats."""
     opp_active = projected.opp_active
     your_active = projected.your_active
 
@@ -156,6 +159,7 @@ def estimate_opponent_counterattack(projected: GameState) -> float:
     p_attack = estimate_next_attack_probability(projected)
     p_gust = estimate_gust_probability(projected)
 
+    # 1. Active Threat
     raw_dmg = estimate_raw_damage(opp_active)
     mult = calculate_immunity_multiplier(opp_active, your_active)
     eff_dmg = raw_dmg * mult
@@ -169,7 +173,18 @@ def estimate_opponent_counterattack(projected: GameState) -> float:
         else:
             expected_active_dmg += p_attack * 350.0  # Normal knockout penalty
 
-    # Bench threat if opponent plays Boss
+    # 2. Benched Non-EX Breaker Promotion Threat
+    expected_bench_breaker_threat = 0.0
+    if is_target_immune_to_ex(your_active):
+        for b in projected.opp_bench:
+            if b and isinstance(b, dict) and not is_ex_attacker(b):
+                e_cnt = len(b.get("energies", [])) if isinstance(b.get("energies"), list) else 0
+                if e_cnt >= 2:
+                    b_dmg = estimate_raw_damage(b)
+                    if b_dmg >= your_hp:
+                        expected_bench_breaker_threat = max(expected_bench_breaker_threat, 0.40 * b_dmg + 150.0)
+
+    # 3. Bench threat if opponent plays Boss's Orders
     expected_bench_threat = 0.0
     for b in projected.your_bench:
         if b and isinstance(b, dict):
@@ -177,7 +192,7 @@ def estimate_opponent_counterattack(projected: GameState) -> float:
             if eff_dmg >= b_hp:
                 expected_bench_threat = max(expected_bench_threat, p_gust * p_attack * 250.0)
 
-    return expected_active_dmg + expected_bench_threat
+    return expected_active_dmg + expected_bench_breaker_threat + expected_bench_threat
 
 
 def shallow_risk_aware_search(state: GameState, remaining_time: float = 600.0) -> Optional[List[int]]:

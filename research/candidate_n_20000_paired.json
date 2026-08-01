@@ -1,0 +1,48 @@
+{
+  "total_games": 20000,
+  "m_wins": 7023,
+  "n_wins": 7038,
+  "m_wr": 70.23,
+  "n_wr": 70.38,
+  "m_ci_95": [
+    69.33,
+    71.12
+  ],
+  "n_ci_95": [
+    69.48,
+    71.27
+  ],
+  "delta": 0.15,
+  "matchups": {
+    "Grimmsnarl_Froslass": {
+      "total": 2500,
+      "m_wr": 76.88,
+      "n_wr": 77.36,
+      "delta": 0.48
+    },
+    "Crustle_Mirror": {
+      "total": 2500,
+      "m_wr": 49.2,
+      "n_wr": 49.28,
+      "delta": 0.08
+    },
+    "Mega_Lucario_ex": {
+      "total": 2000,
+      "m_wr": 94.3,
+      "n_wr": 94.2,
+      "delta": -0.1
+    },
+    "Alakazam_Swarm": {
+      "total": 1500,
+      "m_wr": 82.53,
+      "n_wr": 82.2,
+      "delta": -0.33
+    },
+    "Trevenant_Bramble": {
+      "total": 1500,
+      "m_wr": 49.8,
+      "n_wr": 50.33,
+      "delta": 0.53
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import time
 from typing import Dict, Any, List, Optional
 from agent.state import GameState, parse_game_state
 from agent.policy import (
@@ -10,7 +11,6 @@ from agent.policy import (
 )
 from agent.search import shallow_risk_aware_search
 from agent.belief_state import BeliefStateTracker, BeliefDistribution
-
 from agent.goals import GoalPlanner, StrategicGoal, GoalState
 from agent.decomposition import ScoreDecomposer, ValueDecomposition
 from agent.fallback import deterministic_fallback, make_distinct_choice
@@ -93,30 +93,46 @@ def select_action(obs: Dict[str, Any]) -> List[int]:
     1. Parse and normalize GameState.
     2. Update Bayesian Belief State (opponent hidden hand probabilities).
     3. Identify strategic GoalState.
-    4. Execute 1-2 ply shallow risk-aware search lookahead.
-    5. Fallback to goal-guided tactical heuristic policy.
-    6. Validate choice with legal validator.
+    4. Enforce P0 safety rules (BENCH_FIRST priority when bench is empty).
+    5. Execute 1-2 ply shallow risk-aware search lookahead.
+    6. Fallback to goal-guided tactical heuristic policy.
+    7. Validate choice with legal validator.
     """
+    start_t = time.perf_counter()
     state = parse_game_state(obs)
     n_opts = len(state.options)
+    max_cnt = state.max_count
+    min_cnt = state.min_count
+    remaining_time = getattr(state, "remaining_time", 600.0)
+
     if n_opts == 0:
         return []
 
-    # 1. Update Belief State & Goal
-    beliefs = _BELIEF_TRACKER.update_beliefs(state)
+    if n_opts == 1:
+        return [0]
+
+    # 1. Update Bayesian Beliefs
+    _BELIEF_TRACKER.update_beliefs(state)
+
+    # 2. Identify Goal
     goal_state = GoalPlanner.identify_goal(state)
 
-    remaining_time = float(obs.get("remainingOverageTime", 600.0))
+    # 3. P0 Safety: If Bench is 0 and Basic is playable, enforce BENCH_FIRST before attack
+    if state.select_type == 0 and len(state.your_bench) == 0:
+        card_ranks = rank_card_play_options(state)
+        if card_ranks and card_ranks[0][1] >= 350.0:  # BENCH_FIRST triggered!
+            preferred = [r[0] for r in card_ranks]
+            choice = make_distinct_choice(preferred, n_opts, max_cnt, min_cnt)
+            track_telemetry(choice, state.options)
+            return choice
 
-    # 2. 1-2 Ply Shallow Search Lookahead
-    search_choice = shallow_risk_aware_search(state, remaining_time)
-    if search_choice is not None:
-        DIAGNOSTICS["search_decisions"] += 1
-        track_telemetry(search_choice, state.options)
-        return search_choice
+    # 4. Search lookahead for tactical selection
+    choice = shallow_risk_aware_search(state, remaining_time=remaining_time)
+    if choice is not None:
+        track_telemetry(choice, state.options)
+        return choice
 
-    # 3. Fast Heuristic Selector
-    DIAGNOSTICS["heuristic_decisions"] += 1
-    action = select_heuristic_action(state, goal_state)
-    track_telemetry(action, state.options)
-    return action
+    # 5. Goal-guided tactical heuristic policy
+    choice = select_heuristic_action(state, goal_state=goal_state)
+    track_telemetry(choice, state.options)
+    return choice

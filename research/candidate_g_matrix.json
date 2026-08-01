@@ -1,0 +1,1222 @@
+{
+  "G0_f_baseline": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 64.3,
+      "p50_latency_ms": 1.091,
+      "p95_latency_ms": 7.565,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 57.0,
+      "p50_latency_ms": 0.94,
+      "p95_latency_ms": 7.108,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 73.8,
+      "p50_latency_ms": 1.453,
+      "p95_latency_ms": 17.82,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 61.1,
+      "p50_latency_ms": 1.134,
+      "p95_latency_ms": 7.262,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 16,
+      "losses": 4,
+      "draws": 0,
+      "win_rate": 80.0,
+      "avg_turns": 61.6,
+      "p50_latency_ms": 0.942,
+      "p95_latency_ms": 8.904,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 16,
+      "losses": 4,
+      "draws": 0,
+      "win_rate": 80.0,
+      "avg_turns": 51.6,
+      "p50_latency_ms": 1.282,
+      "p95_latency_ms": 12.028,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 8,
+      "losses": 12,
+      "draws": 0,
+      "win_rate": 40.0,
+      "avg_turns": 53.5,
+      "p50_latency_ms": 0.174,
+      "p95_latency_ms": 8.7,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 57.1,
+      "p50_latency_ms": 0.921,
+      "p95_latency_ms": 10.403,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 45.9,
+      "p50_latency_ms": 0.778,
+      "p95_latency_ms": 6.372,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 72.0,
+      "p50_latency_ms": 1.329,
+      "p95_latency_ms": 7.462,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 87.5,
+      "ex_wr": 100.0,
+      "non_ex_wr": 82.14,
+      "coverage": 90.0,
+      "consistency": 96.0,
+      "fitness": 90.15,
+      "total_wins": 175,
+      "total_games": 200
+    }
+  },
+  "G1_high_basic_density": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 65.5,
+      "p50_latency_ms": 0.859,
+      "p95_latency_ms": 7.262,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 84.5,
+      "p50_latency_ms": 0.112,
+      "p95_latency_ms": 6.682,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 104.5,
+      "p50_latency_ms": 0.115,
+      "p95_latency_ms": 8.388,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 9,
+      "losses": 10,
+      "draws": 1,
+      "win_rate": 45.0,
+      "avg_turns": 85.8,
+      "p50_latency_ms": 0.1,
+      "p95_latency_ms": 5.83,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "win_rate": 60.0,
+      "avg_turns": 84.3,
+      "p50_latency_ms": 0.157,
+      "p95_latency_ms": 7.283,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 72.8,
+      "p50_latency_ms": 0.907,
+      "p95_latency_ms": 6.189,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "win_rate": 50.0,
+      "avg_turns": 61.8,
+      "p50_latency_ms": 0.098,
+      "p95_latency_ms": 5.706,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 77.5,
+      "p50_latency_ms": 0.224,
+      "p95_latency_ms": 6.541,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 62.6,
+      "p50_latency_ms": 0.096,
+      "p95_latency_ms": 5.885,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 108.0,
+      "p50_latency_ms": 0.179,
+      "p95_latency_ms": 8.028,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 77.0,
+      "ex_wr": 86.67,
+      "non_ex_wr": 72.86,
+      "coverage": 90.0,
+      "consistency": 96.0,
+      "fitness": 82.2,
+      "total_wins": 154,
+      "total_games": 200
+    }
+  },
+  "G2_alt_grass_attacker": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 94.2,
+      "p50_latency_ms": 0.119,
+      "p95_latency_ms": 7.415,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 120.2,
+      "p50_latency_ms": 0.103,
+      "p95_latency_ms": 8.614,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 103.1,
+      "p50_latency_ms": 0.115,
+      "p95_latency_ms": 8.648,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 11,
+      "losses": 9,
+      "draws": 0,
+      "win_rate": 55.00000000000001,
+      "avg_turns": 119.8,
+      "p50_latency_ms": 0.109,
+      "p95_latency_ms": 5.944,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 91.2,
+      "p50_latency_ms": 0.108,
+      "p95_latency_ms": 7.815,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 77.5,
+      "p50_latency_ms": 0.841,
+      "p95_latency_ms": 6.729,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "win_rate": 35.0,
+      "avg_turns": 72.0,
+      "p50_latency_ms": 0.095,
+      "p95_latency_ms": 6.662,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 131.8,
+      "p50_latency_ms": 0.105,
+      "p95_latency_ms": 8.498,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "win_rate": 50.0,
+      "avg_turns": 64.8,
+      "p50_latency_ms": 0.095,
+      "p95_latency_ms": 6.214,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 110.0,
+      "p50_latency_ms": 0.119,
+      "p95_latency_ms": 9.643,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 72.5,
+      "ex_wr": 83.33,
+      "non_ex_wr": 67.86,
+      "coverage": 90.0,
+      "consistency": 96.0,
+      "fitness": 78.95,
+      "total_wins": 145,
+      "total_games": 200
+    }
+  },
+  "G3_rillaboom_hp": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 16,
+      "losses": 4,
+      "draws": 0,
+      "win_rate": 80.0,
+      "avg_turns": 81.2,
+      "p50_latency_ms": 1.195,
+      "p95_latency_ms": 6.722,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 103.6,
+      "p50_latency_ms": 1.924,
+      "p95_latency_ms": 8.08,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 88.0,
+      "p50_latency_ms": 1.467,
+      "p95_latency_ms": 7.568,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 100.3,
+      "p50_latency_ms": 1.36,
+      "p95_latency_ms": 5.884,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 82.2,
+      "p50_latency_ms": 1.174,
+      "p95_latency_ms": 6.883,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 94.7,
+      "p50_latency_ms": 1.293,
+      "p95_latency_ms": 7.16,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "win_rate": 60.0,
+      "avg_turns": 68.3,
+      "p50_latency_ms": 0.102,
+      "p95_latency_ms": 5.711,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 86.5,
+      "p50_latency_ms": 1.666,
+      "p95_latency_ms": 7.212,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "win_rate": 50.0,
+      "avg_turns": 79.5,
+      "p50_latency_ms": 1.067,
+      "p95_latency_ms": 6.898,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 101.5,
+      "p50_latency_ms": 1.58,
+      "p95_latency_ms": 9.435,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 81.0,
+      "ex_wr": 93.33,
+      "non_ex_wr": 75.71,
+      "coverage": 100.0,
+      "consistency": 96.0,
+      "fitness": 86.33,
+      "total_wins": 162,
+      "total_games": 200
+    }
+  },
+  "G4_snorlax_colorless": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 85.2,
+      "p50_latency_ms": 1.149,
+      "p95_latency_ms": 8.025,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 70.5,
+      "p50_latency_ms": 1.152,
+      "p95_latency_ms": 7.662,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 95.5,
+      "p50_latency_ms": 1.68,
+      "p95_latency_ms": 8.756,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 80.0,
+      "p50_latency_ms": 1.256,
+      "p95_latency_ms": 6.287,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 72.6,
+      "p50_latency_ms": 0.887,
+      "p95_latency_ms": 7.666,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 76.7,
+      "p50_latency_ms": 1.42,
+      "p95_latency_ms": 7.477,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "win_rate": 35.0,
+      "avg_turns": 76.8,
+      "p50_latency_ms": 0.869,
+      "p95_latency_ms": 6.687,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 78.5,
+      "p50_latency_ms": 1.279,
+      "p95_latency_ms": 7.632,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "win_rate": 60.0,
+      "avg_turns": 64.0,
+      "p50_latency_ms": 1.25,
+      "p95_latency_ms": 7.586,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 122.8,
+      "p50_latency_ms": 1.985,
+      "p95_latency_ms": 10.1,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 77.5,
+      "ex_wr": 90.0,
+      "non_ex_wr": 72.14,
+      "coverage": 90.0,
+      "consistency": 96.0,
+      "fitness": 82.75,
+      "total_wins": 155,
+      "total_games": 200
+    }
+  },
+  "G5_minimal_backup": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 16,
+      "losses": 4,
+      "draws": 0,
+      "win_rate": 80.0,
+      "avg_turns": 77.2,
+      "p50_latency_ms": 1.021,
+      "p95_latency_ms": 6.977,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 68.7,
+      "p50_latency_ms": 0.799,
+      "p95_latency_ms": 6.949,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 74.1,
+      "p50_latency_ms": 1.104,
+      "p95_latency_ms": 7.076,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 13,
+      "losses": 7,
+      "draws": 0,
+      "win_rate": 65.0,
+      "avg_turns": 73.6,
+      "p50_latency_ms": 0.943,
+      "p95_latency_ms": 6.383,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 78.2,
+      "p50_latency_ms": 0.941,
+      "p95_latency_ms": 8.202,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 12,
+      "losses": 7,
+      "draws": 1,
+      "win_rate": 60.0,
+      "avg_turns": 66.0,
+      "p50_latency_ms": 0.88,
+      "p95_latency_ms": 5.818,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 11,
+      "losses": 9,
+      "draws": 0,
+      "win_rate": 55.00000000000001,
+      "avg_turns": 54.0,
+      "p50_latency_ms": 0.104,
+      "p95_latency_ms": 5.655,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 57.0,
+      "p50_latency_ms": 0.818,
+      "p95_latency_ms": 6.035,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 13,
+      "losses": 7,
+      "draws": 0,
+      "win_rate": 65.0,
+      "avg_turns": 46.1,
+      "p50_latency_ms": 0.738,
+      "p95_latency_ms": 5.897,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 78.3,
+      "p50_latency_ms": 1.144,
+      "p95_latency_ms": 8.394,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 81.0,
+      "ex_wr": 93.33,
+      "non_ex_wr": 75.71,
+      "coverage": 100.0,
+      "consistency": 96.0,
+      "fitness": 86.33,
+      "total_wins": 162,
+      "total_games": 200
+    }
+  },
+  "G6_hybrid_bellibolt": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 94.5,
+      "p50_latency_ms": 0.795,
+      "p95_latency_ms": 7.564,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 96.9,
+      "p50_latency_ms": 0.101,
+      "p95_latency_ms": 7.053,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 117.5,
+      "p50_latency_ms": 0.157,
+      "p95_latency_ms": 7.439,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 9,
+      "losses": 11,
+      "draws": 0,
+      "win_rate": 45.0,
+      "avg_turns": 99.0,
+      "p50_latency_ms": 0.091,
+      "p95_latency_ms": 5.456,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 108.8,
+      "p50_latency_ms": 0.1,
+      "p95_latency_ms": 7.821,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 11,
+      "losses": 9,
+      "draws": 0,
+      "win_rate": 55.00000000000001,
+      "avg_turns": 104.0,
+      "p50_latency_ms": 0.096,
+      "p95_latency_ms": 5.919,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 4,
+      "losses": 16,
+      "draws": 0,
+      "win_rate": 20.0,
+      "avg_turns": 69.5,
+      "p50_latency_ms": 0.085,
+      "p95_latency_ms": 5.256,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 92.3,
+      "p50_latency_ms": 0.1,
+      "p95_latency_ms": 6.896,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 93.0,
+      "p50_latency_ms": 0.098,
+      "p95_latency_ms": 7.732,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 125.3,
+      "p50_latency_ms": 0.124,
+      "p95_latency_ms": 8.617,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 73.5,
+      "ex_wr": 91.67,
+      "non_ex_wr": 65.71,
+      "coverage": 80.0,
+      "consistency": 78.0,
+      "fitness": 77.36,
+      "total_wins": 147,
+      "total_games": 200
+    }
+  },
+  "G7_anti_resistance": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 70.2,
+      "p50_latency_ms": 1.219,
+      "p95_latency_ms": 7.611,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 55.3,
+      "p50_latency_ms": 0.932,
+      "p95_latency_ms": 6.326,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 68.2,
+      "p50_latency_ms": 1.172,
+      "p95_latency_ms": 7.697,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 79.5,
+      "p50_latency_ms": 0.954,
+      "p95_latency_ms": 4.987,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 72.2,
+      "p50_latency_ms": 1.1,
+      "p95_latency_ms": 7.59,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 55.5,
+      "p50_latency_ms": 1.073,
+      "p95_latency_ms": 6.327,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "win_rate": 50.0,
+      "avg_turns": 57.7,
+      "p50_latency_ms": 0.739,
+      "p95_latency_ms": 5.591,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 53.0,
+      "p50_latency_ms": 0.886,
+      "p95_latency_ms": 6.327,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 39.7,
+      "p50_latency_ms": 0.131,
+      "p95_latency_ms": 5.754,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 76.6,
+      "p50_latency_ms": 1.336,
+      "p95_latency_ms": 7.715,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 88.0,
+      "ex_wr": 100.0,
+      "non_ex_wr": 82.86,
+      "coverage": 100.0,
+      "consistency": 96.0,
+      "fitness": 91.49,
+      "total_wins": 176,
+      "total_games": 200
+    }
+  },
+  "G8_anti_weakness": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 75.9,
+      "p50_latency_ms": 0.995,
+      "p95_latency_ms": 8.323,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 60.8,
+      "p50_latency_ms": 0.984,
+      "p95_latency_ms": 6.923,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 73.0,
+      "p50_latency_ms": 1.066,
+      "p95_latency_ms": 7.31,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 69.2,
+      "p50_latency_ms": 0.965,
+      "p95_latency_ms": 5.708,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 13,
+      "losses": 7,
+      "draws": 0,
+      "win_rate": 65.0,
+      "avg_turns": 83.0,
+      "p50_latency_ms": 0.825,
+      "p95_latency_ms": 7.842,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 60.1,
+      "p50_latency_ms": 0.833,
+      "p95_latency_ms": 6.496,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "win_rate": 60.0,
+      "avg_turns": 50.0,
+      "p50_latency_ms": 0.11,
+      "p95_latency_ms": 6.318,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 58.4,
+      "p50_latency_ms": 0.807,
+      "p95_latency_ms": 6.038,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 50.5,
+      "p50_latency_ms": 0.929,
+      "p95_latency_ms": 5.964,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 65.0,
+      "p50_latency_ms": 1.098,
+      "p95_latency_ms": 7.601,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 88.5,
+      "ex_wr": 100.0,
+      "non_ex_wr": 83.57,
+      "coverage": 100.0,
+      "consistency": 96.0,
+      "fitness": 91.83,
+      "total_wins": 177,
+      "total_games": 200
+    }
+  },
+  "G9_optimized_combination": {
+    "OPP_Mega_Lucario_ex": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 72.5,
+      "p50_latency_ms": 0.924,
+      "p95_latency_ms": 7.196,
+      "invalids": 0
+    },
+    "OPP_Mega_Abomasnow_ex": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "draws": 0,
+      "win_rate": 90.0,
+      "avg_turns": 105.7,
+      "p50_latency_ms": 0.13,
+      "p95_latency_ms": 9.435,
+      "invalids": 0
+    },
+    "OPP_Marnie_Grimmsnarl_ex": {
+      "games": 20,
+      "wins": 19,
+      "losses": 1,
+      "draws": 0,
+      "win_rate": 95.0,
+      "avg_turns": 85.8,
+      "p50_latency_ms": 1.026,
+      "p95_latency_ms": 8.856,
+      "invalids": 0
+    },
+    "OPP_Duraludon_NonEX": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 78.8,
+      "p50_latency_ms": 0.861,
+      "p95_latency_ms": 5.826,
+      "invalids": 0
+    },
+    "OPP_Alakazam_NonEX": {
+      "games": 20,
+      "wins": 15,
+      "losses": 5,
+      "draws": 0,
+      "win_rate": 75.0,
+      "avg_turns": 85.9,
+      "p50_latency_ms": 0.96,
+      "p95_latency_ms": 8.386,
+      "invalids": 0
+    },
+    "OPP_Hops_Trevenant_NonEX": {
+      "games": 20,
+      "wins": 17,
+      "losses": 3,
+      "draws": 0,
+      "win_rate": 85.0,
+      "avg_turns": 73.0,
+      "p50_latency_ms": 0.926,
+      "p95_latency_ms": 6.534,
+      "invalids": 0
+    },
+    "OPP_Cinderace_NonEX": {
+      "games": 20,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "win_rate": 50.0,
+      "avg_turns": 60.4,
+      "p50_latency_ms": 0.106,
+      "p95_latency_ms": 6.038,
+      "invalids": 0
+    },
+    "OPP_Melmetal_Metal_Resist": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 75.2,
+      "p50_latency_ms": 0.121,
+      "p95_latency_ms": 7.009,
+      "invalids": 0
+    },
+    "OPP_Turtonator_Fire_Aggro": {
+      "games": 20,
+      "wins": 14,
+      "losses": 6,
+      "draws": 0,
+      "win_rate": 70.0,
+      "avg_turns": 53.5,
+      "p50_latency_ms": 0.121,
+      "p95_latency_ms": 6.097,
+      "invalids": 0
+    },
+    "OPP_Single_Prize_Swarm": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "draws": 0,
+      "win_rate": 100.0,
+      "avg_turns": 78.8,
+      "p50_latency_ms": 1.038,
+      "p95_latency_ms": 8.135,
+      "invalids": 0
+    },
+    "SUMMARY": {
+      "overall_wr": 81.5,
+      "ex_wr": 86.67,
+      "non_ex_wr": 79.29,
+      "coverage": 100.0,
+      "consistency": 96.0,
+      "fitness": 86.24,
+      "total_wins": 163,
+      "total_games": 200
+    }
+  }
+}

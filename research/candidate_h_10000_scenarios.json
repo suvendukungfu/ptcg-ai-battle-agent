@@ -1,0 +1,28 @@
+{
+  "Candidate_F": {
+    "scenarios": 5000,
+    "wins": 3859,
+    "losses": 1141,
+    "draws": 0,
+    "win_rate": 77.18,
+    "invalid_actions": 0,
+    "fallback_actions": 0,
+    "runtime_errors": 0,
+    "p50_latency_ms": 0.948,
+    "p95_latency_ms": 6.584,
+    "p99_latency_ms": 10.879
+  },
+  "Candidate_H5": {
+    "scenarios": 5000,
+    "wins": 3764,
+    "losses": 1236,
+    "draws": 0,
+    "win_rate": 75.28,
+    "invalid_actions": 0,
+    "fallback_actions": 0,
+    "runtime_errors": 0,
+    "p50_latency_ms": 0.93,
+    "p95_latency_ms": 6.273,
+    "p99_latency_ms": 10.628
+  }
+}

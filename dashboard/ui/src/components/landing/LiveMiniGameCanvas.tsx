@@ -163,7 +163,7 @@ export const LiveMiniGameCanvas: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-full min-h-[300px] flex items-center justify-center relative overflow-hidden rounded-xl bg-[#060a14] border border-white/[0.08] shadow-2xl">
+    <div className="w-full h-full min-h-75 flex items-center justify-center relative overflow-hidden rounded-xl bg-[#060a14] border border-white/8 shadow-2xl">
       <canvas
         ref={canvasRef}
         width={560}

@@ -1,0 +1,272 @@
+{
+  "E0 (Baseline)": {
+    "name": "E0 (Baseline)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  },
+  "N2 (Boss Gust)": {
+    "name": "N2 (Boss Gust)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  },
+  "N3 (Crushing Hammer)": {
+    "name": "N3 (Crushing Hammer)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  },
+  "N4 (Boss + Crushing)": {
+    "name": "N4 (Boss + Crushing)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  },
+  "N5 (Boss + Ultra Ball)": {
+    "name": "N5 (Boss + Ultra Ball)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  },
+  "N6 (Max Trainer)": {
+    "name": "N6 (Max Trainer)",
+    "results": {
+      "vs Non-EX Swarm (Alakazam)": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20,
+        "wr": 0.0,
+        "ci": [
+          0.0,
+          16.11246084860417
+        ],
+        "illegals": 0
+      },
+      "vs Standard Heuristic (Bellibolt)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      },
+      "vs Mixed Aggro (Lucario)": {
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "wr": 100.0,
+        "ci": [
+          83.88753915139584,
+          100.0
+        ],
+        "illegals": 0
+      }
+    },
+    "overall_wr": 66.66666666666666,
+    "overall_ci": [
+      54.05689262655894,
+      77.27071996647648
+    ],
+    "mean_lat": 0.0,
+    "total_illegals": 0
+  }
+}

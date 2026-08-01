@@ -4,6 +4,20 @@ Build the automated submission packager (`tools/build_submission.sh`), execute a
 
 ## Proposed Changes
 
+### Phase 5-7: Heuristic Engine & AI Upgrades
+- **Status: COMPLETE**
+- Discovered that the heuristic engine evaluates complex attack logic (like Mind Jack) poorly, assuming 0 or 60 damage instead of 210+.
+- Fixed `get_pokemon_damage_profile` in `opponent_model.py` to hardcode major meta threats (Alakazam, Bellibolt).
+- Fixed `rank_energy_attachment_options` in `policy.py` to correctly prioritize Non-EX attackers when facing a Safeguard opponent (e.g. Crustle).
+- Evaluated Bellibolt EX + Non-EX hybrid deck against Crustle with improved AI. Win rate improved from 5% to 30%, but still loses because Crustle is 1 turn faster (2 energy vs 3 energy).
+
+## Phase 8: Candidate F (The Meta Breaker)
+### [NEW] Design a Hybrid Deck
+- **Goal:** Create a deck that beats both EX Aggro (Bellibolt) and Non-EX Swarm (Alakazam/Crustle).
+- **Concept:** Bellibolt EX (for raw power vs EX and Alakazam) + a FAST Non-EX attacker (1-2 energy) to counter Safeguard.
+- **Action:** Write a script to find a Lightning or Colorless Basic/Stage 1 Non-EX attacker that deals >= 120 damage for <= 2 energy, or uses a utility attack (e.g., paralyze, spread damage).
+- **Alternative:** Return to Candidate B (Bellibolt EX) but add a Gus/Boss's Orders equivalent (e.g. Pokemon Catcher) to drag around Safeguard walls and kill their bench.
+
 ### Packaging Script
 
 #### [NEW] [tools/build_submission.sh](file:///Users/suvendusahoo/Downloads/pokemon/tools/build_submission.sh)

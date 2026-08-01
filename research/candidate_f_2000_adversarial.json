@@ -1,0 +1,24 @@
+{
+  "Candidate_D": {
+    "scenarios": 1000,
+    "wins": 756,
+    "losses": 244,
+    "draws": 0,
+    "win_rate": 75.6,
+    "invalid_actions": 0,
+    "p50_latency_ms": 1.452,
+    "p95_latency_ms": 9.575,
+    "p99_latency_ms": 14.378
+  },
+  "F0_crustle_baseline": {
+    "scenarios": 1000,
+    "wins": 684,
+    "losses": 316,
+    "draws": 0,
+    "win_rate": 68.4,
+    "invalid_actions": 0,
+    "p50_latency_ms": 1.094,
+    "p95_latency_ms": 8.099,
+    "p99_latency_ms": 12.573
+  }
+}
