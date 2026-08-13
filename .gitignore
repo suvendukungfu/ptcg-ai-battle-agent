@@ -1,6 +1,24 @@
+# Kaggle Data & Archives (DO NOT COMMIT)
+data/
+kaggle_data/
+.kaggle/
+*.pdf
+*.tar.gz
+*.zip
+*.whl
+*.so
+*.dylib
+*.dll
+
+# Python artifacts
 __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
 .DS_Store
 *.log
+
+# Virtual environments
+.venv/
+venv/
+env/
