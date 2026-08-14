@@ -28,7 +28,7 @@ from research.ablations.ablation_configs import ABLATION_VARIANTS
 from research.experiments.experiment_tracker import ExperimentTracker
 from tools.benchmark import run_benchmark
 
-app = FastAPI(title="PTCG AI Battle Research Platform — FAANG-Grade Suite", version="2.5.0")
+app = FastAPI(title="PTCG AI Battle Research Platform - FAANG-Grade Suite", version="2.5.0")
 
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
 os.makedirs(STATIC_DIR, exist_ok=True)
@@ -107,7 +107,7 @@ def simulate_battle(req: BattleRequest):
     parsed_replay["p0_agent"] = req.p0_agent
     parsed_replay["p1_agent"] = req.opponent
 
-    # Enrich replay with event logs
+    # Enrich replay with event logs without emojis
     event_log: List[Dict[str, Any]] = []
     for step_idx, item in enumerate(parsed_replay.get("timeline", [])):
         turn = item["turn"]
@@ -119,7 +119,7 @@ def simulate_battle(req: BattleRequest):
                 "step": step_idx,
                 "turn": turn,
                 "type": "attack",
-                "badge": "⚔️ Attack",
+                "badge": "Attack",
                 "text": f"Turn {turn}: Offensive action executed by player."
             })
         elif stype == 8:
@@ -127,16 +127,16 @@ def simulate_battle(req: BattleRequest):
                 "step": step_idx,
                 "turn": turn,
                 "type": "energy",
-                "badge": "⚡ Energy",
-                "text": f"Turn {turn}: Attached Energy to Pokémon."
+                "badge": "Energy",
+                "text": f"Turn {turn}: Attached Energy to Pokemon."
             })
         elif stype in (3, 4):
             event_log.append({
                 "step": step_idx,
                 "turn": turn,
                 "type": "evolve",
-                "badge": "🧬 Evolution",
-                "text": f"Turn {turn}: Evolved Pokémon on field."
+                "badge": "Evolution",
+                "text": f"Turn {turn}: Evolved Pokemon on field."
             })
 
     for ko in parsed_replay.get("kos_log", []):
@@ -144,7 +144,7 @@ def simulate_battle(req: BattleRequest):
             "step": ko["step"],
             "turn": ko["turn"],
             "type": "ko",
-            "badge": "💥 KNOCKOUT",
+            "badge": "KNOCKOUT",
             "text": f"Turn {ko['turn']}: {ko['taker']} claimed {ko['prizes_taken']} Prize card(s) via Knockout!"
         })
 
@@ -322,9 +322,9 @@ def get_card_codex():
         {
             "id": 723,
             "name": "Bellibolt ex",
-            "category": "Pokémon (Stage 1 ex)",
+            "category": "Pokemon (Stage 1 ex)",
             "type": "Lightning",
-            "element": "⚡",
+            "element": "Lightning",
             "hp": 350,
             "damage": 160,
             "retreat": 2,
@@ -337,30 +337,30 @@ def get_card_codex():
         {
             "id": 722,
             "name": "Bellibolt",
-            "category": "Pokémon (Stage 1)",
+            "category": "Pokemon (Stage 1)",
             "type": "Lightning",
-            "element": "⚡",
+            "element": "Lightning",
             "hp": 180,
             "damage": 70,
             "retreat": 2,
             "copies": 4,
             "role": "Non-ex Secondary Attacker",
-            "description": "Single-prize attacker used to bypass Pokémon ex Safeguard immunity abilities (e.g. Crustle).",
+            "description": "Single-prize attacker used to bypass Pokemon ex Safeguard immunity abilities (e.g. Crustle).",
             "ai_priority": "P1 Priority: Safeguard counterplay and evolution transition piece.",
             "img": "https://images.pokemontcg.io/sv1/78_hires.png"
         },
         {
             "id": 721,
             "name": "Tadbulb",
-            "category": "Pokémon (Basic)",
+            "category": "Pokemon (Basic)",
             "type": "Lightning",
-            "element": "⚡",
+            "element": "Lightning",
             "hp": 150,
             "damage": 30,
             "retreat": 1,
             "copies": 2,
             "role": "Basic Starter Anchor",
-            "description": "High HP basic Pokémon required to establish early board presence and evolve into Bellibolt.",
+            "description": "High HP basic Pokemon required to establish early board presence and evolve into Bellibolt.",
             "ai_priority": "P0 Priority on Turn 1: Search and bench at least one copy.",
             "img": "https://images.pokemontcg.io/sv1/77_hires.png"
         },
@@ -369,13 +369,13 @@ def get_card_codex():
             "name": "Electric Generator",
             "category": "Trainer (Item)",
             "type": "Item",
-            "element": "⚡",
+            "element": "Lightning",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
             "copies": 4,
             "role": "Energy Acceleration Engine",
-            "description": "Looks at top 5 cards of deck and attaches up to 2 Basic Lightning Energies directly to Benched Lightning Pokémon.",
+            "description": "Looks at top 5 cards of deck and attaches up to 2 Basic Lightning Energies directly to Benched Lightning Pokemon.",
             "ai_priority": "P0 Tempo Play: Activate whenever a benched Tadbulb or Bellibolt needs charge.",
             "img": "https://images.pokemontcg.io/sv1/170_hires.png"
         },
@@ -384,14 +384,14 @@ def get_card_codex():
             "name": "Boss's Orders",
             "category": "Trainer (Supporter)",
             "type": "Supporter",
-            "element": "🎯",
+            "element": "Gust",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
             "copies": 2,
             "role": "Gust Control / Targeted Knockouts",
-            "description": "Switches 1 of your opponent's Benched Pokémon to the Active Spot to secure game-winning prizes on low-HP targets.",
-            "ai_priority": "P0 Match-Point Finisher: Gust vulnerable bench Pokémon to close out the game.",
+            "description": "Switches 1 of your opponent's Benched Pokemon to the Active Spot to secure game-winning prizes on low-HP targets.",
+            "ai_priority": "P0 Match-Point Finisher: Gust vulnerable bench Pokemon to close out the game.",
             "img": "https://images.pokemontcg.io/sv2/172_hires.png"
         },
         {
@@ -399,13 +399,13 @@ def get_card_codex():
             "name": "Ultra Ball",
             "category": "Trainer (Item)",
             "type": "Search",
-            "element": "🔍",
+            "element": "Search",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
             "copies": 2,
-            "role": "Universal Pokémon Tutor",
-            "description": "Discards 2 cards from hand to search deck for any Pokémon card.",
+            "role": "Universal Pokemon Tutor",
+            "description": "Discards 2 cards from hand to search deck for any Pokemon card.",
             "ai_priority": "P1 Tutor: Fetch Bellibolt ex or missing evolution pieces.",
             "img": "https://images.pokemontcg.io/sv1/196_hires.png"
         },
@@ -414,13 +414,13 @@ def get_card_codex():
             "name": "Heavy Baton",
             "category": "Trainer (Tool)",
             "type": "Tool",
-            "element": "🛡️",
+            "element": "Tool",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
             "copies": 2,
             "role": "Energy Preservation",
-            "description": "When the attached Pokémon with retreat cost 3+ is Knocked Out, transfer up to 3 Basic Energies to a benched Pokémon.",
+            "description": "When the attached Pokemon with retreat cost 3+ is Knocked Out, transfer up to 3 Basic Energies to a benched Pokemon.",
             "ai_priority": "P1 Tool: Attach to active Bellibolt ex to prevent energy loss on KO.",
             "img": "https://images.pokemontcg.io/tef/151_hires.png"
         },
@@ -429,13 +429,13 @@ def get_card_codex():
             "name": "Switch",
             "category": "Trainer (Item)",
             "type": "Utility",
-            "element": "🔄",
+            "element": "Utility",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
             "copies": 2,
             "role": "Positioning / Preservation",
-            "description": "Swaps active Pokémon with a benched Pokémon without expending retreat energy cost.",
+            "description": "Swaps active Pokemon with a benched Pokemon without expending retreat energy cost.",
             "ai_priority": "P1 Save: Preserve heavily damaged Bellibolt ex and pivot fresh attacker.",
             "img": "https://images.pokemontcg.io/sv1/194_hires.png"
         },
@@ -444,7 +444,7 @@ def get_card_codex():
             "name": "Professor's Research",
             "category": "Trainer (Supporter)",
             "type": "Supporter",
-            "element": "📚",
+            "element": "Supporter",
             "hp": 0,
             "damage": 0,
             "retreat": 0,
@@ -459,7 +459,7 @@ def get_card_codex():
             "name": "Basic Lightning Energy",
             "category": "Energy (Basic)",
             "type": "Energy",
-            "element": "⚡",
+            "element": "Lightning",
             "hp": 0,
             "damage": 0,
             "retreat": 0,

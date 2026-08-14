@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PTCG AI BATTLE PLATFORM — FAANG LEVEL INTERACTIVE ENGINE
+   PTCG AI BATTLE PLATFORM - INTERACTIVE ENGINE
    ========================================================================== */
 
 let currentReplay = null;
@@ -94,7 +94,7 @@ function initBattleSimulator() {
   const btn = document.getElementById("btn-run-battle");
   btn.addEventListener("click", async () => {
     btn.disabled = true;
-    btn.innerHTML = `<span>⏳ Simulating Battle...</span>`;
+    btn.innerHTML = `<span>Simulating Battle...</span>`;
     stopAutoPlay();
 
     const p0 = document.getElementById("arena-p0-select").value;
@@ -115,7 +115,7 @@ function initBattleSimulator() {
       alert("Error executing battle simulation: " + err.message);
     } finally {
       btn.disabled = false;
-      btn.innerHTML = `<span>⚡ Simulate Live Battle</span>`;
+      btn.innerHTML = `<span>Simulate Live Battle</span>`;
     }
   });
 }
@@ -141,7 +141,7 @@ function setupArenaReplay(replay) {
     item.className = `event-feed-item ${evt.type}`;
     item.innerHTML = `
       <div>
-        <strong style="color: #fff; margin-right: 0.5rem;">${evt.badge}</strong>
+        <strong style="color: #fff; margin-right: 0.5rem;">[${evt.badge}]</strong>
         <span style="color: var(--text-muted);">${evt.text}</span>
       </div>
       <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);">Step ${evt.step}</div>
@@ -201,7 +201,7 @@ function initArenaControls() {
 function startAutoPlay() {
   if (!currentReplay) return;
   isAutoPlaying = true;
-  document.getElementById("play-pause-icon").textContent = "⏸ Pause Auto";
+  document.getElementById("play-pause-icon").textContent = "Pause Auto";
   const speed = parseInt(document.getElementById("arena-speed-select").value, 10) || 400;
 
   autoPlayTimer = setInterval(() => {
@@ -217,7 +217,7 @@ function stopAutoPlay() {
   isAutoPlaying = false;
   clearInterval(autoPlayTimer);
   const icon = document.getElementById("play-pause-icon");
-  if (icon) icon.textContent = "▶ Play Auto";
+  if (icon) icon.textContent = "Play Auto";
 }
 
 function renderStep(stepIdx) {
@@ -251,7 +251,7 @@ function renderStep(stepIdx) {
 
     const p0Energies = p0.energies || [];
     const p0EnergyBox = document.getElementById("p0-energy-stack");
-    p0EnergyBox.innerHTML = p0Energies.map(() => `<div class="energy-orb">⚡</div>`).join('') || '<span style="font-size: 0.75rem; color: var(--text-dim);">No energy</span>';
+    p0EnergyBox.innerHTML = p0Energies.map(() => `<div class="energy-orb">L</div>`).join('') || '<span style="font-size: 0.75rem; color: var(--text-dim);">No energy</span>';
   }
 
   // Render Player 1 Active & Bench
@@ -270,7 +270,7 @@ function renderStep(stepIdx) {
 
     const p1Energies = p1.energies || [];
     const p1EnergyBox = document.getElementById("p1-energy-stack");
-    p1EnergyBox.innerHTML = p1Energies.map(() => `<div class="energy-orb" style="background:#ef4444; color:#fff;">⚡</div>`).join('') || '<span style="font-size: 0.75rem; color: var(--text-dim);">No energy</span>';
+    p1EnergyBox.innerHTML = p1Energies.map(() => `<div class="energy-orb" style="background:#ef4444; color:#fff;">E</div>`).join('') || '<span style="font-size: 0.75rem; color: var(--text-dim);">No energy</span>';
   }
 
   // Render Prize Docks
@@ -323,7 +323,7 @@ function renderDecisionTree(decision) {
       <div>
         <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
           <span style="font-weight: 800; font-size: 1rem; color: ${isChosen ? 'var(--emerald)' : '#fff'};">
-            ${isChosen ? '🏆 [CHOSEN]' : (isRunnerUp ? '🥈 [RUNNER-UP]' : '❌ [REJECTED]')} Option ${opt.index}: ${opt.name}
+            ${isChosen ? '[CHOSEN]' : (isRunnerUp ? '[RUNNER-UP]' : '[REJECTED]')} Option ${opt.index}: ${opt.name}
           </span>
           <span class="brand-version" style="font-size: 0.7rem;">Type Code ${opt.type}</span>
         </div>
@@ -433,7 +433,7 @@ function initBenchmarkRunner() {
   btn.addEventListener("click", async () => {
     const numGames = parseInt(document.getElementById("benchmark-games-select").value, 10) || 10;
     btn.disabled = true;
-    btn.innerHTML = `<span>⏳ Benchmarking ${numGames} Games...</span>`;
+    btn.innerHTML = `<span>Benchmarking ${numGames} Games...</span>`;
 
     try {
       const res = await fetch("/api/benchmark", {
@@ -454,13 +454,13 @@ function initBenchmarkRunner() {
       alert("Error running benchmark: " + err.message);
     } finally {
       btn.disabled = false;
-      btn.innerHTML = `<span>🚀 Run Benchmark</span>`;
+      btn.innerHTML = `<span>Run Benchmark</span>`;
     }
   });
 }
 
 /* --------------------------------------------------------------------------
-   8. 3D Holographic Strategy & Card Codex
+   8. Card & Strategy Codex
    -------------------------------------------------------------------------- */
 async function fetchCodex() {
   try {
@@ -478,10 +478,10 @@ async function fetchCodex() {
           <img src="${card.img}" alt="${card.name}" class="holo-card-art" loading="lazy">
           <div class="holo-card-content">
             <div class="holo-card-name">${card.name}</div>
-            <div class="holo-card-meta">${card.category} ${card.element} | ${card.copies} Copies</div>
+            <div class="holo-card-meta">${card.category} (${card.element}) | ${card.copies} Copies</div>
             ${card.hp > 0 ? `<div style="font-weight: 700; font-size: 0.85rem;">HP: ${card.hp} | Atk Dmg: ${card.damage}</div>` : ''}
             <div class="holo-card-desc">${card.description}</div>
-            <div class="holo-card-ai-note">💡 ${card.ai_priority}</div>
+            <div class="holo-card-ai-note">AI Priority: ${card.ai_priority}</div>
           </div>
         </div>
       `;
