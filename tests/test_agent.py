@@ -6,10 +6,19 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import main
-from src.state_evaluator import parse_game_state, GameState
-from src.immunity_handler import is_ex_attacker, is_target_immune_to_ex, calculate_immunity_multiplier
-from src.value_function import evaluate_board_value
-from src.shallow_search import shallow_risk_aware_search, project_action, estimate_opponent_retaliation
+from agent.state import parse_game_state, GameState
+from agent.evaluator import (
+    is_ex_attacker,
+    is_target_immune_to_ex,
+    calculate_immunity_multiplier,
+    evaluate_board_value,
+    estimate_raw_damage,
+)
+from agent.search import (
+    shallow_risk_aware_search,
+    project_action,
+    estimate_opponent_counterattack,
+)
 from agent.opponent_model import (
     calculate_hypergeometric_prob,
     estimate_energy_probability,
@@ -18,6 +27,8 @@ from agent.opponent_model import (
     estimate_next_attack_probability,
     estimate_opponent_threat,
 )
+from agent.risk_model import determine_risk_profile
+from agent.fallback import deterministic_fallback, make_distinct_choice
 from kaggle_environments import make
 
 
@@ -58,28 +69,24 @@ def test_opponent_model_estimations():
                 {
                     "prize": [1, 2, 3, 4, 5],
                     "deckCount": 35,
+                    "handCount": 5,
                     "active": [{"id": 723, "hp": 350, "maxHp": 350, "energies": [3]}],
-                    "bench": [{"id": 721, "hp": 150}]
-                }
-            ]
-        }
+                    "bench": [{"id": 721, "hp": 150}],
+                    "discard": [1092, 3],
+                },
+            ],
+        },
     }
     state = parse_game_state(obs)
-    p_energy = estimate_energy_probability(state)
-    assert 0.0 <= p_energy <= 1.0
+    p_attack = estimate_next_attack_probability(state)
+    assert 0.0 <= p_attack <= 1.0
 
     p_gust = estimate_gust_probability(state)
     assert 0.0 <= p_gust <= 1.0
 
-    p_evo = estimate_evolution_probability(state)
-    assert 0.0 <= p_evo <= 1.0
-
-    p_attack = estimate_next_attack_probability(state)
-    assert 0.0 <= p_attack <= 1.0
-
     threat = estimate_opponent_threat(state)
-    assert "overall_threat_score" in threat
-    assert threat["overall_threat_score"] >= 0.0
+    assert "threat_level" in threat
+    assert threat["expected_damage"] >= 0.0
 
 
 def test_state_projection_and_retaliation():
@@ -90,22 +97,73 @@ def test_state_projection_and_retaliation():
             "maxCount": 1,
             "option": [
                 {"type": 7, "index": 0},  # Attack
-            ]
+            ],
         },
         "current": {
             "yourIndex": 0,
             "players": [
                 {"active": [{"id": 723, "hp": 350, "energies": [3, 3, 3]}], "prize": [1]},
-                {"active": [{"id": 721, "hp": 100}], "prize": [1, 2, 3]}
-            ]
-        }
+                {"active": [{"id": 721, "hp": 100}], "prize": [1, 2, 3]},
+            ],
+        },
     }
     state = parse_game_state(obs)
-    projected = project_action(state, 0)
+    projected, bonus = project_action(state, 0)
     assert projected.your_prizes == 0  # KO achieved -> 0 prizes remaining!
+    assert bonus > 0.0
 
-    retaliation = estimate_opponent_retaliation(projected)
+    retaliation = estimate_opponent_counterattack(projected)
     assert isinstance(retaliation, float)
+
+
+def test_dynamic_risk_profiles():
+    # Test Match Point
+    obs_mp = {
+        "select": {"type": 0, "option": []},
+        "current": {
+            "yourIndex": 0,
+            "players": [
+                {"prize": [1], "deckCount": 30},
+                {"prize": [1, 2, 3, 4, 5, 6], "deckCount": 30},
+            ],
+        },
+    }
+    s_mp = parse_game_state(obs_mp)
+    risk_mp = determine_risk_profile(s_mp)
+    assert risk_mp.mode == "MATCH_POINT_RUSH"
+    assert risk_mp.aggression_bonus >= 2.0
+
+    # Test Anti-Deckout
+    obs_do = {
+        "select": {"type": 0, "option": []},
+        "current": {
+            "yourIndex": 0,
+            "players": [
+                {"prize": [1, 2, 3], "deckCount": 3},
+                {"prize": [1, 2, 3], "deckCount": 30},
+            ],
+        },
+    }
+    s_do = parse_game_state(obs_do)
+    risk_do = determine_risk_profile(s_do)
+    assert risk_do.mode == "ANTI_DECKOUT"
+
+
+def test_deterministic_fallback():
+    # Empty options
+    assert deterministic_fallback({}) == []
+    assert deterministic_fallback(None) == []
+
+    # Valid options
+    sel = {"minCount": 1, "maxCount": 2, "option": [{"type": 1}, {"type": 2}, {"type": 3}]}
+    choice = deterministic_fallback(sel)
+    assert len(choice) == 2
+    assert choice == [0, 1]
+
+    # Distinct choice helper
+    res = make_distinct_choice([5, 0, 1], n_opts=3, max_cnt=2)
+    assert len(res) == 2
+    assert res == [0, 1]
 
 
 def test_path_resolution_independent_of_cwd(tmp_path):
@@ -122,13 +180,13 @@ def test_full_game_simulation():
     main.reset_diagnostics()
     env = make("cabt", debug=False)
     env.run([main.agent, main.agent])
-    
+
     assert len(env.steps) > 0
     final_step = env.steps[-1]
-    
+
     assert final_step[0].status != "INVALID"
     assert final_step[1].status != "INVALID"
-    
+
     diag = main.get_diagnostics()
     assert diag["decisions"] > 0
     assert diag["exceptions"] == 0

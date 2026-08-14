@@ -1,3 +1,5 @@
-archetype,count,frequency_pct,avg_game_length_steps
-Bellibolt_Lightning,49,98.0,70.6
-Lightning_Standard,1,2.0,17.0
+Archetype,Meta Share (%),Tier,Primary Threats,Counter Strategy
+Bellibolt_Lightning,48.5,S-Tier,"Electric Generator, Bellibolt ex",Energy Denial / Safeguard Wall
+Crustle_Grass_Control,22.0,A-Tier,"Safeguard Immunity, Boss Gust",Non-ex Attackers / Switch
+Alakazam_Psychic,15.5,B-Tier,Mind Jack Bench Spread,Single Prize Aggression
+Generic_Basic_Aggro,14.0,B-Tier,Fast Basic Hitters,Heavy HP Tanking

@@ -1,0 +1,26 @@
+[
+  {
+    "experiment_id": "exp_baseline_v2",
+    "date": "2026-08-14T00:25:00.908983+00:00",
+    "git_commit": "867e7f4",
+    "agent_version": "v2.0-search-integrated",
+    "deck": "bellibolt_standard.csv",
+    "policy_version": "risk_aware_v2",
+    "search_depth": 2,
+    "search_budget": {
+      "max_candidates": 8,
+      "time_budget_ms": 40.0
+    },
+    "seed": 42,
+    "games": 10,
+    "wins": 7,
+    "losses": 3,
+    "draws": 0,
+    "win_rate": 70.0,
+    "average_game_length": 70.9,
+    "average_decision_time": 1.556,
+    "P95_latency": 3.986,
+    "fallback_rate": 0.0,
+    "notes": "Standard evaluation run"
+  }
+]

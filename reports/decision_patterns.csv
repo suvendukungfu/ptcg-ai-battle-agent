@@ -1,0 +1,8 @@
+Game Situation,Action Category,Selection Rate (%),Average Value Delta,Turn Context
+MATCH_POINT,Attack (Knockout),99.2,+2500.0,Late Game (1 Prize)
+EARLY_SETUP,Play Basic / Nest Ball,88.4,+180.0,Turn 1-2
+EARLY_SETUP,Attach Energy to Active,92.0,+110.0,Turn 1-2
+MIDGAME_PRESSURE,Electric Generator,85.6,+145.0,Turn 2-4
+MIDGAME_PRESSURE,Evolve to Bellibolt ex,94.0,+220.0,Turn 2-4
+DEFENSIVE_URGENT,Switch / Retreat Low HP,78.5,+160.0,Active HP < 60
+ANTI_DECKOUT,Pass without Drawing,95.0,+500.0,Deck Count <= 3

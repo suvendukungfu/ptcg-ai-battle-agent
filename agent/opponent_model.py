@@ -1,154 +1,206 @@
 import math
-from typing import Dict, Any, Optional
-from src.state_evaluator import GameState
-
-# Expected archetype composition priors (meta reference)
-ARCHETYPE_PRIORS = {
-    "total_energy": 28,
-    "total_gust": 3,      # Boss's Orders (1262)
-    "total_evolution": 6, # Bellibolt (722) + Bellibolt ex (723)
-    "total_search": 8,    # Ultra Ball (1121) + Nest Ball (1227)
-    "total_draw": 3,      # Professor's Research (1092)
-}
+from typing import Dict, Any, List, Set, Optional
+from agent.state import GameState
+from agent.card_database import get_card, get_pokemon_data
 
 
-def calculate_hypergeometric_prob(population_size: int, success_count: int, sample_size: int) -> float:
-    """Calculate probability of drawing at least 1 success card using hypergeometric distribution."""
-    N = max(1, population_size)
-    K = max(0, min(N, success_count))
-    n = max(0, min(N, sample_size))
-
-    if K == 0 or n == 0:
+def calculate_hypergeometric_prob(N: int, K: int, n: int, k: int = 1) -> float:
+    """
+    Compute cumulative hypergeometric probability P(X >= k).
+    N = Total remaining cards in population (opponent deck)
+    K = Number of success states in population (remaining target copies)
+    n = Number of draws (sample size, e.g. hand or search draw)
+    k = Minimum observed successes (default: at least 1)
+    """
+    if N <= 0 or K <= 0 or n <= 0:
         return 0.0
-    if K >= N:
-        return 1.0
-    if n >= N:
-        return 1.0
+    if K > N:
+        K = N
+    if n > N:
+        n = N
 
-    prob_zero = 1.0
-    for i in range(n):
-        numerator = N - K - i
-        denominator = N - i
-        if numerator <= 0:
-            prob_zero = 0.0
-            break
-        prob_zero *= (numerator / denominator)
+    def comb(n_items: int, k_items: int) -> float:
+        if k_items < 0 or k_items > n_items:
+            return 0.0
+        return math.comb(n_items, k_items)
 
-    return max(0.0, min(1.0, 1.0 - prob_zero))
+    total_ways = comb(N, n)
+    if total_ways == 0:
+        return 0.0
+
+    prob_less_than_k = 0.0
+    for i in range(0, k):
+        ways_success = comb(K, i)
+        ways_failure = comb(N - K, n - i)
+        prob_less_than_k += (ways_success * ways_failure) / total_ways
+
+    prob_at_least_k = max(0.0, min(1.0, 1.0 - prob_less_than_k))
+    return prob_at_least_k
 
 
-def get_observable_opponent_counts(state: GameState) -> Dict[str, int]:
-    """Count visible opponent cards strictly from public zones (active, bench, discard)."""
-    counts = {
-        "seen_energy": 0,
-        "seen_gust": 0,
-        "seen_evolution": 0,
-        "seen_search": 0,
-        "seen_draw": 0,
-        "total_seen": 0,
-    }
+def classify_opponent_archetype(seen_cards: Set[int]) -> str:
+    """
+    Classify opponent deck archetype based strictly on observable cards.
+    """
+    if 723 in seen_cards or 722 in seen_cards or 721 in seen_cards:
+        return "Bellibolt_Lightning"
+    elif 542 in seen_cards or 541 in seen_cards:
+        return "Crustle_Grass_Control"
+    elif 65 in seen_cards or 64 in seen_cards or 63 in seen_cards:
+        return "Alakazam_Psychic"
+    elif any(c in seen_cards for c in (1092, 1121, 1219, 1227)):
+        return "Lightning_Standard"
+    return "Generic_Basic"
 
+
+def get_observable_opponent_cards(state: GameState) -> Set[int]:
+    """Collect all card IDs that have been legitimately revealed in opponent zones."""
+    seen: Set[int] = set()
     if state.opp_active and isinstance(state.opp_active, dict):
-        counts["total_seen"] += 1
-        card_id = state.opp_active.get("id", 0)
-        if card_id in (722, 723):
-            counts["seen_evolution"] += 1
-        energies = state.opp_active.get("energies", [])
-        if isinstance(energies, list):
-            counts["seen_energy"] += len(energies)
-            counts["total_seen"] += len(energies)
-
-    for pkmn in state.opp_bench:
-        if pkmn and isinstance(pkmn, dict):
-            counts["total_seen"] += 1
-            card_id = pkmn.get("id", 0)
-            if card_id in (722, 723):
-                counts["seen_evolution"] += 1
-            energies = pkmn.get("energies", [])
-            if isinstance(energies, list):
-                counts["seen_energy"] += len(energies)
-                counts["total_seen"] += len(energies)
-
-    return counts
+        cid = state.opp_active.get("id")
+        if cid:
+            seen.add(cid)
+    for b in state.opp_bench:
+        if b and isinstance(b, dict):
+            cid = b.get("id")
+            if cid:
+                seen.add(cid)
+    for d in state.opp_discard:
+        if isinstance(d, dict):
+            cid = d.get("id")
+            if cid:
+                seen.add(cid)
+        elif isinstance(d, int):
+            seen.add(d)
+    return seen
 
 
 def estimate_energy_probability(state: GameState) -> float:
-    """Estimate probability that opponent holds at least 1 energy card in hand."""
-    try:
-        opp_hand_size = max(1, min(15, 6 - state.opp_prizes + 4))
-        opp_deck_size = max(1, state.opp_deck_count) if state.opp_deck_count > 0 else 40
-        unseen_population = opp_deck_size + opp_hand_size
+    """Estimate probability that opponent has an attachable energy card in hand."""
+    opp_deck_count = max(1, state.opp_deck_count)
+    opp_hand_count = max(1, state.opp_hand_count)
 
-        seen = get_observable_opponent_counts(state)
-        remaining_energy = max(0, ARCHETYPE_PRIORS["total_energy"] - seen["seen_energy"])
+    # Typical competitive deck runs 10-33 energies (Bellibolt archetype has ~30 energies)
+    seen_cards = get_observable_opponent_cards(state)
+    seen_energies = state.total_opp_energies
 
-        return calculate_hypergeometric_prob(unseen_population, remaining_energy, opp_hand_size)
-    except Exception:
-        return 0.65  # Conservative default
+    # Standard distribution: 15-20 total energies in deck
+    estimated_total_energies = 20
+    remaining_energies = max(1, estimated_total_energies - seen_energies)
+
+    return calculate_hypergeometric_prob(opp_deck_count + opp_hand_count, remaining_energies, opp_hand_count, 1)
 
 
 def estimate_gust_probability(state: GameState) -> float:
-    """Estimate probability that opponent holds Boss's Orders (gust) in hand."""
-    try:
-        opp_hand_size = max(1, min(15, 6 - state.opp_prizes + 4))
-        opp_deck_size = max(1, state.opp_deck_count) if state.opp_deck_count > 0 else 40
-        unseen_population = opp_deck_size + opp_hand_size
+    """Estimate probability that opponent can play Boss's Orders / Gust effect."""
+    opp_deck_count = max(1, state.opp_deck_count)
+    opp_hand_count = max(1, state.opp_hand_count)
 
-        seen = get_observable_opponent_counts(state)
-        remaining_gust = max(0, ARCHETYPE_PRIORS["total_gust"] - seen["seen_gust"])
+    # Count Boss's Orders (Card ID 1262 or similar) seen in discard
+    seen_boss = 0
+    for d in state.opp_discard:
+        cid = d.get("id") if isinstance(d, dict) else d
+        if cid == 1262:
+            seen_boss += 1
 
-        return calculate_hypergeometric_prob(unseen_population, remaining_gust, opp_hand_size)
-    except Exception:
-        return 0.20  # Conservative default
+    remaining_boss = max(0, 2 - seen_boss)
+    if remaining_boss == 0:
+        return 0.0
+
+    return calculate_hypergeometric_prob(opp_deck_count + opp_hand_count, remaining_boss, opp_hand_count, 1)
 
 
 def estimate_evolution_probability(state: GameState) -> float:
-    """Estimate probability that opponent holds an evolution card in hand."""
-    try:
-        opp_hand_size = max(1, min(15, 6 - state.opp_prizes + 4))
-        opp_deck_size = max(1, state.opp_deck_count) if state.opp_deck_count > 0 else 40
-        unseen_population = opp_deck_size + opp_hand_size
+    """Estimate probability that opponent can evolve an active or benched basic."""
+    opp_deck_count = max(1, state.opp_deck_count)
+    opp_hand_count = max(1, state.opp_hand_count)
 
-        seen = get_observable_opponent_counts(state)
-        remaining_evo = max(0, ARCHETYPE_PRIORS["total_evolution"] - seen["seen_evolution"])
+    # Check if opponent has basic Pokemon on board that can evolve
+    has_evolvable_basic = False
+    if state.opp_active and state.opp_active.get("id") == 721:
+        has_evolvable_basic = True
+    for b in state.opp_bench:
+        if b and b.get("id") == 721:
+            has_evolvable_basic = True
 
-        return calculate_hypergeometric_prob(unseen_population, remaining_evo, opp_hand_size)
-    except Exception:
-        return 0.35  # Conservative default
+    if not has_evolvable_basic:
+        return 0.1
+
+    # Standard 4 copies of Stage 1 / ex evolutions
+    seen_evos = sum(1 for c in get_observable_opponent_cards(state) if c in (722, 723))
+    remaining_evos = max(0, 8 - seen_evos)
+    return calculate_hypergeometric_prob(opp_deck_count + opp_hand_count, remaining_evos, opp_hand_count, 1)
 
 
 def estimate_next_attack_probability(state: GameState) -> float:
-    """Estimate probability that opponent will execute an attack on their next turn."""
-    if not state.opp_active or not isinstance(state.opp_active, dict):
+    """Estimate probability that opponent can launch an attack on their upcoming turn."""
+    if not state.opp_active:
         return 0.0
 
-    energies = state.opp_active.get("energies", [])
+    opp_active = state.opp_active
+    energies = opp_active.get("energies", [])
     energy_cnt = len(energies) if isinstance(energies, list) else 0
-    card_id = state.opp_active.get("id", 0)
 
-    needed_energy = 1 if card_id == 721 else (2 if card_id == 722 else 2)
+    cid = opp_active.get("id", 0)
 
-    if energy_cnt >= needed_energy:
-        return 1.0
-    elif energy_cnt == needed_energy - 1:
-        return estimate_energy_probability(state)
-    else:
-        return estimate_energy_probability(state) * 0.30
+    # Bellibolt ex (723) needs 2 energies for Electro Bullet (160 dmg)
+    if cid == 723:
+        if energy_cnt >= 2:
+            return 0.95
+        elif energy_cnt == 1:
+            # Needs 1 more energy attachment
+            p_energy = estimate_energy_probability(state)
+            return 0.85 * p_energy
+        else:
+            return 0.20
+
+    # Basic Tadbulb (721) needs 1 energy
+    elif cid == 721:
+        if energy_cnt >= 1:
+            return 0.80
+        p_energy = estimate_energy_probability(state)
+        return 0.70 * p_energy
+
+    # Default general estimation
+    if energy_cnt >= 2:
+        return 0.85
+    elif energy_cnt == 1:
+        return 0.60
+    return 0.25
 
 
-def estimate_opponent_threat(state: GameState) -> Dict[str, float]:
-    """Aggregate opponent threat assessment metrics into a unified dictionary."""
-    p_energy = estimate_energy_probability(state)
+def estimate_opponent_threat(state: GameState) -> Dict[str, Any]:
+    """Calculate comprehensive opponent threat assessment based strictly on observable data."""
+    seen_cards = get_observable_opponent_cards(state)
+    archetype = classify_opponent_archetype(seen_cards)
+    p_attack = estimate_next_attack_probability(state)
     p_gust = estimate_gust_probability(state)
     p_evo = estimate_evolution_probability(state)
-    p_attack = estimate_next_attack_probability(state)
 
-    threat_score = (p_attack * 60.0) + (p_gust * 30.0) + (p_evo * 20.0)
+    # Base damage estimate
+    expected_damage = 0.0
+    if state.opp_active:
+        cid = state.opp_active.get("id", 0)
+        if cid == 723:
+            expected_damage = 160.0 * p_attack
+        elif cid == 722:
+            expected_damage = 70.0 * p_attack
+        elif cid == 721:
+            expected_damage = 30.0 * p_attack
+        else:
+            expected_damage = 50.0 * p_attack
+
+    threat_level = "LOW"
+    if expected_damage >= 150.0 or (p_gust > 0.6 and state.your_bench):
+        threat_level = "HIGH"
+    elif expected_damage >= 70.0 or p_attack > 0.7:
+        threat_level = "MEDIUM"
 
     return {
-        "prob_energy": p_energy,
-        "prob_gust": p_gust,
-        "prob_evolution": p_evo,
-        "prob_next_attack": p_attack,
-        "overall_threat_score": threat_score,
+        "archetype": archetype,
+        "p_attack": p_attack,
+        "p_gust": p_gust,
+        "p_evolution": p_evo,
+        "expected_damage": expected_damage,
+        "threat_level": threat_level,
     }

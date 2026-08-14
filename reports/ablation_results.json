@@ -1,0 +1,281 @@
+{
+  "leaderboard": [
+    {
+      "agent": "B_rules_evaluator",
+      "elo": 1559.0,
+      "win_rate": 65.0,
+      "wins": 13,
+      "losses": 7,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 59.5
+    },
+    {
+      "agent": "A_rules_only",
+      "elo": 1545.9,
+      "win_rate": 60.0,
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 56.1
+    },
+    {
+      "agent": "F_full_system",
+      "elo": 1533.1,
+      "win_rate": 55.0,
+      "wins": 11,
+      "losses": 9,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 52.0
+    },
+    {
+      "agent": "C_rules_search",
+      "elo": 1497.9,
+      "win_rate": 50.0,
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 61.5
+    },
+    {
+      "agent": "D_rules_opponent_model",
+      "elo": 1446.6,
+      "win_rate": 35.0,
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 64.8
+    },
+    {
+      "agent": "E_search_opponent_model",
+      "elo": 1417.5,
+      "win_rate": 35.0,
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "total_games": 20,
+      "avg_steps": 60.2
+    }
+  ],
+  "elos": {
+    "A_rules_only": 1545.9371663867514,
+    "B_rules_evaluator": 1558.9760221019378,
+    "C_rules_search": 1497.8592400021448,
+    "D_rules_opponent_model": 1446.6145082585765,
+    "E_search_opponent_model": 1417.5133079383131,
+    "F_full_system": 1533.0997553122763
+  },
+  "records": {
+    "A_rules_only": {
+      "wins": 12,
+      "losses": 8,
+      "draws": 0,
+      "games": 20,
+      "steps": 1122
+    },
+    "B_rules_evaluator": {
+      "wins": 13,
+      "losses": 7,
+      "draws": 0,
+      "games": 20,
+      "steps": 1189
+    },
+    "C_rules_search": {
+      "wins": 10,
+      "losses": 10,
+      "draws": 0,
+      "games": 20,
+      "steps": 1231
+    },
+    "D_rules_opponent_model": {
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "games": 20,
+      "steps": 1297
+    },
+    "E_search_opponent_model": {
+      "wins": 7,
+      "losses": 13,
+      "draws": 0,
+      "games": 20,
+      "steps": 1204
+    },
+    "F_full_system": {
+      "wins": 11,
+      "losses": 9,
+      "draws": 0,
+      "games": 20,
+      "steps": 1041
+    }
+  },
+  "matchup_matrix": {
+    "A_rules_only": {
+      "B_rules_evaluator": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "C_rules_search": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "D_rules_opponent_model": {
+        "wins": 4,
+        "losses": 0,
+        "draws": 0
+      },
+      "E_search_opponent_model": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "F_full_system": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      }
+    },
+    "B_rules_evaluator": {
+      "A_rules_only": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "C_rules_search": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "D_rules_opponent_model": {
+        "wins": 4,
+        "losses": 0,
+        "draws": 0
+      },
+      "E_search_opponent_model": {
+        "wins": 3,
+        "losses": 1,
+        "draws": 0
+      },
+      "F_full_system": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      }
+    },
+    "C_rules_search": {
+      "A_rules_only": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "B_rules_evaluator": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "D_rules_opponent_model": {
+        "wins": 1,
+        "losses": 3,
+        "draws": 0
+      },
+      "E_search_opponent_model": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "F_full_system": {
+        "wins": 3,
+        "losses": 1,
+        "draws": 0
+      }
+    },
+    "D_rules_opponent_model": {
+      "A_rules_only": {
+        "wins": 0,
+        "losses": 4,
+        "draws": 0
+      },
+      "B_rules_evaluator": {
+        "wins": 0,
+        "losses": 4,
+        "draws": 0
+      },
+      "C_rules_search": {
+        "wins": 3,
+        "losses": 1,
+        "draws": 0
+      },
+      "E_search_opponent_model": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "F_full_system": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      }
+    },
+    "E_search_opponent_model": {
+      "A_rules_only": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "B_rules_evaluator": {
+        "wins": 1,
+        "losses": 3,
+        "draws": 0
+      },
+      "C_rules_search": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "D_rules_opponent_model": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "F_full_system": {
+        "wins": 0,
+        "losses": 4,
+        "draws": 0
+      }
+    },
+    "F_full_system": {
+      "A_rules_only": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "B_rules_evaluator": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "C_rules_search": {
+        "wins": 1,
+        "losses": 3,
+        "draws": 0
+      },
+      "D_rules_opponent_model": {
+        "wins": 2,
+        "losses": 2,
+        "draws": 0
+      },
+      "E_search_opponent_model": {
+        "wins": 4,
+        "losses": 0,
+        "draws": 0
+      }
+    }
+  },
+  "duration_sec": 13.406458292000025
+}

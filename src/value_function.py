@@ -25,9 +25,9 @@ def evaluate_board_value(state: GameState) -> float:
     # 2. Active Pokémon HP & Opponent Active HP
     if state.your_active and isinstance(state.your_active, dict):
         hp = float(state.your_active.get("hp", 0))
-        max_hp = float(state.your_active.get("maxHp", 1))
+        max_hp = float(state.your_active.get("maxHp") or state.your_active.get("hp") or 100)
         if max_hp > 0:
-            value += (hp / max_hp) * 100.0
+            value += min(1.0, hp / max_hp) * 100.0
             
         energies = state.your_active.get("energies", [])
         energy_cnt = len(energies) if isinstance(energies, list) else 0
@@ -35,13 +35,13 @@ def evaluate_board_value(state: GameState) -> float:
 
     if state.opp_active and isinstance(state.opp_active, dict):
         opp_hp = float(state.opp_active.get("hp", 0))
-        opp_max_hp = float(state.opp_active.get("maxHp", 1))
+        opp_max_hp = float(state.opp_active.get("maxHp") or state.opp_active.get("hp") or 100)
         if opp_max_hp > 0:
-            value -= (opp_hp / opp_max_hp) * 80.0
+            value -= min(1.0, opp_hp / opp_max_hp) * 80.0
 
         opp_energies = state.opp_active.get("energies", [])
         opp_energy_cnt = len(opp_energies) if isinstance(opp_energies, list) else 0
-        value -= opp_energy_cnt * 20.0  # Opponent active threat level
+        value -= opp_energy_cnt * 20.0
 
     # 3. Viable Attackers & Bench Quality
     viable_attackers = 0

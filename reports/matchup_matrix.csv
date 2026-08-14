@@ -1,0 +1,5 @@
+Agent / Archetype,Production_Agent_V2,Heuristic_V1_Agent,Random_Baseline,First_Legal_Baseline
+Production_Agent_V2,50.0%,66.7%,83.3%,66.7%
+Heuristic_V1_Agent,33.3%,50.0%,83.3%,50.0%
+Random_Baseline,16.7%,16.7%,50.0%,0.0%
+First_Legal_Baseline,33.3%,50.0%,100.0%,50.0%
