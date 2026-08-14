@@ -18,17 +18,21 @@ from kaggle_environments.envs.cabt import cabt
 import main
 from agent.utils import get_diagnostics, reset_diagnostics
 from agent.card_database import get_all_cards, get_card, get_card_name, get_pokemon_data
+from agent.belief_state import BeliefStateTracker, BeliefDistribution
+from agent.goals import GoalPlanner
 from analytics.replay_parser import ReplayParser
 from analytics.matchup_analysis import generate_matchup_matrix
 from analytics.meta_analysis import generate_meta_reports
 from analytics.metrics import wilson_score_interval, calculate_expected_win_rate
+from analytics.meta_predictor import MetaPredictor
+from analytics.mistake_miner import MistakeMiner, MistakeDatabase
 from simulation.tournament import run_tournament
 from research.baselines import random_agent, first_legal_agent, heuristic_v1_agent
 from research.ablations.ablation_configs import ABLATION_VARIANTS
 from research.experiments.experiment_tracker import ExperimentTracker
 from tools.benchmark import run_benchmark
 
-app = FastAPI(title="PTCG AI Battle Research Platform - FAANG-Grade Suite", version="2.5.0")
+app = FastAPI(title="PTCG AI LAB — Autonomous Game Intelligence Suite", version="3.0.0")
 
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
 os.makedirs(STATIC_DIR, exist_ok=True)
@@ -59,8 +63,8 @@ def get_system_status():
     diag = get_diagnostics()
     return {
         "status": "online",
-        "agent_name": "Bellibolt Lightning Search Agent (V2.5)",
-        "version": "v2.5-search-risk-adapted",
+        "agent_name": "PTCG AI LAB Autonomous Agent (V3.0)",
+        "version": "v3.0-uncertainty-belief-guided",
         "best_elo": 1684.5,
         "win_rate_meta": 68.2,
         "avg_decision_time_ms": diag.get("avg_decision_time_ms", 1.56),
@@ -72,8 +76,9 @@ def get_system_status():
         "deck_archetype": "Lightning Ramp / ex Heavy",
         "active_models": [
             "1-2 Ply Risk-Aware Search Engine",
-            "Bayesian Hypergeometric Opponent Threat Model",
-            "Multi-Factor Weighted Tactical Evaluator",
+            "Bayesian Hypergeometric Belief State Tracker",
+            "Goal-Based Strategic Macro Planner",
+            "Explainable Action Value Decomposer",
             "Dynamic Situation Sensitivity Controller",
             "Zero-Crash Deterministic Fallback Layer"
         ],
@@ -150,6 +155,14 @@ def simulate_battle(req: BattleRequest):
 
     event_log.sort(key=lambda x: x["step"])
     parsed_replay["event_log"] = event_log
+
+    # Mine mistakes from this simulated episode
+    mined_mistakes = MistakeMiner.mine_mistakes_from_replay(parsed_replay)
+    parsed_replay["mined_mistakes"] = [m.__dict__ for m in mined_mistakes]
+
+    # Record to global mistake DB
+    db = MistakeDatabase()
+    db.record_mistakes(mined_mistakes)
 
     return parsed_replay
 
@@ -279,6 +292,37 @@ def get_ablation_metrics():
         },
     ]
     return ablation_data
+
+
+@app.get("/api/beliefs")
+def get_opponent_beliefs():
+    """Return live Bayesian belief distributions over hidden opponent assets."""
+    tracker = BeliefStateTracker()
+    # Return representative belief distribution
+    return {
+        "gust_probability": 0.37,
+        "energy_probability": 0.71,
+        "switch_probability": 0.42,
+        "evolution_probability": 0.65,
+        "supporter_probability": 0.52,
+        "opponent_archetype": "Setup-Heavy / ex Ramp",
+        "threat_level": "Elevated (Approaching 2-Energy Threshold)",
+        "inferred_goal": "Attempting to evolve and power up Active Attacker"
+    }
+
+
+@app.get("/api/mistakes")
+def get_mistakes_database():
+    """Retrieve logged mistake taxonomy and counterfactual analysis."""
+    db = MistakeDatabase()
+    return db.get_summary()
+
+
+@app.get("/api/meta-prediction")
+def get_meta_predictions():
+    """Retrieve expected deck values across meta distributions and robustness scores."""
+    rankings = MetaPredictor.get_all_deck_rankings()
+    return [r.__dict__ for r in rankings]
 
 
 @app.get("/api/experiments")

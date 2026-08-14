@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PTCG AI BATTLE PLATFORM - INTERACTIVE ENGINE
+   PTCG AI LAB - AUTONOMOUS RESEARCH ENGINE UI SCRIPT
    ========================================================================== */
 
 let currentReplay = null;
@@ -10,7 +10,9 @@ let autoPlayTimer = null;
 document.addEventListener("DOMContentLoaded", () => {
   initTabsAndKeybindings();
   fetchStatus();
-  fetchMatchupMatrix();
+  fetchBeliefs();
+  fetchMistakes();
+  fetchMetaPredictions();
   fetchAblations();
   fetchCodex();
   initBattleSimulator();
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. Tabs & Keyboard Navigation
+   1. Tabs & Keyboard Navigation (0-9)
    -------------------------------------------------------------------------- */
 function initTabsAndKeybindings() {
   const tabs = document.querySelectorAll(".tab-btn");
@@ -28,19 +30,25 @@ function initTabsAndKeybindings() {
     "tab-arena",
     "tab-replay",
     "tab-explainability",
-    "tab-matchup",
+    "tab-beliefs",
+    "tab-mistakes",
+    "tab-meta-forecast",
     "tab-ablations",
     "tab-benchmark",
     "tab-codex",
   ];
 
-  tabs.forEach((tab, index) => {
+  tabs.forEach((tab) => {
     tab.addEventListener("click", () => switchTab(tab.getAttribute("data-tab")));
   });
 
-  // Keyboard number shortcuts (1-8)
+  // Keyboard number shortcuts (1-9, 0 for 10th tab)
   window.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA") {
+      return;
+    }
+    if (e.key === "0") {
+      switchTab("tab-codex");
       return;
     }
     const keyNum = parseInt(e.key, 10);
@@ -88,7 +96,105 @@ async function fetchStatus() {
 }
 
 /* --------------------------------------------------------------------------
-   3. Live Battle Simulation Engine & Playback Controls
+   3. Opponent Belief Lab
+   -------------------------------------------------------------------------- */
+async function fetchBeliefs() {
+  try {
+    const res = await fetch("/api/beliefs");
+    if (!res.ok) return;
+    const data = await res.json();
+
+    document.getElementById("belief-gust-val").textContent = `${(data.gust_probability * 100).toFixed(1)}%`;
+    document.getElementById("belief-energy-val").textContent = `${(data.energy_probability * 100).toFixed(1)}%`;
+    document.getElementById("belief-switch-val").textContent = `${(data.switch_probability * 100).toFixed(1)}%`;
+    document.getElementById("belief-evo-val").textContent = `${(data.evolution_probability * 100).toFixed(1)}%`;
+  } catch (err) {
+    console.warn("Could not fetch beliefs:", err);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Mistake Mining & Critique
+   -------------------------------------------------------------------------- */
+async function fetchMistakes() {
+  try {
+    const res = await fetch("/api/mistakes");
+    if (!res.ok) return;
+    const data = await res.json();
+    const bd = data.breakdown || {};
+
+    document.getElementById("mistake-crit-count").textContent = bd.CRITICAL_MISTAKE || 0;
+    document.getElementById("mistake-miss-count").textContent = bd.MISSED_OPPORTUNITY || 0;
+    document.getElementById("mistake-tact-count").textContent = bd.TACTICAL_MISTAKE || 0;
+    document.getElementById("mistake-res-count").textContent = bd.RESOURCE_MISTAKE || 0;
+
+    const feed = document.getElementById("mistake-list-feed");
+    if (data.recent_mistakes && data.recent_mistakes.length > 0) {
+      feed.innerHTML = "";
+      data.recent_mistakes.forEach(m => {
+        const item = document.createElement("div");
+        item.className = "event-feed-item";
+        item.style.borderLeftColor = m.severity === "HIGH" ? "var(--rose)" : (m.severity === "MEDIUM" ? "var(--amber)" : "var(--primary)");
+        item.innerHTML = `
+          <div>
+            <strong style="color: #fff; margin-right: 0.5rem;">[${m.category}]</strong>
+            <span style="color: var(--text-muted);">${m.explanation}</span>
+            <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 0.2rem;">Chosen: ${m.chosen_action_desc} | Optimal: ${m.optimal_action_desc}</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: var(--rose);">
+            ${m.score_delta > 0 ? '-' : ''}${m.score_delta}
+          </div>
+        `;
+        feed.appendChild(item);
+      });
+    }
+  } catch (err) {
+    console.warn("Could not fetch mistakes:", err);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Meta Observatory & Robustness Rankings
+   -------------------------------------------------------------------------- */
+async function fetchMetaPredictions() {
+  try {
+    const res = await fetch("/api/meta-prediction");
+    if (!res.ok) return;
+    const rankings = await res.json();
+    const tbody = document.getElementById("meta-rankings-body");
+    tbody.innerHTML = "";
+
+    rankings.forEach(d => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="header-col">
+          <strong>${d.deck_name}</strong>
+          <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.2rem;">${d.rationale}</div>
+        </td>
+        <td style="font-weight: 800; color: ${d.expected_win_rate >= 60 ? 'var(--emerald)' : 'var(--text-main)'}; font-size: 1.05rem;">
+          ${d.expected_win_rate.toFixed(1)}%
+        </td>
+        <td style="font-weight: 800; color: var(--primary); font-size: 1.05rem;">
+          ${d.robustness_score.toFixed(1)}
+        </td>
+        <td style="font-family: var(--font-mono); font-size: 0.88rem;">${d.min_matchup_win_rate.toFixed(1)}%</td>
+        <td style="font-family: var(--font-mono); font-size: 0.88rem;">${d.max_matchup_win_rate.toFixed(1)}%</td>
+        <td style="font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono);">
+          [${d.confidence_interval_95[0].toFixed(1)}% - ${d.confidence_interval_95[1].toFixed(1)}%]
+        </td>
+        <td>
+          <span class="brand-version" style="font-size: 0.75rem;">${d.recommended_tier}</span>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.warn("Could not fetch meta predictions:", err);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Live Battle Simulation Engine & Playback Controls
    -------------------------------------------------------------------------- */
 function initBattleSimulator() {
   const btn = document.getElementById("btn-run-battle");
@@ -111,6 +217,7 @@ function initBattleSimulator() {
       const replay = await res.json();
       currentReplay = replay;
       setupArenaReplay(replay);
+      fetchMistakes(); // Refresh mined mistakes feed
     } catch (err) {
       alert("Error executing battle simulation: " + err.message);
     } finally {
@@ -302,7 +409,7 @@ function renderPrizeDock(containerId, prizesLeft) {
 }
 
 /* --------------------------------------------------------------------------
-   4. Decision Explainability Search Tree Visualizer
+   7. Decision Explainability & Value Decomposition
    -------------------------------------------------------------------------- */
 function renderDecisionTree(decision) {
   const container = document.getElementById("decision-tree-container");
@@ -345,57 +452,7 @@ function renderDecisionTree(decision) {
 }
 
 /* --------------------------------------------------------------------------
-   5. Matchup Matrix Heatmap
-   -------------------------------------------------------------------------- */
-async function fetchMatchupMatrix() {
-  try {
-    const res = await fetch("/api/matchup-matrix");
-    if (!res.ok) return;
-    const matrix = await res.json();
-    const tbody = document.getElementById("matchup-heatmap-body");
-    tbody.innerHTML = "";
-
-    matrix.data.forEach(row => {
-      const tr = document.createElement("tr");
-      let html = `<td class="header-col">${row.name}</td>`;
-
-      matrix.archetypes.forEach(arch => {
-        const cell = row[arch];
-        const wr = typeof cell === "object" ? cell.win_rate : parseFloat(cell);
-        let cellColor = "rgba(255,255,255,0.04)";
-        let textColor = "var(--text-main)";
-
-        if (wr >= 65) {
-          cellColor = "rgba(16, 185, 129, 0.25)";
-          textColor = "var(--emerald)";
-        } else if (wr >= 50) {
-          cellColor = "rgba(99, 102, 241, 0.2)";
-          textColor = "#c7d2fe";
-        } else {
-          cellColor = "rgba(244, 63, 94, 0.2)";
-          textColor = "var(--rose)";
-        }
-
-        const label = typeof cell === "object" ? cell.label : `${wr}%`;
-        const tooltip = typeof cell === "object" ? `95% CI: [${cell.ci_lower}% - ${cell.ci_upper}%] (${cell.games} games)` : "";
-
-        html += `
-          <td class="heat-cell" style="background: ${cellColor}; color: ${textColor};" title="${tooltip}">
-            ${label}
-          </td>
-        `;
-      });
-
-      tr.innerHTML = html;
-      tbody.appendChild(tr);
-    });
-  } catch (err) {
-    console.warn("Could not fetch matchup matrix:", err);
-  }
-}
-
-/* --------------------------------------------------------------------------
-   6. Ablation Studies Matrix
+   8. Ablation Studies Matrix
    -------------------------------------------------------------------------- */
 async function fetchAblations() {
   try {
@@ -426,7 +483,7 @@ async function fetchAblations() {
 }
 
 /* --------------------------------------------------------------------------
-   7. Live Benchmark Runner
+   9. Live Benchmark Runner
    -------------------------------------------------------------------------- */
 function initBenchmarkRunner() {
   const btn = document.getElementById("btn-run-benchmark");
@@ -460,7 +517,7 @@ function initBenchmarkRunner() {
 }
 
 /* --------------------------------------------------------------------------
-   8. Card & Strategy Codex
+   10. Card & Strategy Codex
    -------------------------------------------------------------------------- */
 async function fetchCodex() {
   try {

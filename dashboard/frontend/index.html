@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PTCG AI Battle Challenge — AI Research & Arena Platform</title>
+  <title>PTCG AI LAB — Autonomous Game Intelligence & Research Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,16 +17,16 @@
       <div class="brand-icon-box">PTCG</div>
       <div class="brand-text">
         <h1>
-          Pokemon TCG AI Battle Platform
-          <span class="brand-version">v2.5 Production</span>
+          PTCG AI LAB
+          <span class="brand-version">v3.0 Autonomous Intelligence</span>
         </h1>
-        <p>The Pokemon Company & Kaggle AI Simulation — Research & Arena Suite</p>
+        <p>The Pokemon Company & Kaggle AI Battle Challenge — Research & Simulation Suite</p>
       </div>
     </div>
     <div class="header-right">
       <div class="pill-indicator">
         <span class="pulse-dot"></span>
-        <span id="header-status-label">Production Agent Active</span>
+        <span id="header-status-label">Belief-Guided Agent Active</span>
       </div>
     </div>
   </header>
@@ -34,7 +34,7 @@
   <!-- Navigation Tab Bar -->
   <nav>
     <button class="tab-btn active" data-tab="tab-overview" id="nav-overview">
-      <span>Overview & Telemetry</span>
+      <span>Command Center</span>
       <span class="tab-key-badge">1</span>
     </button>
     <button class="tab-btn" data-tab="tab-arena" id="nav-arena">
@@ -42,39 +42,47 @@
       <span class="tab-key-badge">2</span>
     </button>
     <button class="tab-btn" data-tab="tab-replay" id="nav-replay">
-      <span>Replay Scrubber</span>
+      <span>Replay Explorer</span>
       <span class="tab-key-badge">3</span>
     </button>
     <button class="tab-btn" data-tab="tab-explainability" id="nav-explainability">
-      <span>Decision Explainability</span>
+      <span>Decision Explainer</span>
       <span class="tab-key-badge">4</span>
     </button>
-    <button class="tab-btn" data-tab="tab-matchup" id="nav-matchup">
-      <span>Matchup Matrix</span>
+    <button class="tab-btn" data-tab="tab-beliefs" id="nav-beliefs">
+      <span>Opponent Belief Lab</span>
       <span class="tab-key-badge">5</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-mistakes" id="nav-mistakes">
+      <span>Mistake Miner</span>
+      <span class="tab-key-badge">6</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-meta-forecast" id="nav-meta-forecast">
+      <span>Meta Observatory & Robustness</span>
+      <span class="tab-key-badge">7</span>
     </button>
     <button class="tab-btn" data-tab="tab-ablations" id="nav-ablations">
       <span>Ablation Studio</span>
-      <span class="tab-key-badge">6</span>
+      <span class="tab-key-badge">8</span>
     </button>
     <button class="tab-btn" data-tab="tab-benchmark" id="nav-benchmark">
-      <span>Live Benchmark</span>
-      <span class="tab-key-badge">7</span>
+      <span>Performance Lab</span>
+      <span class="tab-key-badge">9</span>
     </button>
     <button class="tab-btn" data-tab="tab-codex" id="nav-codex">
-      <span>Strategy & Codex</span>
-      <span class="tab-key-badge">8</span>
+      <span>Card Codex</span>
+      <span class="tab-key-badge">0</span>
     </button>
   </nav>
 
   <main>
-    <!-- 1. Overview & Telemetry Tab -->
+    <!-- 1. Command Center & Telemetry Tab -->
     <section id="tab-overview" class="view-section active">
       <div class="grid-4">
         <div class="faang-card">
           <div class="metric-box-label">Best Agent Elo</div>
           <div class="metric-box-value" id="stat-elo">1684.5</div>
-          <div class="metric-box-sub">Rank #1 on Local Ladder</div>
+          <div class="metric-box-sub">Rank #1 on Tournament Ladder</div>
         </div>
         <div class="faang-card">
           <div class="metric-box-label">Meta Win Rate</div>
@@ -129,12 +137,16 @@
               <span style="color: var(--emerald); font-weight: 700;">Observable Only</span>
             </li>
             <li style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);">
-              <span style="color: var(--text-muted);">Search Engine</span>
-              <span style="color: var(--emerald); font-weight: 700;">1–2 Ply Shallow Search</span>
+              <span style="color: var(--text-muted);">Belief State</span>
+              <span style="color: var(--emerald); font-weight: 700;">Bayesian Hypergeometric</span>
             </li>
             <li style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);">
-              <span style="color: var(--text-muted);">Opponent Model</span>
-              <span style="color: var(--emerald); font-weight: 700;">Bayesian Threat Model</span>
+              <span style="color: var(--text-muted);">Macro Planner</span>
+              <span style="color: var(--emerald); font-weight: 700;">Goal-Based Strategic Engine</span>
+            </li>
+            <li style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);">
+              <span style="color: var(--text-muted);">Search Engine</span>
+              <span style="color: var(--emerald); font-weight: 700;">1–2 Ply Shallow Search</span>
             </li>
             <li style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);">
               <span style="color: var(--text-muted);">Risk Controller</span>
@@ -156,7 +168,7 @@
           <div>
             <label style="font-size: 0.75rem; color: var(--text-dim); display: block; margin-bottom: 0.35rem; font-weight: 700; text-transform: uppercase;">Player 1 Agent</label>
             <select id="arena-p0-select" class="select-faang">
-              <option value="production_v2">Production Agent V2 (Search & Risk)</option>
+              <option value="production_v2">Production Agent V3 (Belief & Goal Search)</option>
               <option value="heuristic_v1">Heuristic V1 (Rule-Based)</option>
             </select>
           </div>
@@ -334,9 +346,9 @@
     <!-- 4. Decision Explainability Tab -->
     <section id="tab-explainability" class="view-section">
       <div class="faang-card" style="margin-bottom: 1.5rem;">
-        <h2 class="card-title">2-Ply Search Tree & Contrastive Decision Ranking</h2>
+        <h2 class="card-title">2-Ply Search Tree & Explainable Action Value Decomposition</h2>
         <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">
-          Detailed breakdown of all candidate actions evaluated by the AI, showing projected terminal values, action bonuses, opponent counterplay penalties, and contrastive rejection reasoning.
+          Decomposes total action valuation into additive factors: Win Probability, Prize Advantage, Board Ratio, Energy Tempo, Threat Reduction minus Retaliation and Resource costs.
         </p>
       </div>
 
@@ -345,34 +357,130 @@
       </div>
     </section>
 
-    <!-- 5. Matchup Matrix Tab -->
-    <section id="tab-matchup" class="view-section">
+    <!-- 5. Opponent Belief Lab Tab (NEW) -->
+    <section id="tab-beliefs" class="view-section">
       <div class="faang-card" style="margin-bottom: 1.5rem;">
-        <h2 class="card-title">Archetype Matchup Win Rate Heatmap</h2>
+        <h2 class="card-title">Bayesian Belief State & Hidden Hand Probability Gauges</h2>
         <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">
-          Empirical head-to-head win rates across 500+ tournament games with 95% Wilson confidence intervals.
+          Real-time posterior probability distributions over hidden opponent assets inferred strictly from observable cards drawn, discard pile contents, and turn actions.
+        </p>
+      </div>
+
+      <div class="grid-4" id="belief-gauges-grid">
+        <div class="faang-card">
+          <div class="metric-box-label">P(Boss's Orders / Gust)</div>
+          <div class="metric-box-value" id="belief-gust-val" style="color: var(--amber);">37.0%</div>
+          <div class="metric-box-sub">Threat: Target Vulnerable Bench</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">P(Energy in Hand)</div>
+          <div class="metric-box-value" id="belief-energy-val" style="color: var(--emerald);">71.0%</div>
+          <div class="metric-box-sub">High likelihood of attachment</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">P(Switch / Pivot)</div>
+          <div class="metric-box-value" id="belief-switch-val" style="color: var(--cyan);">42.0%</div>
+          <div class="metric-box-sub">Moderate retreat bypass risk</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">P(Evolution Ready)</div>
+          <div class="metric-box-value" id="belief-evo-val" style="color: var(--primary);">65.0%</div>
+          <div class="metric-box-sub">Setup threshold imminent</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="faang-card">
+          <h3 class="card-title" style="margin-bottom: 1rem;">Opponent Digital Twin Classification</h3>
+          <div style="font-size: 0.9rem; line-height: 1.8;">
+            <div><strong>Inferred Archetype:</strong> <span style="color: var(--primary); font-weight: 700;">Setup-Heavy / ex Ramp</span></div>
+            <div><strong>Playstyle Aggression:</strong> <span style="color: var(--amber); font-weight: 700;">Calculated / Resource-Conservative</span></div>
+            <div><strong>Active Tactical Threat:</strong> <span style="color: var(--rose); font-weight: 700;">Approaching 2-Energy Attack Threshold</span></div>
+            <div><strong>Inferred Opponent Goal:</strong> Power up benched attacker and gust damaged Bellibolt ex.</div>
+          </div>
+        </div>
+
+        <div class="faang-card">
+          <h3 class="card-title" style="margin-bottom: 1rem;">Belief Update Math</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            Posterior updates utilize Hypergeometric Sampling over unseen card populations:
+            $$P(X \ge 1) = 1 - \frac{\binom{N - K}{n}}{\binom{N}{n}}$$
+            where $N$ is total unseen cards, $K$ is remaining deck copies after discard subtraction, and $n$ is opponent hand size.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Mistake Mining & Critique Tab (NEW) -->
+    <section id="tab-mistakes" class="view-section">
+      <div class="faang-card" style="margin-bottom: 1.5rem;">
+        <h2 class="card-title">Automated Mistake Mining & Counterfactual Critique</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">
+          Post-game automated critique identifying Critical Blunders, Missed Lethal Opportunities, and Resource Inefficiencies.
+        </p>
+      </div>
+
+      <div class="grid-4" id="mistake-stats-grid">
+        <div class="faang-card">
+          <div class="metric-box-label">Critical Blunders</div>
+          <div class="metric-box-value" style="color: var(--rose);" id="mistake-crit-count">0</div>
+          <div class="metric-box-sub">Drop in win prob > 25%</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">Missed Opportunities</div>
+          <div class="metric-box-value" style="color: var(--amber);" id="mistake-miss-count">0</div>
+          <div class="metric-box-sub">Skipped lethal knockout</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">Tactical Errors</div>
+          <div class="metric-box-value" style="color: var(--primary);" id="mistake-tact-count">0</div>
+          <div class="metric-box-sub">Retaliation risk neglected</div>
+        </div>
+        <div class="faang-card">
+          <div class="metric-box-label">Resource Inefficiencies</div>
+          <div class="metric-box-value" style="color: var(--cyan);" id="mistake-res-count">0</div>
+          <div class="metric-box-sub">Sub-optimal energy target</div>
+        </div>
+      </div>
+
+      <div class="faang-card">
+        <h3 class="card-title" style="margin-bottom: 1rem;">Recent Mined Decisions & Counterfactual Trajectories</h3>
+        <div id="mistake-list-feed" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="color: var(--text-dim); font-size: 0.9rem;">Simulate a live battle to generate and mine decision mistakes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Meta Observatory & Robustness Tab (NEW) -->
+    <section id="tab-meta-forecast" class="view-section">
+      <div class="faang-card" style="margin-bottom: 1.5rem;">
+        <h2 class="card-title">Dynamic Meta Observatory & Robustness Index</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">
+          Expected Deck Value calculation across ladder archetype distributions with Worst-Case Robustness scoring.
         </p>
       </div>
 
       <div class="faang-card" style="padding: 0; overflow-x: auto;">
-        <table class="heatmap-table" id="matchup-heatmap-table">
+        <table class="heatmap-table">
           <thead>
             <tr>
-              <th style="text-align: left;">Archetype Pairings</th>
-              <th>vs Bellibolt</th>
-              <th>vs Crustle</th>
-              <th>vs Alakazam</th>
-              <th>vs Generic Basic</th>
+              <th style="text-align: left;">Archetype Deck</th>
+              <th>Expected Win Rate (E[WR])</th>
+              <th>Robustness Score</th>
+              <th>Min Matchup</th>
+              <th>Max Matchup</th>
+              <th>95% Confidence Interval</th>
+              <th>Tier</th>
             </tr>
           </thead>
-          <tbody id="matchup-heatmap-body">
-            <!-- Heatmap Rows Injected -->
+          <tbody id="meta-rankings-body">
+            <!-- Dynamic Rankings Injected -->
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- 6. Ablation Studies Tab -->
+    <!-- 8. Ablation Studies Tab -->
     <section id="tab-ablations" class="view-section">
       <div class="faang-card" style="margin-bottom: 1.5rem;">
         <h2 class="card-title">Systematic Component Ablation Matrix (Variants A -> F)</h2>
@@ -400,7 +508,7 @@
       </div>
     </section>
 
-    <!-- 7. Live Performance Benchmark Tab -->
+    <!-- 9. Live Performance Benchmark Tab -->
     <section id="tab-benchmark" class="view-section">
       <div class="control-glass-panel">
         <div>
@@ -443,7 +551,7 @@
       </div>
     </section>
 
-    <!-- 8. Strategy & Card Codex Tab -->
+    <!-- 10. Strategy & Card Codex Tab -->
     <section id="tab-codex" class="view-section">
       <div class="faang-card" style="margin-bottom: 2rem;">
         <h2 class="card-title">Card & Strategy Codex</h2>

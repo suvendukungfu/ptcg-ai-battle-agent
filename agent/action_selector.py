@@ -9,25 +9,33 @@ from agent.policy import (
 )
 import agent.search
 import src.shallow_search
+from agent.belief_state import BeliefStateTracker, BeliefDistribution
+from agent.goals import GoalPlanner, StrategicGoal, GoalState
+from agent.decomposition import ScoreDecomposer, ValueDecomposition
 from agent.fallback import deterministic_fallback, make_distinct_choice
 from agent.utils import DIAGNOSTICS, track_telemetry
 
+_BELIEF_TRACKER = BeliefStateTracker()
 
-def select_heuristic_action(state: GameState) -> List[int]:
-    """Fast tactical heuristic selector for rapid or low-budget decision points."""
+
+def select_heuristic_action(state: GameState, goal_state: Optional[GoalState] = None) -> List[int]:
+    """Fast tactical heuristic selector guided by strategic goal state."""
     n_opts = len(state.options)
     max_cnt = state.max_count
     min_cnt = state.min_count
     select_type = state.select_type
 
+    if goal_state is None:
+        goal_state = GoalPlanner.identify_goal(state)
+
     if select_type == 0:  # Main turn actions
-        # 1. Check for knockout or high value attacks
+        # 1. Check for knockout or high value attacks (Elevated if WIN_NOW)
         attack_ranks = rank_attack_options(state)
-        if attack_ranks and attack_ranks[0][1] > -5000.0:
+        if attack_ranks and attack_ranks[0][1] + goal_state.attack_priority_bonus > -5000.0:
             preferred = [r[0] for r in attack_ranks]
             return make_distinct_choice(preferred, n_opts, max_cnt, min_cnt)
 
-        # 2. Check energy attachment
+        # 2. Check energy attachment (Elevated if PREPARE_ATTACKER)
         energy_ranks = rank_energy_attachment_options(state)
         if energy_ranks:
             preferred = [r[0] for r in energy_ranks]
@@ -63,18 +71,24 @@ def select_action(obs: Dict[str, Any]) -> List[int]:
     """
     Unified AI Action Decision Pipeline:
     1. Parse and normalize GameState.
-    2. Try 1-2 ply shallow risk-aware search lookahead.
-    3. Fallback to fast tactical heuristic policy.
-    4. Validate choice with legal validator.
+    2. Update Bayesian Belief State (opponent hidden hand probabilities).
+    3. Identify strategic GoalState.
+    4. Execute 1-2 ply shallow risk-aware search lookahead.
+    5. Fallback to goal-guided tactical heuristic policy.
+    6. Validate choice with legal validator.
     """
     state = parse_game_state(obs)
     n_opts = len(state.options)
     if n_opts == 0:
         return []
 
+    # 1. Update Belief State & Goal
+    beliefs = _BELIEF_TRACKER.update_beliefs(state)
+    goal_state = GoalPlanner.identify_goal(state)
+
     remaining_time = float(obs.get("remainingOverageTime", 600.0))
 
-    # 1. 1-2 Ply Shallow Search Lookahead (Check src/agent search)
+    # 2. 1-2 Ply Shallow Search Lookahead
     search_fn = getattr(src.shallow_search, "shallow_risk_aware_search", agent.search.shallow_risk_aware_search)
     search_choice = search_fn(state, remaining_time)
     if search_choice is not None:
@@ -82,8 +96,8 @@ def select_action(obs: Dict[str, Any]) -> List[int]:
         track_telemetry(search_choice, state.options)
         return search_choice
 
-    # 2. Fast Tactical Heuristic Policy
+    # 3. Fast Tactical Heuristic Policy
     DIAGNOSTICS["heuristic_decisions"] += 1
-    heuristic_choice = select_heuristic_action(state)
+    heuristic_choice = select_heuristic_action(state, goal_state=goal_state)
     track_telemetry(heuristic_choice, state.options)
     return heuristic_choice
