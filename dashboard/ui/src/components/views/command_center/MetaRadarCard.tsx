@@ -1,7 +1,6 @@
 import React from 'react';
 import { Compass, ArrowUpRight, AlertCircle } from 'lucide-react';
 
-
 interface ArchetypeMetaItem {
   archetype: string;
   share: number;
@@ -25,9 +24,9 @@ const DEFAULT_META: ArchetypeMetaItem[] = [
 
 export const MetaRadarCard: React.FC<MetaRadarCardProps> = ({ metaData = DEFAULT_META, onNavigateMeta }) => {
   return (
-    <div className="glass-panel p-5 rounded-2xl border border-white/[0.08] space-y-4">
+    <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+      <div className="flex items-center justify-between pb-2 border-b border-white/8">
         <div className="flex items-center gap-2">
           <Compass className="w-4 h-4 text-emerald-400" />
           <h3 className="text-base font-bold text-white tracking-tight">
@@ -48,7 +47,7 @@ export const MetaRadarCard: React.FC<MetaRadarCardProps> = ({ metaData = DEFAULT
       </p>
 
       {/* Meta Shares Stack Bar */}
-      <div className="w-full h-3 rounded-full bg-white/[0.05] overflow-hidden flex">
+      <div className="w-full h-3 rounded-full bg-white/5 overflow-hidden flex">
         {metaData.map((item, idx) => (
           <div
             key={idx}
@@ -68,11 +67,11 @@ export const MetaRadarCard: React.FC<MetaRadarCardProps> = ({ metaData = DEFAULT
           return (
             <div
               key={idx}
-              className="p-2.5 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.05] flex items-center justify-between transition-colors"
+              className="p-2.5 rounded-lg bg-white/2 hover:bg-white/4 border border-white/5 flex items-center justify-between transition-colors"
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
                   style={{ backgroundColor: item.color }}
                 />
                 <div className="truncate">
@@ -86,7 +85,7 @@ export const MetaRadarCard: React.FC<MetaRadarCardProps> = ({ metaData = DEFAULT
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <span
                   className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider ${
                     isHighThreat
@@ -106,7 +105,7 @@ export const MetaRadarCard: React.FC<MetaRadarCardProps> = ({ metaData = DEFAULT
 
       {/* Meta Notice */}
       <div className="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[11px] text-indigo-300 flex items-start gap-2">
-        <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-indigo-400" />
+        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-indigo-400" />
         <div>
           <strong>Meta Adaptation:</strong> Recent surge in Crustle (+4.2%) triggers our Safeguard counterplay heuristic (Tadbulb single-prize development).
         </div>

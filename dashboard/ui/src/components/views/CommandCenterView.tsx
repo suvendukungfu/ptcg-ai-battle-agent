@@ -43,7 +43,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
   return (
     <div className="space-y-6 text-left pb-12">
       {/* 1. Header Mission Briefing */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/[0.08]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-black text-white tracking-tight">
@@ -62,14 +62,14 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => onNavigate('arena')}
-            className="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-lg shadow-indigo-600/25 flex items-center gap-1.5 transition-all border border-white/10"
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-linear-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-lg shadow-indigo-600/25 flex items-center gap-1.5 transition-all border border-white/10"
           >
             <span>Launch Live Arena</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => onNavigate('presentation')}
-            className="px-4 py-2 rounded-xl text-xs font-bold bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/[0.1] flex items-center gap-1.5 transition-all"
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-white/6 hover:bg-white/10 text-slate-200 border border-white/10 flex items-center gap-1.5 transition-all"
           >
             <span>5-Min Presentation</span>
           </button>
@@ -79,7 +79,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
       {/* 2. Top-Level Metric Cockpit Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Elo Rating */}
-        <div className="glass-panel p-4 rounded-xl border border-white/[0.08] relative overflow-hidden">
+        <div className="glass-panel p-4 rounded-xl border border-white/8 relative overflow-hidden">
           <div className="flex items-center justify-between text-slate-400 text-xs font-mono uppercase">
             <span>Competitive Elo</span>
             <Flame className="w-4 h-4 text-amber-400" />
@@ -96,7 +96,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
         </div>
 
         {/* Empirical Win Rate */}
-        <div className="glass-panel p-4 rounded-xl border border-white/[0.08] relative overflow-hidden">
+        <div className="glass-panel p-4 rounded-xl border border-white/8 relative overflow-hidden">
           <div className="flex items-center justify-between text-slate-400 text-xs font-mono uppercase">
             <span>Empirical Win Rate</span>
             <Zap className="w-4 h-4 text-emerald-400" />
@@ -113,7 +113,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
         </div>
 
         {/* P95 Latency */}
-        <div className="glass-panel p-4 rounded-xl border border-white/[0.08] relative overflow-hidden">
+        <div className="glass-panel p-4 rounded-xl border border-white/8 relative overflow-hidden">
           <div className="flex items-center justify-between text-slate-400 text-xs font-mono uppercase">
             <span>P95 Latency</span>
             <Cpu className="w-4 h-4 text-cyan-400" />
@@ -130,7 +130,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
         </div>
 
         {/* Zero-Crash Reliability */}
-        <div className="glass-panel p-4 rounded-xl border border-white/[0.08] relative overflow-hidden">
+        <div className="glass-panel p-4 rounded-xl border border-white/8 relative overflow-hidden">
           <div className="flex items-center justify-between text-slate-400 text-xs font-mono uppercase">
             <span>Reliability & Legality</span>
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -170,8 +170,8 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
         </div>
 
         {/* Opponent Belief & Failure Quick Summary */}
-        <div className="lg:col-span-6 glass-panel p-5 rounded-2xl border border-white/[0.08] space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+        <div className="lg:col-span-6 glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-white/8">
             <h3 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
               <Eye className="w-4 h-4 text-indigo-400" />
               Real-Time Uncertainty & Mistake Diagnostics
@@ -181,7 +181,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             {/* Beliefs Mini */}
-            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] space-y-2">
+            <div className="p-3 rounded-xl bg-white/2 border border-white/5 space-y-2">
               <div className="font-mono text-slate-400 uppercase tracking-wider text-[10px]">
                 Concealed Hand Probability
               </div>
@@ -205,14 +205,14 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
               </div>
               <button
                 onClick={() => onNavigate('opponent')}
-                className="w-full mt-1 py-1 rounded bg-white/[0.04] hover:bg-white/[0.08] text-[10px] font-semibold text-slate-300 hover:text-white transition-colors"
+                className="w-full mt-1 py-1 rounded bg-white/4 hover:bg-white/8 text-[10px] font-semibold text-slate-300 hover:text-white transition-colors"
               >
                 Inspect Opponent Intelligence →
               </button>
             </div>
 
             {/* Mistakes Mini */}
-            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] space-y-2">
+            <div className="p-3 rounded-xl bg-white/2 border border-white/5 space-y-2">
               <div className="font-mono text-slate-400 uppercase tracking-wider text-[10px] flex items-center gap-1">
                 <AlertTriangle className="w-3 h-3 text-amber-400" />
                 Mined Blunder Catalog
@@ -237,7 +237,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
               </div>
               <button
                 onClick={() => onNavigate('mistakes')}
-                className="w-full mt-1 py-1 rounded bg-white/[0.04] hover:bg-white/[0.08] text-[10px] font-semibold text-slate-300 hover:text-white transition-colors"
+                className="w-full mt-1 py-1 rounded bg-white/4 hover:bg-white/8 text-[10px] font-semibold text-slate-300 hover:text-white transition-colors"
               >
                 Open Failure Analysis →
               </button>

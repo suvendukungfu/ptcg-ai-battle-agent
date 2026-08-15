@@ -10,7 +10,6 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
-
 interface QuickActionsCardProps {
   onNavigate: (suite: ViewSuite) => void;
   onBenchmarkComplete?: () => void;
@@ -38,8 +37,8 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
   };
 
   return (
-    <div className="glass-panel p-5 rounded-2xl border border-white/[0.08] space-y-4">
-      <div className="pb-2 border-b border-white/[0.08]">
+    <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+      <div className="pb-2 border-b border-white/8">
         <h3 className="text-base font-bold text-white tracking-tight">
           Tactical Mission Launchpad
         </h3>
@@ -52,7 +51,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
         {/* Action 1: Live Arena */}
         <button
           onClick={() => onNavigate('arena')}
-          className="p-3.5 rounded-xl bg-gradient-to-br from-indigo-600/30 to-indigo-900/30 hover:from-indigo-600/50 hover:to-indigo-900/50 border border-indigo-500/40 text-left space-y-1.5 transition-all group shadow-lg shadow-indigo-500/10"
+          className="p-3.5 rounded-xl bg-linear-to-br from-indigo-600/30 to-indigo-900/30 hover:from-indigo-600/50 hover:to-indigo-900/50 border border-indigo-500/40 text-left space-y-1.5 transition-all group shadow-lg shadow-indigo-500/10"
         >
           <div className="flex items-center justify-between">
             <Swords className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />
@@ -65,7 +64,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
         {/* Action 2: Decision Explainer */}
         <button
           onClick={() => onNavigate('decision')}
-          className="p-3.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-white/[0.12] text-left space-y-1.5 transition-all group"
+          className="p-3.5 rounded-xl bg-white/2 hover:bg-white/5 border border-white/6 hover:border-white/12 text-left space-y-1.5 transition-all group"
         >
           <div className="flex items-center justify-between">
             <BrainCircuit className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" />
@@ -79,7 +78,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
         <button
           onClick={handleRunBenchmark}
           disabled={benchmarking}
-          className="p-3.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-white/[0.12] text-left space-y-1.5 transition-all group disabled:opacity-50"
+          className="p-3.5 rounded-xl bg-white/2 hover:bg-white/5 border border-white/6 hover:border-white/12 text-left space-y-1.5 transition-all group disabled:opacity-50"
         >
           <div className="flex items-center justify-between">
             {benchmarking ? (
@@ -98,7 +97,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
         {/* Action 4: Presentation */}
         <button
           onClick={() => onNavigate('presentation')}
-          className="p-3.5 rounded-xl bg-gradient-to-br from-purple-600/20 to-purple-900/20 hover:from-purple-600/30 hover:to-purple-900/30 border border-purple-500/30 text-left space-y-1.5 transition-all group"
+          className="p-3.5 rounded-xl bg-linear-to-br from-purple-600/20 to-purple-900/20 hover:from-purple-600/30 hover:to-purple-900/30 border border-purple-500/30 text-left space-y-1.5 transition-all group"
         >
           <div className="flex items-center justify-between">
             <Presentation className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
@@ -112,7 +111,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
       {/* Benchmark Result Feedback */}
       {benchmarkResult && (
         <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{benchmarkResult}</span>
         </div>
       )}

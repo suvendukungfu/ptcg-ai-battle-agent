@@ -59,9 +59,9 @@ export const PerformanceTrendCard: React.FC<PerformanceTrendCardProps> = ({ tren
   };
 
   return (
-    <div className="glass-panel p-5 rounded-2xl border border-white/[0.08] space-y-4">
+    <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
       {/* Header & View Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/8">
         <div className="flex items-center gap-2">
           <BarChart2 className="w-4 h-4 text-indigo-400" />
           <h3 className="text-base font-bold text-white tracking-tight">
@@ -70,7 +70,7 @@ export const PerformanceTrendCard: React.FC<PerformanceTrendCardProps> = ({ tren
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-1 p-1 rounded-lg bg-white/[0.04] border border-white/[0.06]">
+        <div className="flex items-center gap-1 p-1 rounded-lg bg-white/4 border border-white/6">
           <button
             onClick={() => setActiveTab('elo')}
             className={`px-3 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
@@ -157,25 +157,25 @@ export const PerformanceTrendCard: React.FC<PerformanceTrendCardProps> = ({ tren
         <div className="space-y-4">
           {/* Latency Percentiles Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+            <div className="p-2.5 rounded-lg bg-white/2 border border-white/5">
               <div className="text-[10px] font-mono text-slate-400 uppercase">P50 Latency</div>
               <div className="text-lg font-bold font-mono text-white mt-0.5">
                 {latencyBreakdown.p50_ms.toFixed(2)} ms
               </div>
             </div>
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+            <div className="p-2.5 rounded-lg bg-white/2 border border-white/5">
               <div className="text-[10px] font-mono text-cyan-400 uppercase">P95 Latency</div>
               <div className="text-lg font-bold font-mono text-cyan-300 mt-0.5">
                 {latencyBreakdown.p95_ms.toFixed(2)} ms
               </div>
             </div>
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+            <div className="p-2.5 rounded-lg bg-white/2 border border-white/5">
               <div className="text-[10px] font-mono text-indigo-400 uppercase">P99 Latency</div>
               <div className="text-lg font-bold font-mono text-indigo-300 mt-0.5">
                 {latencyBreakdown.p99_ms.toFixed(2)} ms
               </div>
             </div>
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+            <div className="p-2.5 rounded-lg bg-white/2 border border-white/5">
               <div className="text-[10px] font-mono text-rose-400 uppercase">Max Observed</div>
               <div className="text-lg font-bold font-mono text-rose-300 mt-0.5">
                 {latencyBreakdown.max_ms.toFixed(2)} ms
@@ -200,7 +200,7 @@ export const PerformanceTrendCard: React.FC<PerformanceTrendCardProps> = ({ tren
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between gap-3">
                   <div className="w-48 text-slate-300 truncate">{item.name}</div>
-                  <div className="flex-1 h-2 rounded-full bg-white/[0.05] overflow-hidden">
+                  <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
                     <div
                       style={{ width: `${item.pct * 3}%`, backgroundColor: item.color }}
                       className="h-full rounded-full"

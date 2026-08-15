@@ -1,7 +1,6 @@
 import React from 'react';
 import { ShieldCheck, HardDrive } from 'lucide-react';
 
-
 interface SystemHealthCardProps {
   healthData?: {
     status: string;
@@ -30,9 +29,9 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
   const memPercent = ((data.rss_memory_mb / data.memory_limit_mb) * 100).toFixed(1);
 
   return (
-    <div className="glass-panel p-5 rounded-2xl border border-white/[0.08] space-y-4">
+    <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+      <div className="flex items-center justify-between pb-2 border-b border-white/8">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <h3 className="text-base font-bold text-white tracking-tight">
@@ -48,7 +47,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
       {/* 4-Item Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {/* Fallback Rate */}
-        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+        <div className="p-3 rounded-xl bg-white/2 border border-white/5">
           <div className="text-[10px] font-mono text-slate-400 uppercase">Fallback Rate</div>
           <div className="text-xl font-bold font-mono text-emerald-400 mt-1">
             {data.fallback_rate_pct.toFixed(2)}%
@@ -57,7 +56,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
         </div>
 
         {/* Illegal Actions */}
-        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+        <div className="p-3 rounded-xl bg-white/2 border border-white/5">
           <div className="text-[10px] font-mono text-slate-400 uppercase">Illegal Actions</div>
           <div className="text-xl font-bold font-mono text-emerald-400 mt-1">
             {data.illegal_actions_count}
@@ -66,7 +65,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
         </div>
 
         {/* Unhandled Exceptions */}
-        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+        <div className="p-3 rounded-xl bg-white/2 border border-white/5">
           <div className="text-[10px] font-mono text-slate-400 uppercase">Exceptions</div>
           <div className="text-xl font-bold font-mono text-emerald-400 mt-1">
             {data.unhandled_exceptions_count}
@@ -75,7 +74,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
         </div>
 
         {/* Time Bank Margin */}
-        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+        <div className="p-3 rounded-xl bg-white/2 border border-white/5">
           <div className="text-[10px] font-mono text-slate-400 uppercase">Time Bank Left</div>
           <div className="text-xl font-bold font-mono text-cyan-300 mt-1">
             {data.timebank_remaining_sec.toFixed(0)}s
@@ -85,7 +84,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
       </div>
 
       {/* Memory Footprint Bar */}
-      <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] space-y-2">
+      <div className="p-3.5 rounded-xl bg-white/2 border border-white/5 space-y-2">
         <div className="flex justify-between items-center text-xs">
           <span className="text-slate-300 flex items-center gap-1.5">
             <HardDrive className="w-3.5 h-3.5 text-indigo-400" />
@@ -96,10 +95,10 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({ healthData }
           </span>
         </div>
 
-        <div className="w-full h-2 rounded-full bg-white/[0.05] overflow-hidden">
+        <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
           <div
             style={{ width: `${memPercent}%` }}
-            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-400"
+            className="h-full rounded-full bg-linear-to-r from-indigo-500 to-emerald-400"
           />
         </div>
       </div>

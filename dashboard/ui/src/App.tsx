@@ -149,7 +149,7 @@ export const App: React.FC = () => {
 
 
             {currentSuite !== 'overview' && (
-              <div className="glass-panel p-8 rounded-2xl border border-white/[0.08] text-center space-y-4">
+              <div className="glass-panel p-8 rounded-2xl border border-white/8 text-center space-y-4">
                 <div className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
                   Suite Initialized (Stage 1 Complete)
                 </div>
@@ -168,6 +168,7 @@ export const App: React.FC = () => {
                 </button>
               </div>
             )}
+
           </main>
         </div>
       )}
