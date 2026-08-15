@@ -5,7 +5,6 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-
 interface Slide {
   id: number;
   title: string;
@@ -96,7 +95,7 @@ export const PresentationDeckView: React.FC = () => {
       {/* 1. Presentation Header */}
       <div className="flex items-center justify-between pb-3 border-b border-white/8">
         <div className="flex items-center gap-2">
-          <Presentation className="w-5 h-5 text-indigo-400" />
+          <Presentation className="w-5 h-5 text-amber-400" />
           <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
             5-Minute Executive Presentation Deck
           </span>
@@ -109,20 +108,19 @@ export const PresentationDeckView: React.FC = () => {
       </div>
 
       {/* 2. Active Slide Card */}
-      <div className="glass-panel p-8 md:p-12 rounded-3xl border border-white/12 space-y-8 min-h-115 flex flex-col justify-between relative overflow-hidden bg-linear-to-br from-indigo-950/30 via-slate-950 to-slate-950 shadow-2xl">
-
+      <div className="glass-panel p-8 md:p-12 rounded-3xl border border-white/12 space-y-8 min-h-115 flex flex-col justify-between relative overflow-hidden bg-linear-to-br from-amber-950/20 via-slate-950 to-[#030509] shadow-2xl">
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <span className="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-bold">
+            <span className="px-3.5 py-1 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-mono font-bold">
               {slide.badge}
             </span>
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
+            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-tight font-display">
               {slide.title}
             </h2>
-            <p className="text-sm md:text-base text-indigo-200 font-mono">
+            <p className="text-sm md:text-base text-amber-300/90 font-mono">
               {slide.subtitle}
             </p>
           </div>
@@ -131,27 +129,27 @@ export const PresentationDeckView: React.FC = () => {
             {/* Left 8 Cols: Bullets */}
             <div className="lg:col-span-8 space-y-3">
               {slide.bullets.map((b, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm text-slate-200 leading-relaxed">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 shrink-0" />
+                <div key={i} className="flex items-start gap-3 text-sm text-slate-200 leading-relaxed font-sans">
+                  <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
                   <span>{b}</span>
                 </div>
               ))}
             </div>
 
             {/* Right 4 Cols: Big Metric Callout */}
-            <div className="lg:col-span-4 p-6 rounded-2xl bg-white/3 border border-white/8 flex flex-col justify-center items-center text-center space-y-1">
+            <div className="lg:col-span-4 p-6 rounded-2xl bg-white/2 border border-white/8 flex flex-col justify-center items-center text-center space-y-1">
               <div className="text-4xl font-black text-white font-mono">{slide.metric}</div>
-              <div className="text-xs text-indigo-300 font-mono font-bold">{slide.metricLabel}</div>
+              <div className="text-xs text-amber-300 font-mono font-bold">{slide.metricLabel}</div>
             </div>
           </div>
         </div>
 
         {/* Slide Bottom Controls */}
-        <div className="flex justify-between items-center pt-6 border-t border-white/8">
+        <div className="flex justify-between items-center pt-6 border-t border-white/8 font-mono">
           <button
             onClick={() => setCurrentSlide((p) => Math.max(0, p - 1))}
             disabled={currentSlide === 0}
-            className="px-4 py-2 rounded-xl bg-white/4 hover:bg-white/8 disabled:opacity-30 text-xs font-mono text-white flex items-center gap-1.5 transition-all cursor-pointer disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-xl bg-white/4 hover:bg-white/8 disabled:opacity-30 text-xs text-white flex items-center gap-1.5 transition-all cursor-pointer disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
@@ -163,8 +161,8 @@ export const PresentationDeckView: React.FC = () => {
               <div
                 key={idx}
                 onClick={() => setCurrentSlide(idx)}
-                className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all ${
-                  idx === currentSlide ? 'bg-indigo-400 w-6' : 'bg-white/20 hover:bg-white/40'
+                className={`h-2 rounded-full cursor-pointer transition-all ${
+                  idx === currentSlide ? 'bg-amber-400 w-6' : 'bg-white/20 hover:bg-white/40 w-2'
                 }`}
               />
             ))}
@@ -173,7 +171,7 @@ export const PresentationDeckView: React.FC = () => {
           <button
             onClick={() => setCurrentSlide((p) => Math.min(slides.length - 1, p + 1))}
             disabled={currentSlide === slides.length - 1}
-            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-30 text-xs font-mono text-white flex items-center gap-1.5 transition-all cursor-pointer disabled:cursor-not-allowed shadow-md shadow-indigo-600/30 font-bold"
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-30 text-xs text-black flex items-center gap-1.5 transition-all cursor-pointer disabled:cursor-not-allowed shadow-md shadow-amber-500/20 font-black"
           >
             Next
             <ChevronRight className="w-4 h-4" />
@@ -183,3 +181,5 @@ export const PresentationDeckView: React.FC = () => {
     </div>
   );
 };
+
+export default PresentationDeckView;
