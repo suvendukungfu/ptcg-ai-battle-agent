@@ -106,11 +106,11 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
             loading="lazy"
           />
           {/* Subtle dark gradient overlay so text remains readable */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/30 to-transparent" />
         </div>
 
         {/* Top Header Bar */}
-        <div className="relative z-10 p-2.5 flex justify-between items-start bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+        <div className="relative z-10 p-2.5 flex justify-between items-start bg-linear-to-b from-black/80 via-black/40 to-transparent">
           <div>
             <div className="flex items-center gap-1.5">
               <span
@@ -122,7 +122,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
               >
                 {meta.isEx ? 'ex' : meta.stage || 'BASIC'}
               </span>
-              <span className="text-xs font-black text-white truncate max-w-[120px] drop-shadow-md">
+              <span className="text-xs font-black text-white truncate max-w-30 drop-shadow-md">
                 {meta.name}
               </span>
             </div>
@@ -155,7 +155,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
         )}
 
         {/* Bottom Card Footer: HP Gauge, Energy Chips, Tool Badges */}
-        <div className="relative z-10 p-2.5 space-y-1.5 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+        <div className="relative z-10 p-2.5 space-y-1.5 bg-linear-to-t from-black/90 via-black/60 to-transparent">
           {/* Real-Time HP Progress Bar */}
           {meta.hp && (
             <div className="w-full h-1.5 rounded-full bg-black/60 overflow-hidden border border-white/10">
@@ -175,12 +175,13 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
 
             {/* Attack / Move readout */}
             {isLarge && meta.attacks && meta.attacks[0] && (
-              <div className="text-slate-300 truncate max-w-[130px] flex items-center gap-1">
+              <div className="text-slate-300 truncate max-w-32.5 flex items-center gap-1">
                 <Swords className="w-3 h-3 text-indigo-400" />
                 <span className="truncate">{meta.attacks[0].name}</span>
                 <span className="font-bold text-white">({meta.attacks[0].damage})</span>
               </div>
             )}
+
 
             {/* Heavy Baton / Tool Badge */}
             {hasTool && (
