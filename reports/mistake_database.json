@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "game_id": "sim_episode",
+    "turn": 17,
+    "step": 83,
+    "category": "RESOURCE_MISTAKE",
+    "severity": "LOW",
+    "chosen_action_desc": "Option 0: Action #9",
+    "optimal_action_desc": "Option 11: Action #7",
+    "score_delta": 822.0,
+    "explanation": "Turn 17: Sub-optimal resource expenditure or energy attachment target."
+  },
+  {
+    "game_id": "sim_episode",
+    "turn": 17,
+    "step": 84,
+    "category": "RESOURCE_MISTAKE",
+    "severity": "LOW",
+    "chosen_action_desc": "Option 1: Action #9",
+    "optimal_action_desc": "Option 2: Action #7",
+    "score_delta": 822.0,
+    "explanation": "Turn 17: Sub-optimal resource expenditure or energy attachment target."
+  }
+]
