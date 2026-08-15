@@ -1,7 +1,14 @@
 import React from 'react';
 import type { AgentStatus } from '../../types';
-import { LiveMiniGameCanvas } from './LiveMiniGameCanvas';
-import { ArrowRight, ShieldCheck, Flame, Zap, Cpu, Compass } from 'lucide-react';
+import { PokemonCard } from '../common/PokemonCard';
+import {
+  ArrowRight,
+  Brain,
+  GitBranch,
+  Sliders,
+  Swords,
+} from 'lucide-react';
+
 
 interface LandingHeroProps {
   status: AgentStatus | null;
@@ -15,118 +22,148 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
   onExploreAI,
 }) => {
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center px-4 sm:px-8 max-w-7xl mx-auto py-12">
-      {/* Top Banner Tag */}
-      <div className="flex items-center gap-2 mb-6">
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/30 flex items-center gap-1.5 font-mono">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-tactical-radar" />
-          The Pokémon Company • PTCG AI Battle Challenge
-        </span>
-        <span className="text-xs text-slate-400 font-mono">
-          Production V3.0
-        </span>
-      </div>
-
-      {/* Main Grid: Hero Copy on Left, Live Game Canvas on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-        {/* Left Column: Title & Actions */}
-        <div className="lg:col-span-7 space-y-6 text-left">
-          <div className="space-y-2">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.05] font-display">
+    <div className="max-w-6xl mx-auto space-y-16 px-4 sm:px-6 py-10 text-left">
+      {/* 1. Master Editorial Hero: Brand + Live Physical Clash */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-4">
+        {/* Left 6 Cols: Typographic Hero */}
+        <div className="lg:col-span-6 space-y-6">
+          <div className="space-y-2 font-mono">
+            <div className="text-xs text-amber-400 font-bold uppercase tracking-wider">
+              Research Platform // The Pokémon Company AI Battle Challenge
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-black text-white tracking-tight leading-none font-display">
               PTCG // NEXUS
             </h1>
-            <div className="text-xl sm:text-2xl font-mono text-amber-300 font-bold tracking-tight">
-              &ldquo;Autonomous Game Intelligence&rdquo;
+            <div className="text-sm sm:text-base text-slate-300 font-bold uppercase tracking-widest">
+              Autonomous Game Intelligence
             </div>
           </div>
 
-          <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed font-sans">
-            An uncertainty-aware autonomous game intelligence system for competitive Pokémon TCG battles.
-            Powered by <strong>Bayesian Belief State Tracking</strong>, <strong>2-Ply Risk-Aware Lookahead Search</strong>, <strong>Dynamic Meta Forecasting</strong>, and <strong>Automated Loss Forensics</strong>.
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-sans max-w-lg">
+            An uncertainty-aware autonomous battle agent engineered for competitive Pokémon TCG.
+            Combining <strong>Bayesian belief tracking</strong>, <strong>2-ply forward lookahead search</strong>, and <strong>additive action value decomposition</strong>.
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 font-mono">
+          <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
             <button
               onClick={onEnterCommandCenter}
-              className="px-6 py-3.5 rounded-2xl font-black text-sm bg-amber-500 hover:bg-amber-400 text-black shadow-xl shadow-amber-500/25 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center gap-2.5 cursor-pointer"
+              className="px-5 py-3 rounded-xs font-bold bg-amber-400 hover:bg-amber-300 text-black shadow-lg shadow-amber-400/20 flex items-center gap-2 transition-transform active:scale-95 cursor-pointer"
             >
-              <span>ENTER THE COMMAND CENTER</span>
+              <span>ENTER BATTLEFIELD</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               onClick={onExploreAI}
-              className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-white/4 hover:bg-white/8 text-slate-200 hover:text-white transition-all border border-white/8 flex items-center gap-2 cursor-pointer"
+              className="px-5 py-3 rounded-xs font-bold bg-white/4 hover:bg-white/8 text-white border border-white/10 flex items-center gap-2 transition-colors cursor-pointer"
             >
-              <Compass className="w-4 h-4 text-amber-400" />
-              <span>EXPLORE THE AI LAB</span>
+              <span>EXPLORE RESEARCH</span>
             </button>
           </div>
 
-          {/* Real Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/8 font-mono">
-            {/* Elo */}
-            <div className="glass-card p-3.5 rounded-2xl">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                <Flame className="w-3 h-3 text-amber-400" />
-                Rating Elo
-              </div>
-              <div className="text-xl font-bold text-white mt-1">
+          {/* Verified Empirical Metric Bar (No cards, just crisp inline typography) */}
+          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/6 font-mono">
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase">Competitive Elo</div>
+              <div className="text-xl font-bold text-white mt-0.5">
                 {status ? status.best_elo.toFixed(1) : '1684.5'}
               </div>
-              <div className="text-[10px] text-emerald-400 font-bold mt-0.5">
-                ▲ Rank #1 Ladder
-              </div>
+              <div className="text-[9px] text-emerald-400 mt-0.5">95% CI [64.1%, 72.0%]</div>
             </div>
 
-            {/* Win Rate */}
-            <div className="glass-card p-3.5 rounded-2xl">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                <Zap className="w-3 h-3 text-amber-400" />
-                Win Rate
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase">P95 Latency</div>
+              <div className="text-xl font-bold text-white mt-0.5">
+                {status ? `${status.p95_latency_ms.toFixed(2)}ms` : '2.66ms'}
               </div>
-              <div className="text-xl font-bold text-white mt-1">
-                {status ? `${status.win_rate_meta.toFixed(1)}%` : '68.2%'}
-              </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">
-                500+ Matches
-              </div>
+              <div className="text-[9px] text-slate-400 mt-0.5">Limit: 25.0ms</div>
             </div>
 
-            {/* P95 Latency */}
-            <div className="glass-card p-3.5 rounded-2xl">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-cyan-400" />
-                P95 Latency
-              </div>
-              <div className="text-xl font-bold text-cyan-300 mt-1">
-                {status ? `${status.p95_latency_ms.toFixed(2)} ms` : '2.665 ms'}
-              </div>
-              <div className="text-[10px] text-cyan-400 mt-0.5">
-                Budget: &lt; 25.0 ms
-              </div>
-            </div>
-
-            {/* Reliability */}
-            <div className="glass-card p-3.5 rounded-2xl">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                Reliability
-              </div>
-              <div className="text-xl font-bold text-emerald-400 mt-1">
-                0.00%
-              </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">
-                Zero Fallbacks
-              </div>
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase">Legal Actions</div>
+              <div className="text-xl font-bold text-emerald-400 mt-0.5">100%</div>
+              <div className="text-[9px] text-slate-400 mt-0.5">0.00% Fallbacks</div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Live Mini Game Canvas */}
-        <div className="lg:col-span-5 w-full">
-          <LiveMiniGameCanvas />
+        {/* Right 6 Cols: Cinematic Pokémon TCG Battle Composition */}
+        <div className="lg:col-span-6 flex flex-col items-center justify-center relative p-6 rounded-lg border border-white/8 bg-[#090C12]">
+          <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-4">
+            Live Tactical Battle Representation
+          </div>
+
+          {/* Opponent Active: Safeguard Crustle */}
+          <div className="relative z-10 flex flex-col items-center gap-2">
+            <div className="text-[10px] font-mono text-rose-400 font-bold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-xs bg-rose-500" />
+              Opponent Active • Crustle (#345)
+            </div>
+            <PokemonCard cardId={345} variant="standard" isOpponent hp={150} maxHp={150} isImmune />
+          </div>
+
+          {/* Center Battle Vector */}
+          <div className="w-full py-3 flex items-center justify-center gap-3 my-2 font-mono text-[10px] text-slate-400 border-y border-white/6">
+            <Swords className="w-3.5 h-3.5 text-amber-400" />
+            <span>AI SELECTION // PLAY BOSS&apos;S ORDERS (#1262) &rarr; BENCH GUST</span>
+          </div>
+
+          {/* Player Active: Bellibolt ex */}
+          <div className="relative z-10 flex flex-col items-center gap-2">
+            <PokemonCard cardId={723} variant="standard" isSelected hp={350} maxHp={350} energyCount={2} hasTool />
+            <div className="text-[10px] font-mono text-amber-300 font-bold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-xs bg-amber-400" />
+              Player Active • Bellibolt ex (#723)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Section: Why This Agent is Different (3 Core Pillars) */}
+      <div className="space-y-6 pt-8 border-t border-white/6">
+        <div className="space-y-1">
+          <div className="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
+            Autonomous Decision Architecture
+          </div>
+          <h2 className="text-2xl font-black text-white font-display">
+            Three Pillars of Strategic Advantage
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+          {/* Pillar 1: Belief */}
+          <div className="p-5 rounded-lg border border-white/6 bg-[#0B0D12] space-y-2">
+            <div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
+              <Brain className="w-4 h-4" />
+              <span>01 // BAYESIAN BELIEF</span>
+            </div>
+            <p className="text-slate-300 font-sans text-xs leading-relaxed">
+              Maintains exact hypergeometric distributions over unseen card locations. Predicts opponent lethal gust threats P(Boss) without hidden information leakage.
+            </p>
+          </div>
+
+          {/* Pillar 2: Search */}
+          <div className="p-5 rounded-lg border border-white/6 bg-[#0B0D12] space-y-2">
+            <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <GitBranch className="w-4 h-4" />
+              <span>02 // 2-PLY LOOKAHEAD</span>
+            </div>
+            <p className="text-slate-300 font-sans text-xs leading-relaxed">
+              Projects game states across all legal actions and subtracts opponent retaliation threats via additive action value decomposition: V(s,a).
+            </p>
+          </div>
+
+          {/* Pillar 3: Adaptation */}
+          <div className="p-5 rounded-lg border border-white/6 bg-[#0B0D12] space-y-2">
+            <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+              <Sliders className="w-4 h-4" />
+              <span>03 // DYNAMIC RISK</span>
+            </div>
+            <p className="text-slate-300 font-sans text-xs leading-relaxed">
+              Dynamically shifts aggression weights between Setup, Pressure, and Endgame phases based on real-time prize point race differentials.
+            </p>
+          </div>
         </div>
       </div>
     </div>

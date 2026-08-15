@@ -78,73 +78,67 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
   const oppPrizesClaimed = step.opp_prizes || Math.min(6, Math.floor(currentStep / 12));
 
   return (
-    <div className="space-y-6 text-left pb-12">
-      {/* 1. Battlefield Top Control HUD */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-tactical-radar" />
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display">
-              Live Arena Battlefield Twin
-            </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-mono font-bold">
-              3D PERSPECTIVE HUD
-            </span>
-          </div>
-          <div className="flex items-center gap-3 text-xs font-mono text-slate-400 mt-1">
-            <span>TURN // {String(step.turn || 1).padStart(2, '0')}</span>
-            <span>•</span>
-            <span>STEP // {String(currentStep + 1).padStart(2, '0')} / {timeline.length || 64}</span>
-            <span>•</span>
-            <span className="text-amber-400 font-bold">
-              AI DECISION // {step.action_name || 'ELECTRO BULLET'}
-            </span>
-          </div>
+    <div className="space-y-6 text-left pb-12 max-w-6xl mx-auto">
+      {/* 1. Contextual Match HUD Bar (Non-boxed, open typographic header) */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-3 border-b border-white/6">
+        <div className="flex items-baseline gap-3 font-mono">
+          <span className="text-xs text-amber-400 font-bold">MATCH // CABT-0824</span>
+          <span className="text-slate-600">•</span>
+          <span className="text-xs text-white font-bold">TURN {String(step.turn || 1).padStart(2, '0')}</span>
+          <span className="text-slate-600">•</span>
+          <span className="text-xs text-slate-400">STEP {currentStep + 1} OF {timeline.length || 64}</span>
+          <span className="text-slate-600">•</span>
+          <span className="text-xs text-emerald-400">P95 LATENCY: 2.66ms</span>
         </div>
 
-        {/* Action Triggers */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono text-xs">
           {onNavigateExplainer && (
             <button
               onClick={onNavigateExplainer}
-              className="px-3.5 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-md"
+              className="px-3 py-1 rounded-xs bg-white/4 hover:bg-white/8 text-slate-300 hover:text-white border border-white/8 flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <GitBranch className="w-3.5 h-3.5 text-indigo-400" />
-              TRACE DECISION
+              <GitBranch className="w-3.5 h-3.5 text-amber-400" />
+              <span>TRACE DECISION</span>
             </button>
           )}
 
           <button
             onClick={() => startNewSimulation('heuristic_v1')}
             disabled={isLoading}
-            className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-black text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-amber-500/20 cursor-pointer disabled:opacity-50"
+            className="px-3 py-1 rounded-xs bg-amber-400 hover:bg-amber-300 text-black font-bold flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
           >
             <RotateCcw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-            NEW BATTLE
+            <span>NEW BATTLE</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Main 3D Tactical Battlefield Canvas */}
-      <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-8 relative overflow-hidden bg-radial from-slate-900/60 via-slate-950 to-[#030509]">
-        {/* Opponent Zone */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center text-xs font-mono pb-2 border-b border-white/6">
-            <div className="flex items-center gap-2 text-rose-300 font-bold">
-              <span className="w-2 h-2 rounded-full bg-rose-500" />
-              OPPONENT // HEURISTIC BASELINE V1
+      {/* 2. Premium Digital Battlefield Arena */}
+      <div className="relative rounded-lg border border-white/8 bg-[#090C12] overflow-hidden p-6 sm:p-8 space-y-6">
+        {/* Subtle arena background pattern */}
+        <div className="absolute inset-0 bg-radial from-amber-400/[0.02] via-transparent to-transparent pointer-events-none" />
+
+        {/* ================= OPPONENT FIELD (TOP) ================= */}
+        <div className="space-y-3 relative z-10">
+          <div className="flex justify-between items-center text-xs font-mono">
+            <div className="flex items-center gap-2 text-slate-300 font-bold">
+              <span className="w-2 h-2 rounded-xs bg-rose-500" />
+              <span>OPPONENT // HEURISTIC BASELINE V1</span>
+              <span className="text-slate-500 font-normal">
+                [Deck: {step.opp_deck_count || 42} • Hand: {step.opp_hand_count || 5}]
+              </span>
             </div>
 
-            {/* Opponent Prize Tokens (6 Tokens) */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-slate-400 mr-1">PRIZES:</span>
+            {/* 6-Prize Slot Stack */}
+            <div className="flex items-center gap-1">
+              <span className="text-[10px] text-slate-500 mr-1">PRIZES:</span>
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className={`w-3 h-4 rounded-sm border transition-all ${
+                  className={`w-2.5 h-3.5 rounded-xs border transition-colors ${
                     i < oppPrizesClaimed
-                      ? 'bg-rose-500 border-rose-300 shadow-sm shadow-rose-500/50'
-                      : 'bg-white/5 border-white/20'
+                      ? 'bg-rose-500 border-rose-400'
+                      : 'bg-white/5 border-white/10'
                   }`}
                   title={i < oppPrizesClaimed ? 'Claimed Prize' : 'Remaining Prize'}
                 />
@@ -152,18 +146,18 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
             </div>
           </div>
 
-          {/* Opponent Bench & Active Layout */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-2">
+          {/* Opponent Bench & Active Spot */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-1">
             {/* Opponent Bench */}
-            <div className="flex gap-3">
-              <PokemonCard cardId={344} variant="battle-bench" isOpponent hp={70} maxHp={70} />
-              <PokemonCard cardId={344} variant="battle-bench" isOpponent hp={70} maxHp={70} />
+            <div className="flex gap-2">
+              <PokemonCard cardId={344} variant="bench" isOpponent hp={70} maxHp={70} />
+              <PokemonCard cardId={344} variant="bench" isOpponent hp={70} maxHp={70} />
             </div>
 
-            {/* Opponent Active */}
+            {/* Opponent Active Pokémon */}
             <PokemonCard
               cardId={oppActiveId}
-              variant="battle-active"
+              variant="battle"
               isOpponent
               hp={oppActiveHp}
               maxHp={oppActiveMaxHp}
@@ -173,49 +167,43 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
           </div>
         </div>
 
-        {/* Center Clash Telemetry Banner & Action Readout */}
-        <div className="py-3 px-6 rounded-2xl bg-black/60 border border-white/8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono">
+        {/* ================= CLASH ZONE & DECISION OVERLAY ================= */}
+        <div className="relative py-2 flex flex-col md:flex-row items-center justify-between gap-4 border-y border-white/6 px-4 font-mono text-xs">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-amber-400/10 text-amber-400 border border-amber-400/30">
-              <Swords className="w-4 h-4" />
-            </div>
+            <Swords className="w-4 h-4 text-amber-400" />
             <div>
-              <div className="text-[10px] text-slate-400">LAST ACTION EXECUTED</div>
-              <div className="text-white font-bold text-sm">
+              <span className="text-slate-500 text-[10px] uppercase">Executed Action: </span>
+              <span className="text-white font-bold">
                 {step.action_name || 'Electro Bullet (160 DMG)'}
-              </div>
+              </span>
             </div>
           </div>
 
-          {/* AI Decision Breakdown Chips */}
-          <div className="flex items-center gap-3 text-[11px]">
-            <div className="px-2.5 py-1 rounded-lg bg-white/4 border border-white/8">
-              <span className="text-slate-400 mr-1">PRIZE:</span>
-              <span className="text-emerald-400 font-bold">+220</span>
-            </div>
-            <div className="px-2.5 py-1 rounded-lg bg-white/4 border border-white/8">
-              <span className="text-slate-400 mr-1">BOARD:</span>
-              <span className="text-indigo-300 font-bold">+310</span>
-            </div>
-            <div className="px-2.5 py-1 rounded-lg bg-white/4 border border-white/8">
-              <span className="text-slate-400 mr-1">RETALIATION:</span>
-              <span className="text-rose-400 font-bold">-45</span>
-            </div>
-            <div className="px-3 py-1 rounded-lg bg-amber-400/10 border border-amber-400/40 text-amber-300 font-black">
-              SCORE: +655
-            </div>
+          {/* Value Breakdown Vector */}
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="text-slate-400">
+              PRIZE <span className="text-emerald-400 font-bold">+220</span>
+            </span>
+            <span className="text-slate-400">
+              BOARD <span className="text-slate-200 font-bold">+310</span>
+            </span>
+            <span className="text-slate-400">
+              RISK <span className="text-rose-400 font-bold">-45</span>
+            </span>
+            <span className="text-amber-400 font-bold pl-2 border-l border-white/10">
+              NET SCORE: +655
+            </span>
           </div>
         </div>
 
-        {/* Player Zone */}
-        <div className="space-y-4">
-          {/* Player Active & Bench Layout */}
-          <div className="flex flex-col-reverse sm:flex-row items-center justify-center gap-6 pb-2">
+        {/* ================= PLAYER FIELD (BOTTOM) ================= */}
+        <div className="space-y-3 relative z-10">
+          {/* Player Active & Bench */}
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-center gap-6 pb-1">
             {/* Player Active (Dominant) */}
             <PokemonCard
               cardId={yourActiveId}
-              variant="battle-active"
-              isActive
+              variant="battle"
               isSelected
               hp={yourActiveHp}
               maxHp={yourActiveMaxHp}
@@ -224,28 +212,31 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
             />
 
             {/* Player Bench */}
-            <div className="flex gap-3">
-              <PokemonCard cardId={722} variant="battle-bench" hp={140} maxHp={140} energyCount={1} />
-              <PokemonCard cardId={721} variant="battle-bench" hp={70} maxHp={70} energyCount={0} />
+            <div className="flex gap-2">
+              <PokemonCard cardId={722} variant="bench" hp={140} maxHp={140} energyCount={1} />
+              <PokemonCard cardId={721} variant="bench" hp={70} maxHp={70} energyCount={0} />
             </div>
           </div>
 
-          <div className="flex justify-between items-center text-xs font-mono pt-2 border-t border-white/6">
-            <div className="flex items-center gap-2 text-amber-300 font-bold">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-tactical-radar" />
-              PLAYER // PTCG AI NEXUS AGENT (V3.0)
+          <div className="flex justify-between items-center text-xs font-mono">
+            <div className="flex items-center gap-2 text-slate-300 font-bold">
+              <span className="w-2 h-2 rounded-xs bg-amber-400" />
+              <span>PLAYER // PTCG AI NEXUS (V3.0)</span>
+              <span className="text-slate-500 font-normal">
+                [Deck: {step.your_deck_count || 45} • Hand: {step.your_hand_count || 5}]
+              </span>
             </div>
 
-            {/* Player Prize Tokens (6 Tokens) */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-slate-400 mr-1">PRIZES CLAIMED:</span>
+            {/* 6-Prize Slot Stack */}
+            <div className="flex items-center gap-1">
+              <span className="text-[10px] text-slate-500 mr-1">PRIZES:</span>
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className={`w-3 h-4 rounded-sm border transition-all ${
+                  className={`w-2.5 h-3.5 rounded-xs border transition-colors ${
                     i < yourPrizesClaimed
-                      ? 'bg-amber-400 border-amber-200 shadow-sm shadow-amber-400/50'
-                      : 'bg-white/5 border-white/20'
+                      ? 'bg-amber-400 border-amber-300'
+                      : 'bg-white/5 border-white/10'
                   }`}
                   title={i < yourPrizesClaimed ? 'Claimed Prize' : 'Remaining Prize'}
                 />
@@ -255,33 +246,34 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
         </div>
       </div>
 
-      {/* 3. Playback Controls & Speed Bar */}
-      <div className="glass-panel p-4 rounded-2xl border border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+      {/* 3. Streamlined Decision Pipeline Trace & Timeline Controls */}
+      <div className="p-4 rounded-lg border border-white/6 bg-[#0B0D12] flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs">
+        {/* Playback Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentStep(0)}
-            className="p-2 rounded-xl bg-white/4 hover:bg-white/10 text-slate-300 transition-colors"
-            title="Reset to Turn 1"
+            className="p-1.5 rounded-xs bg-white/4 hover:bg-white/8 text-slate-300 transition-colors cursor-pointer"
+            title="Reset"
           >
-            <SkipBack className="w-4 h-4" />
+            <SkipBack className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
+            className="px-4 py-1.5 rounded-xs bg-amber-400 hover:bg-amber-300 text-black font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
-            <span>{isPlaying ? 'PAUSE BATTLE' : 'PLAY BATTLE'}</span>
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+            <span>{isPlaying ? 'PAUSE' : 'PLAY'}</span>
           </button>
           <button
             onClick={() => setCurrentStep((p) => Math.min(timeline.length - 1, p + 1))}
-            className="p-2 rounded-xl bg-white/4 hover:bg-white/10 text-slate-300 transition-colors"
+            className="p-1.5 rounded-xs bg-white/4 hover:bg-white/8 text-slate-300 transition-colors cursor-pointer"
             title="Step Forward"
           >
-            <SkipForward className="w-4 h-4" />
+            <SkipForward className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* Timeline Slider */}
+        {/* Scrubber */}
         <div className="flex-1 w-full max-w-md flex items-center gap-3">
           <input
             type="range"
@@ -289,20 +281,20 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
             max={Math.max(0, timeline.length - 1)}
             value={currentStep}
             onChange={(e) => setCurrentStep(Number(e.target.value))}
-            className="w-full h-1.5 rounded-lg bg-white/10 accent-amber-400 cursor-pointer"
+            className="w-full h-1 rounded-xs bg-white/10 accent-amber-400 cursor-pointer"
           />
-          <span className="text-xs text-slate-300 whitespace-nowrap">
-            Step {currentStep + 1} / {timeline.length}
+          <span className="text-slate-400 whitespace-nowrap">
+            {currentStep + 1} / {timeline.length}
           </span>
         </div>
 
-        {/* Speed Controls */}
-        <div className="flex items-center gap-1 bg-white/4 p-1 rounded-xl text-xs">
-          {[0.5, 1, 2, 5].map((spd) => (
+        {/* Speed */}
+        <div className="flex items-center gap-1 text-[11px]">
+          {[1, 2, 5].map((spd) => (
             <button
               key={spd}
               onClick={() => setPlaybackSpeed(spd)}
-              className={`px-2 py-0.5 rounded-lg font-bold transition-all ${
+              className={`px-2 py-0.5 rounded-xs font-bold transition-colors cursor-pointer ${
                 playbackSpeed === spd
                   ? 'bg-amber-400 text-black'
                   : 'text-slate-400 hover:text-white'
@@ -316,3 +308,5 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
     </div>
   );
 };
+
+export default LiveBattlefield;
