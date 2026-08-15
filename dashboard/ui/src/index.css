@@ -6,6 +6,11 @@
     background-color: var(--nexus-bg-void);
     color: var(--nexus-text-primary);
     font-family: var(--nexus-font-body);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    letter-spacing: -0.012em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     background-image: 
       radial-gradient(circle at 10% 10%, rgba(250, 204, 21, 0.04) 0%, transparent 40%),
       radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
@@ -17,12 +22,20 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, .font-display {
+  h1, .font-display {
     font-family: var(--nexus-font-display);
+    letter-spacing: -0.035em;
+    font-weight: 800;
+  }
+
+  h2, h3, h4, .font-heading {
+    font-family: var(--nexus-font-heading);
+    letter-spacing: -0.025em;
   }
 
   code, pre, .font-mono {
     font-family: var(--nexus-font-mono);
+    font-feature-settings: "tnum", "zero";
   }
 }
 
