@@ -22,10 +22,7 @@ if [ -d "$BASE_DIR/data" ]; then
     mkdir -p "$BUILD_DIR/data"
     cp -r "$BASE_DIR/data"/* "$BUILD_DIR/data/" 2>/dev/null || true
 fi
-if [ -d "$BASE_DIR/src" ]; then
-    mkdir -p "$BUILD_DIR/src"
-    cp -r "$BASE_DIR/src"/* "$BUILD_DIR/src/" 2>/dev/null || true
-fi
+
 
 # 2. Validate Deck File
 echo "[2/5] Validating deck.csv format (exactly 60 integer cards)..."

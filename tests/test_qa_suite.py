@@ -8,11 +8,13 @@ from unittest.mock import patch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import main
-from src.state_evaluator import parse_game_state, GameState
-from src.shallow_search import shallow_risk_aware_search, make_distinct_choice
-from src.value_function import evaluate_board_value
+from agent.state import parse_game_state, GameState
+from agent.search import shallow_risk_aware_search
+from agent.fallback import make_distinct_choice
+from agent.evaluator import evaluate_board_value
 from agent.opponent_model import estimate_opponent_threat
 from kaggle_environments import make
+
 
 
 def test_01_agent_initialization():

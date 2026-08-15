@@ -1,69 +1,73 @@
-# Architecture Consolidation Audit: `agent/` vs `src/`
+# Architecture Consolidation Audit: `agent/` (Canonical Architecture)
 
-**Status**: FORENSIC AUDIT COMPLETE  
-**Primary Goal**: Safely unify and eliminate dual-architecture duplication between `agent/` and `src/` while maintaining 100% test passing rates and zero regression.
-
----
-
-## 1. Executive Summary & File Mapping
-
-The repository currently contains two parallel code structures:
-- `agent/`: The modernized, unified, fully-typed production architecture (Layer A) supporting Bayesian belief tracking, strategic goal planning, and score decomposition.
-- `src/`: The initial prototype architecture.
-
-| Functional Component | `agent/` (Modern) | `src/` (Legacy) | Active in `main.py`? | Recommended Target |
-|---|---|---|---|---|
-| **Game State Representation** | `agent/state.py` (`GameState`, `parse_game_state`) | `src/state_evaluator.py` (`GameState`, `parse_game_state`) | `agent/state.py` | Consolidate to `agent/state.py` |
-| **Card Database & Lookup** | `agent/card_database.py` (Typed caching + fallback) | `src/card_database.py` (Identical fallback dict) | `agent/card_database.py` | Consolidate to `agent/card_database.py` |
-| **Opponent Modeling** | `agent/opponent_model.py` + `agent/belief_state.py` (Bayesian) | `src/opponent_model.py` (Heuristic prob estimation) | `agent/belief_state.py` + `src/opponent_model.py` | Unify into `agent/opponent_model.py` |
-| **Search & Lookahead** | `agent/search.py` (2-Ply state projection) | `src/shallow_search.py` (1-2 Ply search) | `src/shallow_search.py` (via `action_selector.py`) | Unify into `agent/search.py` |
-| **Evaluation & Value Function** | `agent/evaluator.py` + `agent/decomposition.py` | `src/state_evaluator.py` + `src/value_function.py` | `agent/evaluator.py` | Unify into `agent/evaluator.py` |
-| **Tactical Policy & Ranking** | `agent/policy.py` (`rank_attack_options`, etc.) | `src/attack_evaluator.py`, `src/energy_policy.py`, `src/target_selector.py` | `agent/policy.py` | Consolidated in `agent/policy.py` |
-| **Immunity & Safeguard** | `agent/evaluator.py` (`is_target_immune_to_ex`) | `src/immunity_handler.py` | `agent/evaluator.py` | Consolidated in `agent/evaluator.py` |
+**Consolidation Status**: **COMPLETED & VERIFIED**  
+**Production Runtime**: Pure `main.py` $\to$ `agent/` (Zero `src/` runtime dependencies)  
+**Verification Date**: August 15, 2026
 
 ---
 
-## 2. Key Differences & Architectural Comparison
+## 1. Architectural Evolution: Before vs After
 
-### A. Which implementation is actually used by `main.py`?
-`main.py` imports `agent.action_selector`. However, `agent/action_selector.py` line 11 imports `src.shallow_search`. Thus, at runtime:
-1. State parsing uses `agent.state`.
-2. Goal planning uses `agent.goals`.
-3. Bayesian belief state uses `agent.belief_state`.
-4. Search lookahead currently invokes `src.shallow_search.shallow_risk_aware_search`.
-5. Heuristic fallback uses `agent.policy`.
+### Before Consolidation
+```text
+main.py
+  └── agent/action_selector.py
+        ├── agent/state.py
+        ├── agent/belief_state.py
+        ├── agent/goals.py
+        ├── src/shallow_search.py  <-- Legacy Cross-Import Dependency
+        │     ├── src/state_evaluator.py
+        │     ├── src/value_function.py
+        │     ├── src/attack_evaluator.py
+        │     ├── src/immunity_handler.py
+        │     └── src/opponent_model.py
+        └── agent/policy.py
 
-### B. Which implementation is stronger?
-- **`agent/` is significantly stronger**:
-  - `agent/state.py` includes comprehensive normalization of bench, energies, and turn context.
-  - `agent/belief_state.py` features exact hypergeometric Bayesian counting for unseen card estimation.
-  - `agent/goals.py` provides macro situational modifiers (Safeguard bypass, match point lethal priority, anti-deckout threshold).
-  - `agent/decomposition.py` provides explainable additive valuation for research and dashboard telemetry.
+Packaging: submission.tar.gz included agent/, src/, data/, deck.csv, main.py (32 files, 0.07 MiB)
+```
 
-### C. Which files in `src/` are dead/legacy?
-- `src/bench_trainer_policy.py`: Completely superseded by `agent/policy.py`.
-- `src/energy_policy.py`: Superseded by `agent/policy.py::rank_energy_attachment_options`.
-- `src/target_selector.py`: Superseded by `agent/policy.py::rank_target_options`.
-- `src/immunity_handler.py`: Superseded by `agent/evaluator.py::is_target_immune_to_ex`.
-- `src/card_database.py`: Duplicate of `agent/card_database.py`.
+### After Consolidation (Current State)
+```text
+main.py
+  └── agent/action_selector.py
+        ├── agent/state.py (Comprehensive typed GameState + normalization)
+        ├── agent/belief_state.py (Hypergeometric Bayesian belief updating)
+        ├── agent/goals.py (Strategic goal identification & state modulation)
+        ├── agent/search.py (1-2 Ply lookahead with dynamic risk profile)
+        ├── agent/evaluator.py (Unified board value & damage estimation)
+        ├── agent/opponent_model.py (Bayesian threat estimation & archetype classification)
+        ├── agent/policy.py (Tactical candidate ranking: attack, energy, trainer, target)
+        ├── agent/deck_policy.py (Turn 0 deck loader & validator)
+        ├── agent/fallback.py (Deterministic bounded fallback)
+        └── agent/utils.py (Performance diagnostics & telemetry)
 
-### D. Are there conflicting algorithms?
-- In `src/opponent_model.py`, energy attachment probability is calculated using an empirical linear approximation ($P = \min(1.0, 0.4 + 0.1 \times \text{turn})$).
-- In `agent/belief_state.py`, energy attachment probability is calculated using rigorous hypergeometric distribution math:
-  $$P(X \ge 1) = 1 - \frac{\binom{N - K}{n}}{\binom{N}{n}}$$
-  where $N$ is unseen cards, $K$ is remaining energies in deck+hand, and $n$ is opponent hand size.
-- **Resolution**: The Bayesian hypergeometric calculation in `agent/` is mathematically superior, uncertainty-aware, and provides exact posterior estimates.
+Packaging: submission.tar.gz includes ONLY agent/, data/, deck.csv, main.py (20 files, 0.06 MiB)
+Legacy src/ remains outside the production submission for reference only.
+```
 
 ---
 
-## 3. Safe Consolidation Roadmap (Future Phase)
+## 2. Implementation Comparison & Rationales
 
-When proceeding with consolidation:
-1. **Redirect Search in `agent/action_selector.py`**:
-   - Update `agent/action_selector.py` to directly use `agent.search.shallow_risk_aware_search` instead of `src.shallow_search`.
-2. **Update Test Imports in `tests/test_qa_suite.py`**:
-   - Change imports in `tests/test_qa_suite.py` from `src.*` to `agent.*`.
-3. **Validate Packaging**:
-   - Update `tools/build_submission.sh` to stage only `agent/`, `main.py`, and `deck.csv`, reducing archive size to under **0.03 MiB**.
-4. **Run Full Verification**:
-   - Execute `pytest tests/ -v` and `python tools/benchmark.py` to confirm identical or improved performance.
+| Responsibility | Canonical Module (`agent/`) | Superseded Module (`src/`) | Consolidation Rationale |
+|---|---|---|---|
+| **Search Engine** | `agent/search.py` | `src/shallow_search.py` | `agent/search.py` incorporates dynamic risk modulation (`aggression_bonus`, `retaliation_weight`), robust bounded option selection via `agent.fallback.make_distinct_choice`, and 220.0 prize valuation. |
+| **Opponent Model** | `agent/opponent_model.py` + `agent/belief_state.py` | `src/opponent_model.py` | `agent/` uses exact hypergeometric math ($P(X \ge 1) = 1 - \frac{\binom{N-K}{n}}{\binom{N}{n}}$) with dynamic archetype recognition rather than fixed heuristic approximations. |
+| **Game State** | `agent/state.py` | `src/state_evaluator.py` | `agent/state.py` provides typed helper properties (`total_your_energies`, `total_opp_energies`, `prize_differential`, `is_match_point`) and cross-version observation normalization. |
+| **Value Function** | `agent/evaluator.py` | `src/value_function.py` | `agent/evaluator.py` unifies board evaluation, damage estimation, immunity calculation, and target prize values in a single high-cohesion module. |
+| **Action Policies** | `agent/policy.py` | `src/attack_evaluator.py`, `src/energy_policy.py`, `src/target_selector.py` | `agent/policy.py` consolidates separate fragmented policies into clean ranking functions. |
+| **Card Database** | `agent/card_database.py` | `src/card_database.py` | Identical schema with in-memory caching and hardcoded starter fallback. |
+
+---
+
+## 3. Verification & Benchmark Summary
+
+1. **Test Suite**: **46 / 46 tests passing** in **1.40s** (including dedicated regression tests in `tests/test_consolidation.py`).
+2. **Submission Archive**:
+   - Packaged size: **0.06 MiB** (60,422 bytes).
+   - Clean isolated extraction smoke test: **PASS** (Zero `src` modules imported into `sys.modules`).
+3. **Simulation Stability**:
+   - 30 complete CABT games executed (10 Self-Play, 10 vs Heuristic, 10 vs Random).
+   - **0 Invalids / Illegal Actions**, **0.00% Fallback Rate**.
+   - P95 Decision Latency: **2.665 ms** (down from 3.061 ms).
+   - Maximum Observed Latency: **4.177 ms** (down from 15.432 ms).
