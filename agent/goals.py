@@ -69,16 +69,16 @@ class GoalPlanner:
             )
 
         # 3. Crustle Safeguard Counterplay Goal
-        opp_active_id = opp_active.get("id") if isinstance(opp_active, dict) else getattr(opp_active, "id", 0) if opp_active else 0
-        if opp_active_id in (558,):  # Crustle Safeguard Immunity
+        from agent.evaluator import is_target_immune_to_ex
+        if is_target_immune_to_ex(opp_active):
             return GoalState(
                 primary_goal=StrategicGoal.GOAL_COUNTER_CRUSTLE,
                 secondary_goal=StrategicGoal.GOAL_PREPARE_ATTACKER,
-                goal_rationale="Opponent Active is Crustle (Safeguard immunity to ex). Prioritizing non-ex single prize attacker or gusting bench.",
+                goal_rationale="Opponent Active is immune to ex attacks (Safeguard). Prioritizing non-ex single prize attacker or gusting bench.",
                 attack_priority_bonus=1500.0,
                 energy_priority_bonus=2000.0,
                 evolution_priority_bonus=2500.0,
-                gust_priority_bonus=3000.0,
+                gust_priority_bonus=3500.0,
             )
 
         # 4. Active Preservation Goal

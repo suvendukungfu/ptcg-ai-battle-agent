@@ -1,0 +1,5 @@
+variant,games,wins,losses,draws,win_rate,ci_low,ci_high,p95_latency_ms
+A_Pure_Heuristic,20,9,11,0,45.0,25.8,65.8,0.084
+B_Heuristic_Plus_Goals,20,7,13,0,35.0,18.1,56.7,0.097
+C_Heuristic_Plus_Search_1Ply,20,20,0,0,100.0,83.9,100.0,4.035
+D_Full_System,20,20,0,0,100.0,83.9,100.0,4.438

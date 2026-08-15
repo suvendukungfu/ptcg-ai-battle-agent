@@ -31,8 +31,8 @@ def is_target_immune_to_ex(target: Optional[Dict[str, Any]]) -> bool:
     if not target or not isinstance(target, dict):
         return False
     card_id = target.get("id", 0)
-    # Recognized Safeguard IDs: Crustle (345, 533, 542)
-    if card_id in (345, 533, 542):
+    # Recognized Safeguard IDs: Crustle (345, 533, 542, 558)
+    if card_id in (345, 533, 542, 558):
         return True
     pdata = get_pokemon_data(card_id)
     if pdata:
