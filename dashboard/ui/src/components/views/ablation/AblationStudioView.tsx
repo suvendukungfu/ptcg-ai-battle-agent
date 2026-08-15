@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 
 
-
 interface AblationVariant {
   variant: string;
   elo: number;
@@ -107,12 +106,12 @@ export const AblationStudioView: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              <Sliders className="w-6 h-6 text-indigo-400" />
-              Ablation Studio & Controlled Component Attribution
+            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display">
+              <Sliders className="w-6 h-6 text-amber-400" />
+              Ablation Studio & Component Attribution
             </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-mono font-bold">
-              Scientific Attribution (A → F)
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-mono font-bold">
+              SCIENTIFIC ATTRIBUTION (A → F)
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
@@ -120,16 +119,17 @@ export const AblationStudioView: React.FC = () => {
           </p>
         </div>
 
-        <div className="text-xs font-mono px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 font-bold">
+        <div className="text-xs font-mono px-3.5 py-1.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold flex items-center gap-1.5">
+          <TrendingUp className="w-3.5 h-3.5" />
           Top Elo: 1684.5 (Variant F)
         </div>
       </div>
 
       {/* 2. Visual Component Ladder */}
-      <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+      <div className="glass-panel p-6 rounded-3xl border border-white/8 space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-white/8">
           <span className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-            <TrendingUp className="w-4 h-4 text-indigo-400" />
+            <TrendingUp className="w-4 h-4 text-amber-400" />
             Empirical Performance & Elo Progression by Variant
           </span>
           <span className="text-xs font-mono text-slate-400">Wilson 95% CI Bounds</span>
@@ -142,9 +142,9 @@ export const AblationStudioView: React.FC = () => {
               <div
                 key={v.variant}
                 onClick={() => setSelectedVariant(idx)}
-                className={`p-3.5 rounded-xl border cursor-pointer transition-all duration-300 space-y-2 select-none ${
+                className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 space-y-2 select-none ${
                   isSelected
-                    ? 'bg-indigo-950/60 border-indigo-500 shadow-lg ring-1 ring-indigo-500/40 text-white'
+                    ? 'bg-amber-950/40 border-amber-400 shadow-lg shadow-amber-400/10 ring-1 ring-amber-400/40 text-white'
                     : 'bg-white/2 border-white/6 text-slate-300 hover:bg-white/4'
                 }`}
               >
@@ -159,11 +159,11 @@ export const AblationStudioView: React.FC = () => {
       </div>
 
       {/* 3. Detailed Component Attribution Card */}
-      <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+      <div className="glass-panel p-6 rounded-3xl border border-white/8 space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-white/8">
           <div>
             <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">Active Variant</span>
-            <h3 className="text-lg font-black text-white">{current.variant}</h3>
+            <h3 className="text-lg font-black text-white font-display">{current.variant}</h3>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold">
@@ -172,26 +172,28 @@ export const AblationStudioView: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xs text-slate-300 leading-relaxed">{current.description}</p>
+        <p className="text-xs text-slate-300 leading-relaxed font-sans">{current.description}</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-          <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-1">
-            <div className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 font-mono">
+          <div className="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/20 space-y-1">
+            <div className="text-[10px] uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Primary Advantage
             </div>
-            <div className="text-xs text-slate-200">{current.advantage}</div>
+            <div className="text-xs text-slate-200 font-sans">{current.advantage}</div>
           </div>
 
-          <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 space-y-1">
-            <div className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold flex items-center gap-1">
+          <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/20 space-y-1">
+            <div className="text-[10px] uppercase tracking-wider text-amber-400 font-bold flex items-center gap-1">
               <Zap className="w-3.5 h-3.5" />
               Architectural Limitation
             </div>
-            <div className="text-xs text-slate-200">{current.bottleneck}</div>
+            <div className="text-xs text-slate-200 font-sans">{current.bottleneck}</div>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default AblationStudioView;

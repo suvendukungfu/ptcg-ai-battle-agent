@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { PokemonCard } from '../../common/PokemonCard';
 import {
   Layers,
 } from 'lucide-react';
+
 
 interface DeckCard {
   id: number;
@@ -17,7 +19,6 @@ interface DeckCard {
 
 export const DeckLabView: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
 
   const deckCards: DeckCard[] = [
     {
@@ -129,6 +130,7 @@ export const DeckLabView: React.FC = () => {
 
   const filteredCards = deckCards.filter((c) => {
     if (selectedCategory === 'all') return true;
+    if (selectedCategory === 'Trainer') return c.category === 'Item' || c.category === 'Supporter' || c.category === 'Tool';
     return c.category.toLowerCase() === selectedCategory.toLowerCase();
   });
 
@@ -138,12 +140,12 @@ export const DeckLabView: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              <Layers className="w-6 h-6 text-indigo-400" />
+            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display">
+              <Layers className="w-6 h-6 text-amber-400" />
               Deck Laboratory & Card Codex
             </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-mono font-bold">
-              60-Card Optimization Engine
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-mono font-bold">
+              60-CARD OPTIMIZATION ENGINE
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
@@ -151,14 +153,14 @@ export const DeckLabView: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono">
           {['Pokemon', 'Trainer', 'Energy', 'all'].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1 rounded-xl text-xs font-mono font-bold capitalize transition-all ${
+              className={`px-3 py-1 rounded-xl text-xs font-bold capitalize transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
                   : 'bg-white/4 text-slate-400 hover:text-white hover:bg-white/8'
               }`}
             >
@@ -170,7 +172,7 @@ export const DeckLabView: React.FC = () => {
 
       {/* 2. Statistical Curves & Hypergeometric Opening Hand Calculator */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-2">
+        <div className="glass-panel p-5 rounded-3xl border border-white/8 space-y-2">
           <div className="flex justify-between items-center text-xs font-mono">
             <span className="text-slate-400">P(Basic Pokémon in T1 Hand)</span>
             <span className="text-emerald-400 font-bold text-sm">99.8%</span>
@@ -178,25 +180,25 @@ export const DeckLabView: React.FC = () => {
           <div className="w-full h-2 rounded-full bg-white/6 overflow-hidden">
             <div style={{ width: '99.8%' }} className="h-full bg-emerald-400 rounded-full" />
           </div>
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-slate-400 font-sans">
             Guarantees 0 mulligan penalties across 99.8% of competitive opening hands.
           </div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-2">
+        <div className="glass-panel p-5 rounded-3xl border border-white/8 space-y-2">
           <div className="flex justify-between items-center text-xs font-mono">
             <span className="text-slate-400">Electric Generator Hit Rate (≥1 ⚡)</span>
-            <span className="text-indigo-300 font-bold text-sm">96.4%</span>
+            <span className="text-amber-300 font-bold text-sm">96.4%</span>
           </div>
           <div className="w-full h-2 rounded-full bg-white/6 overflow-hidden">
-            <div style={{ width: '96.4%' }} className="h-full bg-indigo-500 rounded-full" />
+            <div style={{ width: '96.4%' }} className="h-full bg-amber-400 rounded-full" />
           </div>
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-slate-400 font-sans">
             33 Energy density ensures reliable Turn 2 Electro Bullet activation.
           </div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-2">
+        <div className="glass-panel p-5 rounded-3xl border border-white/8 space-y-2">
           <div className="flex justify-between items-center text-xs font-mono">
             <span className="text-slate-400">Total Deck Composition</span>
             <span className="text-white font-bold text-sm">60 / 60 Cards</span>
@@ -206,46 +208,43 @@ export const DeckLabView: React.FC = () => {
             <div style={{ width: '28.3%' }} className="h-full bg-indigo-500" title="Trainers (17)" />
             <div style={{ width: '55.0%' }} className="h-full bg-amber-400" title="Energy (33)" />
           </div>
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-slate-400 font-sans">
             10 Pokémon (16.7%) • 17 Trainers (28.3%) • 33 Energies (55.0%)
           </div>
         </div>
       </div>
 
-      {/* 3. Card Codex Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* 3. Card Codex Grid with Physical PokemonCard Visuals */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredCards.map((card) => (
           <div
             key={card.id}
-            className="glass-panel p-4 rounded-2xl border border-white/8 hover:border-indigo-500/40 transition-all duration-300 space-y-3 relative group"
+            className="glass-panel p-4 rounded-3xl border border-white/8 hover:border-amber-400/40 transition-all duration-300 space-y-3 flex flex-col justify-between"
           >
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+            <div>
+              <div className="flex justify-between items-center mb-2 font-mono">
+                <span className="text-[10px] text-slate-400 uppercase tracking-wider">
                   #{card.id} • {card.category}
                 </span>
-                <h4 className="text-base font-black text-white group-hover:text-indigo-300 transition-colors">
-                  {card.name}
-                </h4>
+                <span className="px-2 py-0.5 rounded-md bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold">
+                  x{card.count}
+                </span>
               </div>
-              <span className="px-2.5 py-1 rounded-xl bg-white/4 border border-white/10 font-mono font-bold text-xs text-white">
-                x{card.count}
-              </span>
+
+              {/* Physical Card Artwork */}
+              <div className="flex justify-center py-1">
+                <PokemonCard cardId={card.id} variant="compact" hp={card.hp} maxHp={card.hp} />
+              </div>
             </div>
 
-            {card.hp && (
-              <div className="flex items-center gap-3 text-xs font-mono">
-                <span className="text-emerald-400 font-bold">HP {card.hp}</span>
-                <span className="text-slate-400">•</span>
-                <span className="text-amber-400">{card.attacks}</span>
+            <div className="space-y-2 pt-2 border-t border-white/6 font-mono text-xs">
+              <div className="text-[11px] text-slate-300 font-sans leading-tight">
+                {card.role}
               </div>
-            )}
-
-            <div className="text-xs text-slate-300 leading-relaxed font-sans">{card.role}</div>
-
-            <div className="pt-2 border-t border-white/6 flex items-center justify-between text-[11px] font-mono">
-              <span className="text-slate-400">AI Priority Score:</span>
-              <span className="text-indigo-400 font-black">{card.ai_priority} / 100</span>
+              <div className="flex justify-between items-center text-[10px] text-slate-400">
+                <span>AI Priority:</span>
+                <span className="text-amber-400 font-bold">{card.ai_priority} / 100</span>
+              </div>
             </div>
           </div>
         ))}
@@ -253,3 +252,5 @@ export const DeckLabView: React.FC = () => {
     </div>
   );
 };
+
+export default DeckLabView;

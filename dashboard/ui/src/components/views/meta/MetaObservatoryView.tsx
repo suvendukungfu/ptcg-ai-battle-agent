@@ -4,8 +4,8 @@ import {
   Globe,
   Sliders,
   BarChart2,
+  TrendingUp,
 } from 'lucide-react';
-
 
 interface MatchupCell {
   win_rate: number;
@@ -68,12 +68,12 @@ export const MetaObservatoryView: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              <Globe className="w-6 h-6 text-indigo-400" />
+            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display">
+              <Globe className="w-6 h-6 text-amber-400" />
               Meta Observatory & Game-Theoretic Matrix
             </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-mono font-bold">
-              Nash Equilibrium & Meta Simulation
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-mono font-bold">
+              NASH EQUILIBRIUM & RADAR
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
@@ -81,16 +81,17 @@ export const MetaObservatoryView: React.FC = () => {
           </p>
         </div>
 
-        <div className="text-xs font-mono px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 font-bold">
+        <div className="text-xs font-mono px-3.5 py-1.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold flex items-center gap-1.5">
+          <TrendingUp className="w-3.5 h-3.5" />
           Meta Robustness Index: 84.2 / 100
         </div>
       </div>
 
       {/* 2. Pairwise Matchup Heatmap Matrix */}
-      <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+      <div className="glass-panel p-6 rounded-3xl border border-white/8 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BarChart2 className="w-4 h-4 text-indigo-400" />
+            <BarChart2 className="w-4 h-4 text-amber-400" />
             <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
               Pairwise Matchup Win Rate Heatmap (Row vs Column)
             </h3>
@@ -133,7 +134,7 @@ export const MetaObservatoryView: React.FC = () => {
                         </td>
                       );
                     })}
-                    <td className="p-3 text-right font-black text-emerald-400 text-sm whitespace-nowrap">
+                    <td className="p-3 text-right font-black text-amber-400 text-sm whitespace-nowrap">
                       {ev.toFixed(1)}%
                     </td>
                   </tr>
@@ -145,25 +146,26 @@ export const MetaObservatoryView: React.FC = () => {
       </div>
 
       {/* 3. Interactive Meta Shifter Sandbox */}
-      <div className="glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
+      <div className="glass-panel p-6 rounded-3xl border border-white/8 space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-white/8">
           <span className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-            <Sliders className="w-4 h-4 text-indigo-400" />
+            <Sliders className="w-4 h-4 text-amber-400" />
             Meta Shifter: Real-Time Ladder Population Simulator
           </span>
-          <span className="text-xs font-mono text-indigo-300 font-bold">Dynamic Weighting</span>
+          <span className="text-xs font-mono text-amber-300 font-bold">Dynamic Weighting</span>
         </div>
 
-        <p className="text-xs text-slate-300 leading-relaxed">
-          Adjust the archetype popularity sliders below to simulate meta shifts on the Kaggle ladder. The Expected Deck Values in the table dynamically update to reflect the optimal deck choice for the simulated meta.
+        <p className="text-xs text-slate-300 leading-relaxed font-sans">
+          Adjust the archetype popularity sliders below to simulate meta shifts on the Kaggle ladder. The Expected Deck Values dynamically re-weight in real time (E[V(D)] = Σ w_i · WR_i).
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2 font-mono">
           {archetypes.map((arch: string) => (
-            <div key={arch} className="p-3.5 rounded-xl bg-white/2 border border-white/6 space-y-2">
-              <div className="flex justify-between items-center text-xs font-mono">
+            <div key={arch} className="p-4 rounded-2xl bg-white/2 border border-white/6 space-y-2">
+              <div className="flex justify-between items-center text-xs">
                 <span className="text-slate-300 font-bold truncate">{arch.replace('_', ' ')}</span>
-                <span className="text-indigo-400 font-black">{metaShares[arch] || 25}%</span>
+                <span className="text-amber-400 font-black">{metaShares[arch] || 25}%</span>
               </div>
               <input
                 type="range"
@@ -174,7 +176,7 @@ export const MetaObservatoryView: React.FC = () => {
                   const val = Number(e.target.value);
                   setMetaShares((prev) => ({ ...prev, [arch]: val }));
                 }}
-                className="w-full h-1.5 rounded-lg bg-white/10 accent-indigo-500 cursor-pointer"
+                className="w-full h-1.5 rounded-lg bg-white/10 accent-amber-400 cursor-pointer"
               />
             </div>
           ))}
@@ -183,3 +185,5 @@ export const MetaObservatoryView: React.FC = () => {
     </div>
   );
 };
+
+export default MetaObservatoryView;
