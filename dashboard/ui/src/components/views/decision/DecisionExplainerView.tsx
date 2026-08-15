@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DecisionTraceNodeGraph } from './DecisionTraceNodeGraph';
 import {
   GitBranch,
   CheckCircle2,
@@ -8,6 +9,9 @@ import {
   TrendingUp,
   Sparkles,
   BarChart3,
+  Target,
+  Brain,
+  Layers,
 } from 'lucide-react';
 
 
@@ -32,6 +36,7 @@ interface CandidateAction {
 
 export const DecisionExplainerView: React.FC = () => {
   const [selectedCandidate, setSelectedCandidate] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<'pipeline' | 'tree'>('pipeline');
 
   const candidates: CandidateAction[] = [
     {
@@ -114,18 +119,63 @@ export const DecisionExplainerView: React.FC = () => {
 
   const current = candidates[selectedCandidate] || candidates[0];
 
+  const pipelineStages = [
+    {
+      step: '01',
+      title: 'STATE INGESTION',
+      icon: <Layers className="w-4 h-4 text-indigo-400" />,
+      desc: 'Parses raw board state, public Pokémon slots, HP, and private hand into normalized GameState.',
+      status: 'PARSED IN 0.22ms',
+    },
+    {
+      step: '02',
+      title: 'GOAL PLANNING',
+      icon: <Target className="w-4 h-4 text-emerald-400" />,
+      desc: 'Evaluates macro phase (Setup -> Pressure -> Endgame). Goal: Eliminate opponent active for 1-prize lead.',
+      status: 'PRESSURE PHASE',
+    },
+    {
+      step: '03',
+      title: 'CANDIDATES',
+      icon: <Swords className="w-4 h-4 text-amber-400" />,
+      desc: 'Generates all 100% legal moves (attacks, items, attachments, pass) and filters out illegal branches.',
+      status: '4 CANDIDATES',
+    },
+    {
+      step: '04',
+      title: 'BAYESIAN RISK',
+      icon: <Brain className="w-4 h-4 text-purple-400" />,
+      desc: 'Computes hypergeometric probability of opponent lethal retaliation P(Retaliate) = 0.12.',
+      status: 'LOW RISK (0.12)',
+    },
+    {
+      step: '05',
+      title: '2-PLY SEARCH',
+      icon: <GitBranch className="w-4 h-4 text-cyan-400" />,
+      desc: 'Forward projects board states and subtracts expected opponent counterplay values.',
+      status: 'SEARCH DEPTH: 2',
+    },
+    {
+      step: '06',
+      title: 'OPTIMAL DECISION',
+      icon: <CheckCircle2 className="w-4 h-4 text-amber-300" />,
+      desc: 'Selects action index [0]: Electro Bullet (+655.0 Net Score). Zero fallback rate.',
+      status: 'ELECTRO BULLET',
+    },
+  ];
+
   return (
     <div className="space-y-6 text-left pb-12">
       {/* 1. Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/8">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              <GitBranch className="w-6 h-6 text-indigo-400" />
-              Decision Explainer & Search Tree Sandbox
+            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display">
+              <GitBranch className="w-6 h-6 text-amber-400" />
+              Decision Explainer & Explainable AI (XAI)
             </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-mono font-bold">
-              Explainable AI (XAI)
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 font-mono font-bold">
+              2-PLY SEARCH SPACE
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
@@ -133,12 +183,72 @@ export const DecisionExplainerView: React.FC = () => {
           </p>
         </div>
 
-        <div className="text-xs font-mono px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300">
-          Decision Point: Turn 3 • Main Action Phase (Type 0)
+        {/* View Switcher Tabs */}
+        <div className="flex items-center gap-1 bg-white/4 p-1 rounded-xl text-xs font-mono">
+          <button
+            onClick={() => setActiveTab('pipeline')}
+            className={`px-3 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'pipeline'
+                ? 'bg-amber-400 text-black'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            PIPELINE TRACE
+          </button>
+          <button
+            onClick={() => setActiveTab('tree')}
+            className={`px-3 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'tree'
+                ? 'bg-amber-400 text-black'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            LOOKAHEAD TREE
+          </button>
         </div>
       </div>
 
-      {/* 2. Search Tree Candidate Comparison Bar */}
+      {/* 2. Signature 6-Stage AI Decision Pipeline Trace */}
+      {activeTab === 'pipeline' && (
+        <div className="glass-panel p-6 rounded-3xl border border-white/8 space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-white/6">
+            <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">
+              Signature Decision Flow
+            </span>
+            <span className="text-xs font-mono text-amber-300 font-bold">
+              STATE → GOAL → CANDIDATES → RISK → SEARCH → DECISION
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
+            {pipelineStages.map((st) => (
+              <div
+                key={st.step}
+                className="p-3.5 rounded-2xl bg-white/2 border border-white/6 space-y-2 flex flex-col justify-between"
+              >
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center text-[10px] font-mono text-slate-500">
+                    <span>STAGE {st.step}</span>
+                    {st.icon}
+                  </div>
+                  <div className="text-xs font-black text-white font-mono">{st.title}</div>
+                  <div className="text-[11px] text-slate-400 font-sans leading-tight">
+                    {st.desc}
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-white/6 text-[10px] font-mono font-bold text-amber-300 truncate">
+                  {st.status}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 3. 2-Ply Lookahead Search Tree Node Graph */}
+      {activeTab === 'tree' && <DecisionTraceNodeGraph />}
+
+      {/* 4. Candidate Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {candidates.map((c, idx) => {
           const isSelected = idx === selectedCandidate;
@@ -148,7 +258,7 @@ export const DecisionExplainerView: React.FC = () => {
               onClick={() => setSelectedCandidate(idx)}
               className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 relative select-none ${
                 isSelected
-                  ? 'bg-indigo-950/60 border-indigo-500 shadow-xl shadow-indigo-950/40 ring-1 ring-indigo-500/40'
+                  ? 'bg-amber-950/30 border-amber-400 shadow-xl shadow-amber-400/10 ring-1 ring-amber-400/30'
                   : 'bg-white/2 border-white/8 hover:bg-white/4 hover:border-white/12'
               }`}
             >
@@ -170,7 +280,7 @@ export const DecisionExplainerView: React.FC = () => {
                 <span className="text-[10px] text-slate-400">Net Score:</span>
                 <span
                   className={`text-sm font-black ${
-                    c.netScore > 500 ? 'text-emerald-400' : c.netScore > 200 ? 'text-indigo-300' : 'text-rose-400'
+                    c.netScore > 500 ? 'text-emerald-400' : c.netScore > 200 ? 'text-amber-300' : 'text-rose-400'
                   }`}
                 >
                   +{c.netScore.toFixed(1)}
@@ -181,16 +291,16 @@ export const DecisionExplainerView: React.FC = () => {
         })}
       </div>
 
-      {/* 3. Deep Decomposition & Counterfactual Sandbox */}
+      {/* 5. Deep Additive Decomposition & Counterfactual Sandbox */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left 7 Cols: Additive Score Decomposition Chart */}
         <div className="lg:col-span-7 glass-panel p-5 rounded-2xl border border-white/8 space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-white/8">
             <span className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-              <BarChart3 className="w-4 h-4 text-indigo-400" />
+              <BarChart3 className="w-4 h-4 text-amber-400" />
               Additive Value Decomposition Breakdown
             </span>
-            <span className="text-xs font-mono text-indigo-300 font-bold">
+            <span className="text-xs font-mono text-amber-300 font-bold">
               Score: +{current.netScore.toFixed(1)}
             </span>
           </div>
@@ -263,8 +373,8 @@ export const DecisionExplainerView: React.FC = () => {
           </div>
 
           <div className="p-3.5 rounded-xl bg-white/2 border border-white/6 text-xs text-slate-300 leading-relaxed mt-4">
-            <span className="font-bold text-white">Mathematical Formulation: </span>
-            <span className="font-mono text-[11px] text-indigo-300">
+            <span className="font-bold text-white">Mathematical Value Formulation: </span>
+            <span className="font-mono text-[11px] text-amber-300">
               V(s, a) = V_board(s') + W_prize·ΔP - γ·E[OppCounter(s')] + W_energy·ΔE
             </span>
           </div>
@@ -275,8 +385,8 @@ export const DecisionExplainerView: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-white/8">
               <span className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                Counterfactual Rationale
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                Counterfactual Sandbox
               </span>
               <span
                 className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
@@ -293,8 +403,8 @@ export const DecisionExplainerView: React.FC = () => {
               {current.explanation}
             </div>
 
-            <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20 space-y-2 text-xs font-mono">
-              <div className="text-indigo-300 font-bold">2-Ply Lookahead Summary:</div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/8 space-y-2 text-xs font-mono">
+              <div className="text-amber-300 font-bold">2-Ply Lookahead Summary:</div>
               <div className="text-slate-300 text-[11px]">
                 • Immediate Action Yield: <span className="text-emerald-400 font-bold">+{current.immediateBonus} pts</span>
               </div>
@@ -308,10 +418,12 @@ export const DecisionExplainerView: React.FC = () => {
           </div>
 
           <div className="text-[11px] text-slate-400 font-mono pt-3 border-t border-white/6">
-            Computed offline via <span className="text-indigo-300">research/counterfactual.py</span>
+            Computed offline via <span className="text-amber-300">research/counterfactual.py</span>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default DecisionExplainerView;
