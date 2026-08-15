@@ -24,27 +24,39 @@ interface SidebarProps {
   onToggleCollapse: () => void;
 }
 
-interface NavItem {
-  id: ViewSuite;
+interface NavGroup {
   label: string;
-  icon: React.ElementType;
-  shortcut: string;
-  badge?: string;
+  items: Array<{
+    id: ViewSuite;
+    label: string;
+    icon: React.ElementType;
+    shortcut: string;
+  }>;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'overview', label: 'Command Center', icon: LayoutDashboard, shortcut: '1' },
-  { id: 'arena', label: 'Live Arena', icon: Swords, shortcut: '2' },
-  { id: 'replay', label: 'Replay Explorer', icon: Film, shortcut: '3' },
-  { id: 'decision', label: 'Decision Explainer', icon: BrainCircuit, shortcut: '4' },
-  { id: 'opponent', label: 'Opponent Intelligence', icon: Eye, shortcut: '5' },
-  { id: 'meta', label: 'Meta Observatory', icon: Compass, shortcut: '6' },
-  { id: 'decklab', label: 'Deck Lab & Robustness', icon: Layers, shortcut: '7' },
-  { id: 'mistakes', label: 'AI Mistake Lab', icon: AlertTriangle, shortcut: '8' },
-  { id: 'ablations', label: 'Ablation Studio', icon: Sliders, shortcut: '9' },
-  { id: 'performance', label: 'Performance Lab', icon: Activity, shortcut: '0' },
-  { id: 'research', label: 'Research Paper', icon: BookOpen, shortcut: 'R' },
-  { id: 'presentation', label: '5-Min Presentation', icon: Presentation, shortcut: 'P', badge: 'PRO' },
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: 'INTELLIGENCE',
+    items: [
+      { id: 'overview', label: 'NEXUS', icon: LayoutDashboard, shortcut: '1' },
+      { id: 'arena', label: 'Battle Arena', icon: Swords, shortcut: '2' },
+      { id: 'replay', label: 'Replay Forensics', icon: Film, shortcut: '3' },
+      { id: 'decision', label: 'Decision Lens', icon: BrainCircuit, shortcut: '4' },
+      { id: 'opponent', label: 'Opponent Intel', icon: Eye, shortcut: '5' },
+    ],
+  },
+  {
+    label: 'RESEARCH & META',
+    items: [
+      { id: 'meta', label: 'Meta Observatory', icon: Compass, shortcut: '6' },
+      { id: 'decklab', label: 'Deck Lab (60)', icon: Layers, shortcut: '7' },
+      { id: 'mistakes', label: 'Loss Forensics', icon: AlertTriangle, shortcut: '8' },
+      { id: 'ablations', label: 'Ablations (A–F)', icon: Sliders, shortcut: '9' },
+      { id: 'performance', label: 'Telemetry Lab', icon: Activity, shortcut: '0' },
+      { id: 'research', label: 'Research Paper', icon: BookOpen, shortcut: 'R' },
+      { id: 'presentation', label: 'Executive Deck', icon: Presentation, shortcut: 'P' },
+    ],
+  },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -55,75 +67,78 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside
-      className={`fixed left-0 top-16 bottom-0 z-40 glass-panel border-r border-white/[0.08] transition-all duration-300 flex flex-col justify-between ${
-        collapsed ? 'w-16' : 'w-64'
+      className={`fixed left-0 top-14 bottom-0 z-40 bg-[#07080B] border-r border-white/6 transition-all duration-200 flex flex-col justify-between select-none ${
+        collapsed ? 'w-14' : 'w-56'
       }`}
     >
-      {/* Navigation List */}
-      <div className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-8rem)]">
-        <div className={`px-2 py-1.5 text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase ${collapsed ? 'text-center' : ''}`}>
-          {collapsed ? 'LAB' : 'INTELLIGENCE SUITES'}
-        </div>
+      {/* Navigation Groups */}
+      <div className="p-2 space-y-4 overflow-y-auto">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.label} className="space-y-0.5">
+            {!collapsed && (
+              <div className="px-3 py-1 text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase">
+                {group.label}
+              </div>
+            )}
 
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentSuite === item.id;
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentSuite === item.id;
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => onSelectSuite(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all relative group ${
-                isActive
-                  ? 'bg-indigo-600/20 text-white border border-indigo-500/40 shadow-lg shadow-indigo-500/10'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent'
-              }`}
-              title={`${item.label} (Press ${item.shortcut})`}
-            >
-              <Icon
-                className={`w-4 h-4 flex-shrink-0 ${
-                  isActive ? 'text-indigo-400' : 'text-slate-400 group-hover:text-slate-200'
-                }`}
-              />
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onSelectSuite(item.id)}
+                  className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-xs text-xs font-mono transition-colors relative group cursor-pointer ${
+                    isActive
+                      ? 'bg-white/4 text-white font-bold'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/2'
+                  }`}
+                  title={`${item.label} (Press ${item.shortcut})`}
+                >
+                  <Icon
+                    className={`w-3.5 h-3.5 flex-shrink-0 ${
+                      isActive ? 'text-amber-400' : 'text-slate-400 group-hover:text-slate-200'
+                    }`}
+                  />
 
-              {!collapsed && (
-                <>
-                  <span className="flex-1 text-left truncate">{item.label}</span>
-                  {item.badge && (
-                    <span className="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                      {item.badge}
-                    </span>
+                  {!collapsed && (
+                    <>
+                      <span className="flex-1 text-left truncate tracking-tight">{item.label}</span>
+                      <span className="text-[10px] text-slate-400 opacity-60">
+                        {item.shortcut}
+                      </span>
+                    </>
                   )}
-                  <span className="px-1.5 py-0.5 text-[10px] font-mono text-slate-400 rounded bg-white/[0.05]">
-                    {item.shortcut}
-                  </span>
-                </>
-              )}
 
-              {/* Active Indicator Bar */}
-              {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r bg-indigo-500" />
-              )}
-            </button>
-          );
-        })}
+                  {/* Clean thin Electric Yellow selected bar */}
+                  {isActive && (
+                    <span className="absolute left-0 top-1 bottom-1 w-0.5 bg-amber-400 rounded-r-xs" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       {/* Collapse Footer Toggle */}
-      <div className="p-3 border-t border-white/[0.08] flex items-center justify-between">
+      <div className="p-2 border-t border-white/6 flex items-center justify-between font-mono text-[10px]">
         {!collapsed && (
-          <div className="text-[11px] font-mono text-slate-400">
-            Kaggle CABT Runtime
+          <div className="text-slate-400 px-2">
+            PTCG // NEXUS V3.0
           </div>
         )}
         <button
           onClick={onToggleCollapse}
-          className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 hover:text-white transition-colors"
+          className="p-1 rounded-xs hover:bg-white/4 text-slate-400 hover:text-white transition-colors cursor-pointer"
           title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
-          {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
         </button>
       </div>
     </aside>
   );
 };
+
+export default Sidebar;

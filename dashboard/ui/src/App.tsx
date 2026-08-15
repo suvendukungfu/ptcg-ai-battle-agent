@@ -26,7 +26,7 @@ import { PresentationDeckView } from './components/views/presentation/Presentati
 
 export const App: React.FC = () => {
   const [isLanding, setIsLanding] = useState<boolean>(true);
-  const [currentSuite, setCurrentSuite] = useState<ViewSuite>('overview');
+  const [currentSuite, setCurrentSuite] = useState<ViewSuite>('arena');
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
 
   const [status, setStatus] = useState<AgentStatus | null>(null);
@@ -58,21 +58,19 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     loadData();
+    const timer = setInterval(loadData, 5000);
+    return () => clearInterval(timer);
   }, [loadData]);
 
-  // Global Keyboard Shortcuts
+  // Keyboard navigation shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['INPUT', 'SELECT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
 
-      if (e.key === 'Escape') {
-        setIsLanding(true);
-        return;
-      }
-
-      const keyMap: Record<string, ViewSuite> = {
+      const key = e.key.toUpperCase();
+      const shortcutMap: Record<string, ViewSuite> = {
         '1': 'overview',
         '2': 'arena',
         '3': 'replay',
@@ -83,15 +81,16 @@ export const App: React.FC = () => {
         '8': 'mistakes',
         '9': 'ablations',
         '0': 'performance',
-        'r': 'research',
         'R': 'research',
-        'p': 'presentation',
         'P': 'presentation',
       };
 
-      if (keyMap[e.key]) {
-        setCurrentSuite(keyMap[e.key]);
+      if (shortcutMap[key]) {
+        setCurrentSuite(shortcutMap[key]);
         setIsLanding(false);
+      }
+      if (key === 'ESCAPE') {
+        setIsLanding(true);
       }
     };
 
@@ -105,10 +104,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#05070d] text-slate-100 flex flex-col font-sans">
-      {/* Top Telemetry Header */}
+    <div className="min-h-screen bg-[#07080B] text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-black">
+      {/* Top Header */}
       <TopBar
         status={status}
+        currentSuite={currentSuite}
         isLanding={isLanding}
         onToggleLanding={() => setIsLanding((prev) => !prev)}
         onRefresh={loadData}
@@ -120,7 +120,7 @@ export const App: React.FC = () => {
           <LandingHero
             status={status}
             onEnterCommandCenter={() => {
-              setCurrentSuite('overview');
+              setCurrentSuite('arena');
               setIsLanding(false);
             }}
             onExploreAI={() => {
@@ -131,7 +131,7 @@ export const App: React.FC = () => {
         </main>
       ) : (
         <div className="flex-1 flex">
-          {/* Left Aerospace Sidebar */}
+          {/* Left Navigation Rail */}
           <Sidebar
             currentSuite={currentSuite}
             onSelectSuite={handleSelectSuite}
@@ -141,9 +141,9 @@ export const App: React.FC = () => {
 
           {/* Main Suite Viewport */}
           <main
-            className={`flex-1 p-4 md:p-8 transition-all duration-300 ${
-              sidebarCollapsed ? 'ml-16' : 'ml-64'
-            } max-w-7xl`}
+            className={`flex-1 p-4 md:p-8 transition-all duration-200 ${
+              sidebarCollapsed ? 'ml-14' : 'ml-56'
+            } max-w-7xl mx-auto`}
           >
             {currentSuite === 'overview' && (
               <CommandCenterView
