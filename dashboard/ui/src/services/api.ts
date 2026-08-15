@@ -6,7 +6,8 @@ import type {
   MatchupMatrixData,
   AblationVariant,
   BenchmarkMetrics,
-  CardCodexItem
+  CardCodexItem,
+  PerformanceTrends
 } from '../types';
 
 const API_BASE = '/api';
@@ -15,6 +16,12 @@ export const api = {
   async getStatus(): Promise<AgentStatus> {
     const res = await fetch(`${API_BASE}/status`);
     if (!res.ok) throw new Error('Failed to fetch status');
+    return res.json();
+  },
+
+  async getTrends(): Promise<PerformanceTrends> {
+    const res = await fetch(`${API_BASE}/trends`);
+    if (!res.ok) throw new Error('Failed to fetch trends');
     return res.json();
   },
 

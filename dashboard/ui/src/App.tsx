@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { ViewSuite, AgentStatus, BeliefData, MistakeSummary, MetaDeckRanking } from './types';
+import type {
+  ViewSuite,
+  AgentStatus,
+  BeliefData,
+  MistakeSummary,
+  MetaDeckRanking,
+  PerformanceTrends,
+} from './types';
 import { api } from './services/api';
 import { TopBar } from './components/layout/TopBar';
 import { Sidebar } from './components/layout/Sidebar';
@@ -15,25 +22,29 @@ export const App: React.FC = () => {
   const [beliefs, setBeliefs] = useState<BeliefData | null>(null);
   const [mistakes, setMistakes] = useState<MistakeSummary | null>(null);
   const [metaRankings, setMetaRankings] = useState<MetaDeckRanking[]>([]);
+  const [trends, setTrends] = useState<PerformanceTrends | null>(null);
 
   // Load telemetry data from FastAPI backend
   const loadData = useCallback(async () => {
     try {
-      const [statusRes, beliefsRes, mistakesRes, metaRes] = await Promise.allSettled([
+      const [statusRes, beliefsRes, mistakesRes, metaRes, trendsRes] = await Promise.allSettled([
         api.getStatus(),
         api.getBeliefs(),
         api.getMistakes(),
         api.getMetaPredictions(),
+        api.getTrends(),
       ]);
 
       if (statusRes.status === 'fulfilled') setStatus(statusRes.value);
       if (beliefsRes.status === 'fulfilled') setBeliefs(beliefsRes.value);
       if (mistakesRes.status === 'fulfilled') setMistakes(mistakesRes.value);
       if (metaRes.status === 'fulfilled') setMetaRankings(metaRes.value);
+      if (trendsRes.status === 'fulfilled') setTrends(trendsRes.value);
     } catch (err) {
       console.warn('Could not load telemetry data:', err);
     }
   }, []);
+
 
   useEffect(() => {
     loadData();
@@ -130,9 +141,12 @@ export const App: React.FC = () => {
                 beliefs={beliefs}
                 mistakes={mistakes}
                 metaRankings={metaRankings}
+                trends={trends}
                 onNavigate={handleSelectSuite}
+                onRefresh={loadData}
               />
             )}
+
 
             {currentSuite !== 'overview' && (
               <div className="glass-panel p-8 rounded-2xl border border-white/[0.08] text-center space-y-4">

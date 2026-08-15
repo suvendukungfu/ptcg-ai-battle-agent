@@ -109,7 +109,43 @@ export interface CardCodexItem {
   img: string;
 }
 
+export interface PerformanceTrends {
+  elo_progression: Array<{ match: number; elo: number }>;
+  win_rate_trend: Array<{ games: number; win_rate: number; ci_lower: number; ci_upper: number }>;
+  latency_breakdown: {
+    state_parsing_ms: number;
+    belief_update_ms: number;
+    goal_planning_ms: number;
+    candidate_generation_ms: number;
+    search_and_eval_ms: number;
+    fallback_check_ms: number;
+    total_avg_ms: number;
+    p50_ms: number;
+    p95_ms: number;
+    p99_ms: number;
+    max_ms: number;
+  };
+  meta_radar: Array<{
+    archetype: string;
+    share: number;
+    trend: string;
+    threat: string;
+    color: string;
+  }>;
+  system_health: {
+    status: string;
+    fallback_rate_pct: number;
+    illegal_actions_count: number;
+    unhandled_exceptions_count: number;
+    timeout_violations_count: number;
+    rss_memory_mb: number;
+    memory_limit_mb: number;
+    timebank_remaining_sec: number;
+  };
+}
+
 export type ViewSuite =
+
   | 'overview'
   | 'arena'
   | 'replay'
