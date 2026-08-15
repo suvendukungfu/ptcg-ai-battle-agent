@@ -116,7 +116,8 @@ export const LiveBattlefield: React.FC<LiveBattlefieldProps> = ({ onNavigateExpl
       {/* 2. Premium Digital Battlefield Arena */}
       <div className="relative rounded-lg border border-white/8 bg-[#090C12] overflow-hidden p-6 sm:p-8 space-y-6">
         {/* Subtle arena background pattern */}
-        <div className="absolute inset-0 bg-radial from-amber-400/[0.02] via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-radial from-amber-400/2 via-transparent to-transparent pointer-events-none" />
+
 
         {/* ================= OPPONENT FIELD (TOP) ================= */}
         <div className="space-y-3 relative z-10">
