@@ -109,7 +109,8 @@ export const PresentationDeckView: React.FC = () => {
       </div>
 
       {/* 2. Active Slide Card */}
-      <div className="glass-panel p-8 md:p-12 rounded-3xl border border-white/12 space-y-8 min-h-[460px] flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-indigo-950/30 via-slate-950 to-slate-950 shadow-2xl">
+      <div className="glass-panel p-8 md:p-12 rounded-3xl border border-white/12 space-y-8 min-h-115 flex flex-col justify-between relative overflow-hidden bg-linear-to-br from-indigo-950/30 via-slate-950 to-slate-950 shadow-2xl">
+
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <span className="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-bold">
