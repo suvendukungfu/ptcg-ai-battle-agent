@@ -97,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   title={`${item.label} (Press ${item.shortcut})`}
                 >
                   <Icon
-                    className={`w-3.5 h-3.5 flex-shrink-0 ${
+                    className={`w-3.5 h-3.5 shrink-0 ${
                       isActive ? 'text-amber-400' : 'text-slate-400 group-hover:text-slate-200'
                     }`}
                   />
