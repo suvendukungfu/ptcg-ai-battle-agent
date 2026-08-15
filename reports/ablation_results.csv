@@ -1,0 +1,7 @@
+variant_id,variant_name,description,games,wins,losses,draws,win_rate,ci_lower,ci_upper,avg_steps,fallback_rate_pct,invalids,p50_latency_ms,p95_latency_ms,p99_latency_ms,max_latency_ms,mean_latency_ms
+A_rules_only,A: Rules Only,Rule-based priority heuristics without valuation,20,8,12,0,40.0,21.9,61.3,77.1,0.0,0,0.012,0.016,0.019,7.702,0.024
+B_rules_evaluator,B: Rules + Evaluator,Multi-factor tactical board value function,20,10,10,0,50.0,29.9,70.1,81.7,0.0,0,0.019,0.03,0.035,0.042,0.02
+C_rules_search,C: Rules + Search,1-ply candidate state projection lookahead,20,6,14,0,30.0,14.5,51.9,77.3,0.0,0,1.27,4.323,5.433,11.65,1.685
+D_rules_opponent_model,D: Rules + Opponent Model,Bayesian hypergeometric threat assessment,20,11,9,0,55.0,34.2,74.2,67.7,0.0,0,0.031,0.043,0.05,0.065,0.032
+E_search_opponent_model,E: Search + Opponent Model,Shallow lookahead with counterplay estimation,20,9,11,0,45.0,25.8,65.8,79.6,0.0,0,1.426,4.492,6.468,15.34,1.785
+F_full_system,F: Full System + Dynamic Risk,Complete production agent with situational risk adaptation,20,7,13,0,35.0,18.1,56.7,62.7,0.0,0,1.275,4.041,4.809,6.406,1.583

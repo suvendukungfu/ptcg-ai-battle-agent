@@ -1,5 +1,7 @@
-Agent / Archetype,Production_Agent_V2,Heuristic_V1_Agent,Random_Baseline,First_Legal_Baseline
-Production_Agent_V2,50.0%,66.7%,83.3%,66.7%
-Heuristic_V1_Agent,33.3%,50.0%,83.3%,50.0%
-Random_Baseline,16.7%,16.7%,50.0%,0.0%
-First_Legal_Baseline,33.3%,50.0%,100.0%,50.0%
+matchup,games,wins,losses,draws,invalids,win_rate,ci_lower,ci_upper,avg_steps,p50_latency_ms,p95_latency_ms,p99_latency_ms,max_latency_ms,mean_latency_ms
+Bellibolt_Mirror_SelfPlay,20,9,11,0,0,45.0,25.8,65.8,83.2,1.329,4.343,5.816,15.101,1.679
+Crustle_Control_Safeguard,20,2,18,0,0,10.0,2.8,30.1,81.9,1.331,4.17,5.2,10.159,1.684
+Alakazam_Psychic_Burst,20,15,5,0,0,75.0,53.1,88.8,65.5,1.238,3.812,4.959,7.871,1.517
+Anti_Crustle_Tech_Mirror,20,7,13,0,0,35.0,18.1,56.7,85.2,1.494,4.865,5.541,6.097,1.763
+Heuristic_Baseline_Standard,20,9,11,0,0,45.0,25.8,65.8,63.0,1.142,3.805,4.717,7.27,1.41
+Random_Baseline,20,17,3,0,0,85.0,64.0,94.8,71.8,1.259,3.929,4.849,6.141,1.502

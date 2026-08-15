@@ -1,0 +1,18 @@
+# Empirical Matchup Tournament Matrix Report
+
+**Generated**: 2026-08-15 13:39:09
+**Sample Size**: 20 games per matchup pairing (Seat-Swapped)
+**Statistical Metric**: Wilson 95% Confidence Intervals
+
+| Matchup / Archetype | Games | Record (W-L-D) | Win Rate (%) | 95% Wilson CI | Avg Steps | P50 (ms) | P95 (ms) | P99 (ms) | Max (ms) | Invalids |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **Bellibolt_Mirror_SelfPlay** | 20 | 9-11-0 | **45.0%** | `[25.8%, 65.8%]` | 83.2 | 1.329 | 4.343 | 5.816 | 15.101 | 0 |
+| **Crustle_Control_Safeguard** | 20 | 2-18-0 | **10.0%** | `[2.8%, 30.1%]` | 81.9 | 1.331 | 4.17 | 5.2 | 10.159 | 0 |
+| **Alakazam_Psychic_Burst** | 20 | 15-5-0 | **75.0%** | `[53.1%, 88.8%]` | 65.5 | 1.238 | 3.812 | 4.959 | 7.871 | 0 |
+| **Anti_Crustle_Tech_Mirror** | 20 | 7-13-0 | **35.0%** | `[18.1%, 56.7%]` | 85.2 | 1.494 | 4.865 | 5.541 | 6.097 | 0 |
+| **Heuristic_Baseline_Standard** | 20 | 9-11-0 | **45.0%** | `[25.8%, 65.8%]` | 63.0 | 1.142 | 3.805 | 4.717 | 7.27 | 0 |
+| **Random_Baseline** | 20 | 17-3-0 | **85.0%** | `[64.0%, 94.8%]` | 71.8 | 1.259 | 3.929 | 4.849 | 6.141 | 0 |
+
+## Summary Key Takeaways
+- **Aggregate Win Rate Across Meta**: **49.2%** (n=120, 95% CI=[40.4%, 58.0%])
+- **Zero Invalids**: 100% legal execution maintained across all 120 games.
