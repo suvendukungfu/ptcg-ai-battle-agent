@@ -120,7 +120,7 @@ export const ArenaControls: React.FC<ArenaControlsProps> = ({
           <button
             onClick={onSimulateBattle}
             disabled={isSimulating}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/20 disabled:opacity-50 transition-all border border-white/10"
+            className="px-4 py-2 rounded-xl bg-linear-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/20 disabled:opacity-50 transition-all border border-white/10"
           >
             {isSimulating ? (
               <Loader2 className="w-4 h-4 animate-spin" />

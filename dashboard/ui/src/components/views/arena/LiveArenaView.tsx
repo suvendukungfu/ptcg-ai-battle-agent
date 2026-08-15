@@ -149,7 +149,7 @@ export const LiveArenaView: React.FC<LiveArenaViewProps> = ({ onNavigateExplaine
       {/* 3. Main Battle Mat & Combat Log Split */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left 8 Cols: Pokémon Battle Mat */}
-        <div className="lg:col-span-8 glass-panel p-5 rounded-2xl border border-white/8 space-y-6 relative overflow-hidden bg-gradient-to-b from-slate-950/90 via-indigo-950/20 to-slate-950/90 shadow-2xl">
+        <div className="lg:col-span-8 glass-panel p-5 rounded-2xl border border-white/8 space-y-6 relative overflow-hidden bg-linear-to-b from-slate-950/90 via-indigo-950/20 to-slate-950/90 shadow-2xl">
           {/* Tactical Mat Grid Pattern */}
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 

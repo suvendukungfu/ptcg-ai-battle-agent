@@ -31,8 +31,9 @@ export const PokemonCardSlot: React.FC<PokemonCardSlotProps> = ({
     return (
       <div
         className={`rounded-xl border border-dashed border-white/10 flex flex-col items-center justify-center text-slate-500 font-mono text-[11px] transition-all ${
-          isActiveSpot ? 'h-40 w-32 sm:h-44 sm:w-36 bg-white/[0.01]' : 'h-28 w-24 sm:h-32 sm:w-28 bg-white/[0.005]'
+          isActiveSpot ? 'h-40 w-32 sm:h-44 sm:w-36 bg-white/1' : 'h-28 w-24 sm:h-32 sm:w-28 bg-white/0.5'
         }`}
+
       >
         <span className="text-slate-600">Empty</span>
         {label && <span className="text-[10px] text-slate-600">{label}</span>}

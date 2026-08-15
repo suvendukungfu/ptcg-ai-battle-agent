@@ -28,7 +28,7 @@ export const CombatLogFeed: React.FC<CombatLogFeedProps> = ({ events, currentTur
   return (
     <div className="glass-panel rounded-2xl border border-white/8 flex flex-col h-full overflow-hidden">
       {/* Feed Header */}
-      <div className="p-3.5 border-b border-white/8 flex items-center justify-between bg-white/[0.02]">
+      <div className="p-3.5 border-b border-white/8 flex items-center justify-between bg-white/2">
         <div className="flex items-center gap-2">
           <Swords className="w-4 h-4 text-indigo-400" />
           <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
@@ -43,7 +43,7 @@ export const CombatLogFeed: React.FC<CombatLogFeedProps> = ({ events, currentTur
       {/* Feed Body */}
       <div
         ref={scrollRef}
-        className="flex-1 p-3 space-y-2 overflow-y-auto max-h-[360px] text-xs font-mono select-none"
+        className="flex-1 p-3 space-y-2 overflow-y-auto max-h-90 text-xs font-mono select-none"
       >
         {events.length === 0 ? (
           <div className="h-full flex items-center justify-center text-slate-500 text-[11px] py-12">
@@ -66,9 +66,10 @@ export const CombatLogFeed: React.FC<CombatLogFeedProps> = ({ events, currentTur
                     ? isP0
                       ? 'bg-indigo-950/40 border-indigo-500/30 text-slate-200'
                       : 'bg-rose-950/40 border-rose-500/30 text-slate-200'
-                    : 'bg-white/[0.02] border-white/5 text-slate-300'
+                    : 'bg-white/2 border-white/5 text-slate-300'
                 }`}
               >
+
                 <div className="flex items-center justify-between text-[10px] text-slate-400 mb-0.5">
                   <span className="font-bold flex items-center gap-1">
                     <span
