@@ -326,7 +326,7 @@ def test_24_unexpected_observation_values():
 
 def test_25_exceptions_inside_policy():
     """25. Exceptions inside policy caught by defensive outer boundary."""
-    with patch("src.shallow_search.shallow_risk_aware_search", side_effect=RuntimeError("Simulated search error")):
+    with patch("main.select_action", side_effect=RuntimeError("Simulated policy error")):
         obs = {
             "select": {
                 "type": 0,
@@ -335,6 +335,7 @@ def test_25_exceptions_inside_policy():
                 "option": [{"type": 14}]
             }
         }
+
         action = main.agent(obs)
         assert action == [0]
         diag = main.get_diagnostics()

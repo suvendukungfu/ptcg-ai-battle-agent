@@ -7,9 +7,9 @@ from agent.policy import (
     rank_card_play_options,
     rank_target_options,
 )
-import agent.search
-import src.shallow_search
+from agent.search import shallow_risk_aware_search
 from agent.belief_state import BeliefStateTracker, BeliefDistribution
+
 from agent.goals import GoalPlanner, StrategicGoal, GoalState
 from agent.decomposition import ScoreDecomposer, ValueDecomposition
 from agent.fallback import deterministic_fallback, make_distinct_choice
@@ -89,12 +89,12 @@ def select_action(obs: Dict[str, Any]) -> List[int]:
     remaining_time = float(obs.get("remainingOverageTime", 600.0))
 
     # 2. 1-2 Ply Shallow Search Lookahead
-    search_fn = getattr(src.shallow_search, "shallow_risk_aware_search", agent.search.shallow_risk_aware_search)
-    search_choice = search_fn(state, remaining_time)
+    search_choice = shallow_risk_aware_search(state, remaining_time)
     if search_choice is not None:
         DIAGNOSTICS["search_decisions"] += 1
         track_telemetry(search_choice, state.options)
         return search_choice
+
 
     # 3. Fast Tactical Heuristic Policy
     DIAGNOSTICS["heuristic_decisions"] += 1

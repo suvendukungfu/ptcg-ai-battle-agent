@@ -12,6 +12,8 @@ import { TopBar } from './components/layout/TopBar';
 import { Sidebar } from './components/layout/Sidebar';
 import { LandingHero } from './components/landing/LandingHero';
 import { CommandCenterView } from './components/views/CommandCenterView';
+import { LiveArenaView } from './components/views/arena/LiveArenaView';
+
 
 export const App: React.FC = () => {
   const [isLanding, setIsLanding] = useState<boolean>(true);
@@ -147,17 +149,22 @@ export const App: React.FC = () => {
               />
             )}
 
+            {currentSuite === 'arena' && (
+              <LiveArenaView
+                onNavigateExplainer={() => handleSelectSuite('decision')}
+              />
+            )}
 
-            {currentSuite !== 'overview' && (
+            {currentSuite !== 'overview' && currentSuite !== 'arena' && (
               <div className="glass-panel p-8 rounded-2xl border border-white/8 text-center space-y-4">
                 <div className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
-                  Suite Initialized (Stage 1 Complete)
+                  Suite Initialized
                 </div>
                 <h2 className="text-2xl font-black text-white capitalize">
                   {currentSuite.replace('-', ' ')} Suite Ready
                 </h2>
                 <p className="text-sm text-slate-400 max-w-lg mx-auto">
-                  Stage 1 Design System, TopBar, Sidebar, and Command Center Shell are active.
+                  Stage 1, Stage 2 (Command Center), and Stage 3 (Live Arena) are active.
                   Proceeding to next stage modules.
                 </p>
                 <button
@@ -168,6 +175,7 @@ export const App: React.FC = () => {
                 </button>
               </div>
             )}
+
 
           </main>
         </div>
