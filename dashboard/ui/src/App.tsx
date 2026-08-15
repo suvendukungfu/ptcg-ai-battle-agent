@@ -13,7 +13,16 @@ import { Sidebar } from './components/layout/Sidebar';
 import { LandingHero } from './components/landing/LandingHero';
 import { CommandCenterView } from './components/views/CommandCenterView';
 import { LiveArenaView } from './components/views/arena/LiveArenaView';
-
+import { ReplayExplorerView } from './components/views/replay/ReplayExplorerView';
+import { DecisionExplainerView } from './components/views/decision/DecisionExplainerView';
+import { OpponentIntelligenceView } from './components/views/opponent/OpponentIntelligenceView';
+import { MetaObservatoryView } from './components/views/meta/MetaObservatoryView';
+import { DeckLabView } from './components/views/deck/DeckLabView';
+import { MistakeLabView } from './components/views/mistakes/MistakeLabView';
+import { AblationStudioView } from './components/views/ablation/AblationStudioView';
+import { PerformanceLabView } from './components/views/performance/PerformanceLabView';
+import { ResearchPaperView } from './components/views/paper/ResearchPaperView';
+import { PresentationDeckView } from './components/views/presentation/PresentationDeckView';
 
 export const App: React.FC = () => {
   const [isLanding, setIsLanding] = useState<boolean>(true);
@@ -46,7 +55,6 @@ export const App: React.FC = () => {
       console.warn('Could not load telemetry data:', err);
     }
   }, []);
-
 
   useEffect(() => {
     loadData();
@@ -155,28 +163,25 @@ export const App: React.FC = () => {
               />
             )}
 
-            {currentSuite !== 'overview' && currentSuite !== 'arena' && (
-              <div className="glass-panel p-8 rounded-2xl border border-white/8 text-center space-y-4">
-                <div className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
-                  Suite Initialized
-                </div>
-                <h2 className="text-2xl font-black text-white capitalize">
-                  {currentSuite.replace('-', ' ')} Suite Ready
-                </h2>
-                <p className="text-sm text-slate-400 max-w-lg mx-auto">
-                  Stage 1, Stage 2 (Command Center), and Stage 3 (Live Arena) are active.
-                  Proceeding to next stage modules.
-                </p>
-                <button
-                  onClick={() => setCurrentSuite('overview')}
-                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors"
-                >
-                  Return to Command Center
-                </button>
-              </div>
-            )}
+            {currentSuite === 'replay' && <ReplayExplorerView />}
 
+            {currentSuite === 'decision' && <DecisionExplainerView />}
 
+            {currentSuite === 'opponent' && <OpponentIntelligenceView />}
+
+            {currentSuite === 'meta' && <MetaObservatoryView />}
+
+            {currentSuite === 'decklab' && <DeckLabView />}
+
+            {currentSuite === 'mistakes' && <MistakeLabView />}
+
+            {currentSuite === 'ablations' && <AblationStudioView />}
+
+            {currentSuite === 'performance' && <PerformanceLabView />}
+
+            {currentSuite === 'research' && <ResearchPaperView />}
+
+            {currentSuite === 'presentation' && <PresentationDeckView />}
           </main>
         </div>
       )}

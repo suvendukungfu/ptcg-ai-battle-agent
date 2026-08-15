@@ -122,24 +122,35 @@ def rank_card_play_options(state: GameState) -> List[Tuple[int, float]]:
         card_id = opt.get("id", 0)
         score = 0.0
 
+        # Check if opponent active is immune to ex attacks
+        from agent.evaluator import is_target_immune_to_ex
+        opp_is_immune = is_target_immune_to_ex(state.opp_active)
+
         # Evolutions (OptionType 3, 4)
         if opt_type in (3, 4) or card_id in (722, 723):
-            score += 150.0 if card_id == 723 else 110.0
+            if opp_is_immune and card_id == 722:
+                score += 260.0  # Evolve single-prize Bellibolt to penetrate Safeguard!
+            elif card_id == 723:
+                score += 80.0 if opp_is_immune else 160.0
+            else:
+                score += 120.0
 
         # Trainers / Items / Supporters
         elif card_id == 1262:  # Boss's Orders
-            # High score if opponent bench has a low-HP or high-prize target
-            score += 90.0
+            # Maximize priority if opponent active is immune, to gust vulnerable bench!
+            score += 350.0 if (opp_is_immune and len(state.opp_bench) > 0) else 95.0
         elif card_id == 1219:  # Electric Generator
-            score += 85.0
+            score += 110.0  # Accelerate energy before attacking
         elif card_id in (1121, 1227):  # Ultra Ball / Nest Ball
             score += 75.0
         elif card_id == 1092:  # Professor's Research
-            score += 70.0 if len(state.your_hand) <= 3 else 30.0
+            score += 80.0 if len(state.your_hand) <= 3 else 30.0
         elif card_id == 1145:  # Switch
-            # Prioritize switch if active is low HP or trapped
-            if state.your_active and float(state.your_active.get("hp", 100)) < 60:
-                score += 80.0
+            # Prioritize switch if active is low HP or trapped vs immune target
+            if opp_is_immune and state.your_active and state.your_active.get("id") == 723:
+                score += 140.0
+            elif state.your_active and float(state.your_active.get("hp", 100)) < 60:
+                score += 85.0
             else:
                 score += 15.0
         elif opt_type in (0, 1, 2, 5, 6):

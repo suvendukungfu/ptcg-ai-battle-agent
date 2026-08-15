@@ -31,8 +31,23 @@ def is_target_immune_to_ex(target: Optional[Dict[str, Any]]) -> bool:
     if not target or not isinstance(target, dict):
         return False
     card_id = target.get("id", 0)
-    # Crustle (ID 542) or similar Safeguard abilities
-    return card_id in (542, 541)
+    # Recognized Safeguard IDs: Crustle (345, 533, 542)
+    if card_id in (345, 533, 542):
+        return True
+    pdata = get_pokemon_data(card_id)
+    if pdata:
+        skills = pdata.get("skills", [])
+        if isinstance(skills, list):
+            for sk in skills:
+                if isinstance(sk, dict):
+                    sk_text = (sk.get("text") or "").lower()
+                    sk_name = (sk.get("name") or "").lower()
+                    if "prevent all damage" in sk_text and ("{ex}" in sk_text or "pokemon ex" in sk_text):
+                        return True
+                    if "mysterious rock inn" in sk_name or "safeguard" in sk_name:
+                        return True
+    return False
+
 
 
 def is_ex_attacker(attacker: Optional[Dict[str, Any]]) -> bool:
