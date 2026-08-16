@@ -1,4 +1,7 @@
+import os
+import sys
 import time
+from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 
@@ -54,3 +57,73 @@ def track_telemetry(chosen_indices: List[int], options: List[Dict[str, Any]]) ->
                 DIAGNOSTICS["option_types_selected"][opt_t] = DIAGNOSTICS["option_types_selected"].get(opt_t, 0) + 1
                 if opt_t == 7:  # Attack
                     DIAGNOSTICS["attacks_selected"] += 1
+
+
+def get_runtime_root() -> Path:
+    """
+    Robust runtime root directory resolver compatible with:
+    A. Normal Python imports
+    B. Direct script execution
+    C. Kaggle simulation loader using exec() where __file__ is undefined
+    D. Kaggle evaluation container (/kaggle_simulations/agent/)
+    E. Clean extracted submission directories in isolation
+    F. Local CABT test environments
+    """
+    # 1. Kaggle remote evaluation container
+    kaggle_agent_dir = Path("/kaggle_simulations/agent")
+    if kaggle_agent_dir.is_dir():
+        return kaggle_agent_dir
+
+    # 2. Check __file__ if defined in this module
+    try:
+        if "__file__" in globals() and globals()["__file__"]:
+            file_path = Path(globals()["__file__"]).resolve()
+            if file_path.parent.name == "agent":
+                return file_path.parent.parent
+            return file_path.parent
+    except Exception:
+        pass
+
+    # 3. Check current working directory for signature files
+    cwd = Path.cwd().resolve()
+    if (cwd / "deck.csv").is_file() or (cwd / "main.py").is_file():
+        return cwd
+    if (cwd / "agent").is_dir():
+        return cwd
+
+    # 4. Check sys.path entries
+    for p in sys.path:
+        if p:
+            cand = Path(p).resolve()
+            if (cand / "deck.csv").is_file() or (cand / "agent").is_dir():
+                return cand
+
+    # 5. Default to current working directory
+    return cwd
+
+
+def resolve_runtime_path(relative_path: str) -> Path:
+    """
+    Resolve a project-relative file or directory path reliably across all execution contexts.
+    """
+    root = get_runtime_root()
+    target = (root / relative_path).resolve()
+    if target.exists():
+        return target
+
+    # Fallback search across alternate locations
+    direct = Path(relative_path).resolve()
+    if direct.exists():
+        return direct
+
+    cwd_target = (Path.cwd() / relative_path).resolve()
+    if cwd_target.exists():
+        return cwd_target
+
+    for p in sys.path:
+        if p:
+            sys_target = (Path(p) / relative_path).resolve()
+            if sys_target.exists():
+                return sys_target
+
+    return target

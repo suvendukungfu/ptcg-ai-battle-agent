@@ -3,37 +3,39 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Any, Optional, List
+from agent.utils import resolve_runtime_path
 
 # Cache dictionary to prevent repeated I/O
 _CARD_CACHE: Dict[int, Dict[str, Any]] = {}
 _INITIALIZED: bool = False
 
 
-def _find_card_csv() -> Optional[Path]:
-    """Search for EN Card Data.csv across standard locations."""
-    # Check config.py if available
-    try:
-        from config import get_competition_data_path
-        comp_path = get_competition_data_path()
-        if comp_path:
-            for cand in comp_path.rglob("*.csv"):
-                if "en card data" in cand.name.lower() or "card_data_en" in cand.name.lower():
-                    return cand
-    except Exception:
-        pass
+def _find_card_csv() -> Path:
+    """
+    Explicitly locate EN Card Data.csv across standard production and Kaggle locations.
+    Raises FileNotFoundError if data is genuinely missing.
+    """
+    # 1. Standard runtime resolution under project root
+    candidate = resolve_runtime_path("data/EN Card Data.csv")
+    if candidate.is_file():
+        return candidate
 
-    # Check local data directories relative to file
-    project_root = Path(__file__).parent.parent.resolve()
-    candidates = [
-        project_root / "data" / "EN Card Data.csv",
-        project_root / "kaggle_data" / "EN Card Data.csv",
-        project_root / "data" / "en_card_data.csv",
+    # 2. Check direct known locations
+    fallback_locations = [
+        Path("/kaggle_simulations/agent/data/EN Card Data.csv"),
+        Path("data/EN Card Data.csv").resolve(),
+        Path("EN Card Data.csv").resolve(),
+        Path("data/en_card_data.csv").resolve(),
+        Path("kaggle_data/EN Card Data.csv").resolve(),
     ]
-    for c in candidates:
-        if c.exists():
-            return c
-            
-    return None
+    for loc in fallback_locations:
+        if loc.is_file():
+            return loc
+
+    raise FileNotFoundError(
+        f"Required competition dataset 'data/EN Card Data.csv' could not be located. "
+        f"Checked primary path: '{candidate}' and fallback paths: {[str(p) for p in fallback_locations]}"
+    )
 
 
 def init_card_database(force_reload: bool = False) -> None:
@@ -45,55 +47,54 @@ def init_card_database(force_reload: bool = False) -> None:
     _CARD_CACHE.clear()
     csv_path = _find_card_csv()
 
-    if csv_path and csv_path.exists():
-        with open(csv_path, mode="r", encoding="utf-8", errors="ignore") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                try:
-                    # Normalize keys (handle both 'Card ID' and 'cardId' etc.)
-                    card_id_str = row.get("Card ID") or row.get("cardId") or row.get("id") or row.get("card_id")
-                    if not card_id_str:
-                        continue
-                    card_id = int(card_id_str)
-
-                    # Parse JSON attacks / skills if serialized
-                    attacks_raw = row.get("Attacks") or row.get("attacks") or "[]"
-                    try:
-                        attacks = json.loads(attacks_raw) if isinstance(attacks_raw, str) and attacks_raw.startswith("[") else []
-                    except Exception:
-                        attacks = []
-
-                    skills_raw = row.get("Skills") or row.get("skills") or "[]"
-                    try:
-                        skills = json.loads(skills_raw) if isinstance(skills_raw, str) and skills_raw.startswith("[") else []
-                    except Exception:
-                        skills = []
-
-                    card_obj = {
-                        "cardId": card_id,
-                        "name": row.get("Card Name") or row.get("name", f"Card #{card_id}"),
-                        "cardType": int(row.get("Card Type") or row.get("cardType", 0)),
-                        "pokemonType": int(row.get("Pokemon Type") or row.get("pokemonType", 0)),
-                        "evolutionType": int(row.get("Evolution Type") or row.get("evolutionType", 0)),
-                        "retreatCost": int(row.get("Retreat Cost") or row.get("retreatCost", 0)),
-                        "hp": int(row.get("HP") or row.get("hp", 0)),
-                        "weakness": row.get("Weakness") or row.get("weakness"),
-                        "resistance": row.get("Resistance") or row.get("resistance"),
-                        "energyType": int(row.get("Energy Type") or row.get("energyType", 0)),
-                        "basic": str(row.get("Basic") or row.get("basic", "false")).lower() in ("true", "1"),
-                        "stage1": str(row.get("Stage 1") or row.get("stage1", "false")).lower() in ("true", "1"),
-                        "stage2": str(row.get("Stage 2") or row.get("stage2", "false")).lower() in ("true", "1"),
-                        "ex": str(row.get("ex") or row.get("is_ex", "false")).lower() in ("true", "1"),
-                        "megaEx": str(row.get("Mega ex") or row.get("megaEx", "false")).lower() in ("true", "1"),
-                        "tera": str(row.get("Tera") or row.get("tera", "false")).lower() in ("true", "1"),
-                        "aceSpec": str(row.get("ACE SPEC") or row.get("aceSpec", "false")).lower() in ("true", "1"),
-                        "evolvesFrom": row.get("Evolves From") or row.get("evolvesFrom"),
-                        "attacks": attacks,
-                        "skills": skills,
-                    }
-                    _CARD_CACHE[card_id] = card_obj
-                except Exception:
+    with open(csv_path, mode="r", encoding="utf-8", errors="ignore") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            try:
+                # Normalize keys (handle both 'Card ID' and 'cardId' etc.)
+                card_id_str = row.get("Card ID") or row.get("cardId") or row.get("id") or row.get("card_id")
+                if not card_id_str:
                     continue
+                card_id = int(card_id_str)
+
+                # Parse JSON attacks / skills if serialized
+                attacks_raw = row.get("Attacks") or row.get("attacks") or "[]"
+                try:
+                    attacks = json.loads(attacks_raw) if isinstance(attacks_raw, str) and attacks_raw.startswith("[") else []
+                except Exception:
+                    attacks = []
+
+                skills_raw = row.get("Skills") or row.get("skills") or "[]"
+                try:
+                    skills = json.loads(skills_raw) if isinstance(skills_raw, str) and skills_raw.startswith("[") else []
+                except Exception:
+                    skills = []
+
+                card_obj = {
+                    "cardId": card_id,
+                    "name": row.get("Card Name") or row.get("name", f"Card #{card_id}"),
+                    "cardType": int(row.get("Card Type") or row.get("cardType", 0)),
+                    "pokemonType": int(row.get("Pokemon Type") or row.get("pokemonType", 0)),
+                    "evolutionType": int(row.get("Evolution Type") or row.get("evolutionType", 0)),
+                    "retreatCost": int(row.get("Retreat Cost") or row.get("retreatCost", 0)),
+                    "hp": int(row.get("HP") or row.get("hp", 0)),
+                    "weakness": row.get("Weakness") or row.get("weakness"),
+                    "resistance": row.get("Resistance") or row.get("resistance"),
+                    "energyType": int(row.get("Energy Type") or row.get("energyType", 0)),
+                    "basic": str(row.get("Basic") or row.get("basic", "false")).lower() in ("true", "1"),
+                    "stage1": str(row.get("Stage 1") or row.get("stage1", "false")).lower() in ("true", "1"),
+                    "stage2": str(row.get("Stage 2") or row.get("stage2", "false")).lower() in ("true", "1"),
+                    "ex": str(row.get("ex") or row.get("is_ex", "false")).lower() in ("true", "1"),
+                    "megaEx": str(row.get("Mega ex") or row.get("megaEx", "false")).lower() in ("true", "1"),
+                    "tera": str(row.get("Tera") or row.get("tera", "false")).lower() in ("true", "1"),
+                    "aceSpec": str(row.get("ACE SPEC") or row.get("aceSpec", "false")).lower() in ("true", "1"),
+                    "evolvesFrom": row.get("Evolves From") or row.get("evolvesFrom"),
+                    "attacks": attacks,
+                    "skills": skills,
+                }
+                _CARD_CACHE[card_id] = card_obj
+            except Exception:
+                continue
 
     # Fallback to lib.AllCard() if available and cache is empty
     if not _CARD_CACHE:

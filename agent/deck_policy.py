@@ -1,5 +1,6 @@
 import os
 from typing import List, Dict, Optional
+from agent.utils import resolve_runtime_path
 
 # Default 60-card Bellibolt ex competitive starter deck
 DEFAULT_BELLIBOLT_DECK: List[int] = [
@@ -13,16 +14,15 @@ _CACHED_DECK: Optional[List[int]] = None
 
 def resolve_deck_path() -> str:
     """Resolve deck.csv relative to project root or Kaggle simulation environment."""
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    primary_path = os.path.join(base_dir, "deck.csv")
-    if os.path.isfile(primary_path):
-        return primary_path
+    resolved = resolve_runtime_path("deck.csv")
+    if resolved.is_file():
+        return str(resolved)
 
     kaggle_path = "/kaggle_simulations/agent/deck.csv"
     if os.path.isfile(kaggle_path):
         return kaggle_path
 
-    return primary_path
+    return str(resolved)
 
 
 def load_deck(deck_path: Optional[str] = None) -> List[int]:

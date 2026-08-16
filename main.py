@@ -2,10 +2,36 @@ import os
 import sys
 import time
 import logging
+from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-# Ensure project root directory is in sys.path
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Ensure project root directory is in sys.path safely without relying unconditionally on __file__
+def _resolve_base_dir() -> str:
+    """Resolve base directory across normal imports and Kaggle exec() environments."""
+    # 1. Kaggle remote evaluation container
+    if os.path.isdir("/kaggle_simulations/agent"):
+        return "/kaggle_simulations/agent"
+
+    # 2. Check __file__ if defined in this execution scope
+    try:
+        if "__file__" in globals() and globals()["__file__"]:
+            return os.path.dirname(os.path.abspath(globals()["__file__"]))
+    except Exception:
+        pass
+
+    # 3. Current working directory check for signature files
+    cwd = os.path.abspath(".")
+    if os.path.isfile(os.path.join(cwd, "deck.csv")) or os.path.isdir(os.path.join(cwd, "agent")):
+        return cwd
+
+    # 4. Check sys.path entries
+    for p in sys.path:
+        if p and (os.path.isfile(os.path.join(p, "deck.csv")) or os.path.isdir(os.path.join(p, "agent"))):
+            return os.path.abspath(p)
+
+    return cwd
+
+BASE_DIR = _resolve_base_dir()
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
@@ -21,6 +47,8 @@ from agent.utils import (
     reset_diagnostics,
     get_diagnostics,
     track_telemetry,
+    get_runtime_root,
+    resolve_runtime_path,
 )
 
 # Configure logging
