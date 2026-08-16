@@ -21,6 +21,7 @@ class EvaluatorWeights:
     w_hand_resource: float = 4.0
     w_deck_resource: float = 0.5
     w_immunity_penalty: float = 180.0
+    w_zero_bench_penalty: float = 150.0
 
 
 DEFAULT_WEIGHTS = EvaluatorWeights()
@@ -47,7 +48,6 @@ def is_target_immune_to_ex(target: Optional[Dict[str, Any]]) -> bool:
                     if "mysterious rock inn" in sk_name or "safeguard" in sk_name:
                         return True
     return False
-
 
 
 def is_ex_attacker(attacker: Optional[Dict[str, Any]]) -> bool:
@@ -77,11 +77,11 @@ def estimate_raw_damage(attacker: Optional[Dict[str, Any]]) -> float:
     energies = attacker.get("energies", [])
     n_energies = len(energies) if isinstance(energies, list) else 0
 
-    if card_id == 723:  # Bellibolt ex
+    if card_id in (723, 345):  # Bellibolt ex / Crustle
         return 160.0 if n_energies >= 2 else (30.0 if n_energies >= 1 else 0.0)
     elif card_id == 722:  # Bellibolt
         return 70.0 if n_energies >= 2 else (20.0 if n_energies >= 1 else 0.0)
-    elif card_id == 721:  # Tadbulb
+    elif card_id in (721, 344):  # Tadbulb / Dwebble
         return 30.0 if n_energies >= 1 else 10.0
 
     return float(max(10, n_energies * 30))
@@ -144,7 +144,14 @@ def evaluate_board_value(state: GameState, weights: EvaluatorWeights = DEFAULT_W
         opp_energy_cnt = len(opp_energies) if isinstance(opp_energies, list) else 0
         value -= opp_energy_cnt * weights.w_opp_active_energy
 
-    # 3. Viable Attackers & Bench Readiness
+    # 3. Viable Attackers & Bench Security
+    bench_cnt = len(state.your_bench)
+    if bench_cnt == 0 and state.your_active:
+        active_hp = float(state.your_active.get("hp", 0))
+        if active_hp <= 70:
+            # Significant vulnerability penalty for zero bench support on fragile active
+            value -= weights.w_zero_bench_penalty
+
     viable_attackers = 0
     all_own = [state.your_active] + state.your_bench
     for pkmn in all_own:
@@ -152,11 +159,11 @@ def evaluate_board_value(state: GameState, weights: EvaluatorWeights = DEFAULT_W
             card_id = pkmn.get("id", 0)
             energies = pkmn.get("energies", [])
             energy_cnt = len(energies) if isinstance(energies, list) else 0
-            if card_id in (722, 723) and energy_cnt >= 2:
+            if card_id in (722, 723, 345) and energy_cnt >= 2:
                 viable_attackers += 1
 
     value += viable_attackers * weights.w_viable_attacker
-    value += len(state.your_bench) * weights.w_bench_presence
+    value += bench_cnt * weights.w_bench_presence
 
     # 4. Resources
     value += len(state.your_hand) * weights.w_hand_resource

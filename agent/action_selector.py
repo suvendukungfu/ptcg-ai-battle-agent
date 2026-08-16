@@ -5,6 +5,7 @@ from agent.policy import (
     rank_attack_options,
     rank_energy_attachment_options,
     rank_card_play_options,
+    rank_discard_options,
     rank_target_options,
 )
 from agent.search import shallow_risk_aware_search
@@ -35,7 +36,7 @@ def select_heuristic_action(state: GameState, goal_state: Optional[GoalState] = 
             preferred = [r[0] for r in attack_ranks]
             return make_distinct_choice(preferred, n_opts, max_cnt, min_cnt)
 
-        # 2. Pre-Attack Development: Card plays (Evolutions, Nest Ball, Ultra Ball, Generator, Boss)
+        # 2. Pre-Attack Development: Card plays (BENCH_FIRST basic placement, Evolutions, Nest Ball, Ultra Ball)
         card_ranks = rank_card_play_options(state)
         if card_ranks and card_ranks[0][1] > 0.0:
             preferred = [r[0] for r in card_ranks]
@@ -63,7 +64,21 @@ def select_heuristic_action(state: GameState, goal_state: Optional[GoalState] = 
             preferred = [r[0] for r in ranks]
             return make_distinct_choice(preferred, n_opts, max_cnt, min_cnt)
 
-    # General target / selection ranking
+    # Check for Discard dialogs (e.g. Ultra Ball cost payment)
+    is_discard_context = False
+    if isinstance(state.select_context, str) and state.select_context.lower() == "discard":
+        is_discard_context = True
+    elif state.select_type == 1 and state.max_count == 2 and state.min_count == 2:
+        # Standard Ultra Ball 2-card discard dialog
+        is_discard_context = True
+
+    if is_discard_context:
+        discard_ranks = rank_discard_options(state.options, state)
+        if discard_ranks:
+            preferred = [r[0] for r in discard_ranks]
+            return make_distinct_choice(preferred, n_opts, max_cnt, min_cnt)
+
+    # General target / search selection ranking
     target_ranks = rank_target_options(state.options, state)
     if target_ranks:
         preferred = [r[0] for r in target_ranks]
@@ -100,9 +115,8 @@ def select_action(obs: Dict[str, Any]) -> List[int]:
         track_telemetry(search_choice, state.options)
         return search_choice
 
-
-    # 3. Fast Tactical Heuristic Policy
+    # 3. Fast Heuristic Selector
     DIAGNOSTICS["heuristic_decisions"] += 1
-    heuristic_choice = select_heuristic_action(state, goal_state=goal_state)
-    track_telemetry(heuristic_choice, state.options)
-    return heuristic_choice
+    action = select_heuristic_action(state, goal_state)
+    track_telemetry(action, state.options)
+    return action

@@ -1,0 +1,4 @@
+Downloading episode-93479756-agent-1-logs.json to /Users/suvendusahoo/Downloads/pokemon
+0.00B [00:00, ?B/s]3.26kB [00:00, 10.3MB/s]
+
+Agent logs downloaded to: /Users/suvendusahoo/Downloads/pokemon/episode-93479756-agent-1-logs.json

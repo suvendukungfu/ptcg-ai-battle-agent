@@ -31,8 +31,8 @@ def should_invoke_search(state: GameState, remaining_time: float = 600.0) -> boo
         return False
     if remaining_time < SEARCH_CONFIG["min_overage_time_sec"]:
         return False
-    # Applicable for main choices, attacks, attachments, and card plays
-    return state.select_type in (0, 7, 8, 1, 2, 3, 4, 5, 6)
+    # Search is applied for macro Main Phase turn actions and direct combat/energy actions
+    return state.select_type in (0, 7, 8)
 
 
 def project_action(state: GameState, opt_idx: int) -> Tuple[GameState, float]:
@@ -103,25 +103,42 @@ def project_action(state: GameState, opt_idx: int) -> Tuple[GameState, float]:
         bonus += 55.0
 
     # 3. Evolution (OptionTypes 3, 4)
-    elif opt_type in (3, 4) or card_id in (722, 723):
+    elif opt_type in (3, 4) or card_id in (345, 722, 723):
         if proj.your_active:
-            proj.your_active["id"] = card_id if card_id in (722, 723) else 723
-            proj.your_active["maxHp"] = 350 if card_id == 723 else 180
-            proj.your_active["hp"] = min(proj.your_active.get("hp", 100) + 100, proj.your_active["maxHp"])
+            proj.your_active["id"] = card_id if card_id in (345, 722, 723) else 345
+            proj.your_active["maxHp"] = 350 if card_id in (723, 756) else 130
+            proj.your_active["hp"] = min(proj.your_active.get("hp", 100) + 70, proj.your_active["maxHp"])
         bonus += 130.0
 
-    # 4. Key Trainer Items / Supporters
-    elif opt_type in (0, 1, 2, 5, 6) or card_id in (1092, 1121, 1219, 1227, 1262):
+    # 4. BENCH_FIRST: Playing Basic Pokemon to Bench (OptionTypes 1, 2)
+    elif opt_type in (1, 2) and card_id in (344, 721):
+        # Project establishing a new benched Pokemon
+        proj.your_bench.append({"id": card_id or 344, "hp": 60, "maxHp": 60, "energies": []})
+        if len(state.your_bench) == 0:
+            # Critical board security bonus
+            bonus += 180.0
+        else:
+            bonus += 65.0
+
+    # 5. Key Trainer Items / Supporters
+    elif opt_type in (0, 2, 5, 6) or card_id in (1092, 1121, 1145, 1219, 1227, 1262):
         if card_id == 1262:  # Boss's Orders
             bonus += 85.0
         elif card_id == 1219:  # Electric Generator
             bonus += 80.0
+        elif card_id in (1145, 1086):  # Nest Ball / Poffin (Basic search to bench)
+            bonus += 100.0 if len(state.your_bench) == 0 else 60.0
         elif card_id in (1121, 1227):  # Search balls
             bonus += 70.0
+        elif card_id == 1092:  # Professor's Research
+            if proj.your_deck_count <= 7:
+                bonus -= 10000.0  # Prevent deckout suicide!
+            else:
+                bonus += 75.0
         else:
             bonus += 40.0
 
-    # 5. Pass / End Turn (OptionType 14)
+    # 6. Pass / End Turn (OptionType 14)
     elif opt_type == 14:
         bonus -= 35.0
 
@@ -146,7 +163,11 @@ def estimate_opponent_counterattack(projected: GameState) -> float:
     your_hp = get_target_hp(your_active)
     expected_active_dmg = p_attack * eff_dmg
     if eff_dmg >= your_hp:
-        expected_active_dmg += p_attack * 350.0  # Heavy penalty if our active gets KO'd
+        if len(projected.your_bench) == 0:
+            # Fatal Bench-Depletion lethal threat!
+            expected_active_dmg += p_attack * 2500.0
+        else:
+            expected_active_dmg += p_attack * 350.0  # Normal knockout penalty
 
     # Bench threat if opponent plays Boss
     expected_bench_threat = 0.0
