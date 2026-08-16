@@ -11,7 +11,7 @@
 
 | Submission ID | Candidate Name | Primary Strategy | Local Benchmark (40g) | 95% Wilson CI | P95 Latency | Fallback Rate | Kaggle Status |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **`55538147`** | **Candidate A (Baseline Production)** | PTCG NEXUS v3.0 Risk-Aware Search Agent | **87.5% - 100%** | **[91.2%, 100.0%]** | **3.75 ms** | **0.00%** | **SUBMITTED (Pending Validation)** |
+| **`55540242`** | **Candidate A (v3.1 Production)** | PTCG NEXUS v3.1 Runtime-Compatible Risk-Aware Search Agent | **87.5% - 100%** | **[91.2%, 100.0%]** | **3.75 ms** | **0.00%** | **ACTIVE (Validation Pending)** |
 | **`SUB-02-BACKUP`** | **Candidate A (Bellibolt 4-4-4)** | Lightning Ramp 160 DMG Beatdown with Optimal Turn Ordering | **87.5% (35/40)** | [73.9%, 94.5%] | **4.55 ms** | **0.00%** | **READY (Backup Slot)** |
 | `SUB-03-EXPLOR` | Candidate E (Alakazam Psychic) | Stage 2 Psychic Spread / Mind Jack | 92.5% (37/40) | [80.1%, 97.4%] | 4.21 ms | 0.00% | Archived |
 | `SUB-04-EXPLOR` | Candidate B (Bellibolt 4-3-3) | Midrange Consistency Ramp | 85.0% (34/40) | [70.9%, 92.9%] | 5.01 ms | 0.00% | Archived |
